@@ -1,0 +1,34 @@
+﻿#version 400
+layout(location = 0) in vec3 vertex_position;
+layout(location = 1) in vec3 vertex_normal;
+layout(location = 2) in vec2 vertex_texcoord;
+layout(location = 3) in vec4 vertex_color;
+
+//uniform mat4 MatrixModel;
+//uniform mat4 MatrixView;
+uniform mat4 modelview_matrix;
+uniform mat4 projection_matrix;
+
+out vec4 colorout;
+
+out Attributes
+{
+	vec3 position;
+	vec3 normal;
+	vec2 uv;
+} att;
+
+void main()
+{
+    //mat4 MV = MatrixView * MatrixModel;
+	
+	vec3 vertexViewSpacePosition = (modelview_matrix * vec4(vertex_position, 1.0)).xyz;
+    
+	att.position		= vertexViewSpacePosition;
+	//att.normal 			= mat3(modelview_matrix) * vertex_normal;
+	att.uv				= vertex_texcoord;
+	
+	colorout = vertex_color;
+
+	gl_Position = projection_matrix * vec4(vertexViewSpacePosition, 1.0);
+}

@@ -1,0 +1,18 @@
+﻿Todo:
+
+done -Create a mesh model to import/ save meshes
+
+done - Create camera class
+
+Create ground
+
+Create Game folder with Game entities
+
+done - Flip texture coord V when import from x3D
+
+Create skybox
+
+implement shadows
+
+new cube3D
+ 0.9998470

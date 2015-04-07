@@ -1,0 +1,41 @@
+﻿#version 400
+uniform sampler2D TextureUnit0;
+uniform vec3 light_position;
+
+
+in Attributes
+{
+	vec3 position;
+	vec3 normal;
+	vec2 uv;
+} att;
+
+in vec4 colorout;
+
+out vec4 fragColor;
+
+void main()
+{
+    vec4 color = texture(TextureUnit0, att.uv);
+
+	//vec4 color = vec4(0.5f, 0f, 0f, 0f);
+
+	//vec4 color = colorout;
+	
+	vec3 toEye = -att.position;
+	vec3 toLight = light_position - att.position;
+    
+    vec3 nN = normalize(att.normal);
+    vec3 nE = normalize(toEye);
+    vec3 nL = normalize(toLight);
+    vec3 nR = normalize(reflect(-nL, nN));
+    
+    float lambert = max(dot(nN, nL), 0.4);
+    float phong = 0;
+    if(lambert > 0)
+        phong = pow(max(dot(nE, nR), 0), 10.0);
+    
+	//fragColor = color * (lambert + phong);
+	fragColor = color;
+	//if(att.position.x > 0) fragColor = color;
+}

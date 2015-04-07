@@ -1,0 +1,184 @@
+﻿
+                Vector3 collisionNormal =
+                    Vector3.Subtract(shapes3D[item.Shape3Da].Position,
+                                     shapes3D[item.Shape3Db].Position);
+
+                collisionNormal.Normalize();
+
+                Vector3 collisionTangent =
+                    Vector3.Cross( Vector3.UnitY, collisionNormal );
+
+                collisionTangent.Normalize();
+
+                Matrix4 collMatrix4N = new Matrix4(new Vector4(Vector3.Multiply(Vector3.UnitX, collisionNormal.X), 0),
+                                                  new Vector4(Vector3.Multiply(Vector3.UnitY, collisionNormal.Y), 0),
+                                                  new Vector4(Vector3.Multiply(Vector3.UnitZ, collisionNormal.Z), 0),
+                                                  Vector4.Zero);
+
+                Matrix4 collMatrix4T = new Matrix4(new Vector4(Vector3.Multiply(Vector3.UnitX, collisionTangent.X), 0),
+                                                  new Vector4(Vector3.Multiply(Vector3.UnitY, collisionTangent.Y), 0),
+                                                  new Vector4(Vector3.Multiply(Vector3.UnitZ, collisionTangent.Z), 0),
+                                                  Vector4.Zero);
+
+
+                Vector3 velAN = Vector3.Transform(shapes3D[item.Shape3Da].Physic.Vxyz, collMatrix4N);
+
+                Vector3 velBN = Vector3.Transform(shapes3D[item.Shape3Db].Physic.Vxyz, collMatrix4N);
+
+                Vector3 velAT = Vector3.Transform(shapes3D[item.Shape3Da].Physic.Vxyz, collMatrix4T);
+
+                Vector3 velBT = Vector3.Transform(shapes3D[item.Shape3Db].Physic.Vxyz, collMatrix4T);
+
+                shapes3D[item.Shape3Db].Physic.Vxyz = -velAN - velBN + velBT;
+
+                shapes3D[item.Shape3Da].Physic.Vxyz = velAT;
+
+               
+                shapes3D[item.Shape3Db].Physic.Vxyz = Vb - nJmb;
+
+                Dictionary<string, Shape3D> checkOut = new Dictionary<string, Shape3D>();
+
+                checkOut.Add("A", shapes3D[item.Shape3Da]);
+                checkOut.Add("B", shapes3D[item.Shape3Db]);
+
+                int colCount = CheckCollisions(checkOut).Count;
+                int i = 0;
+                while (colCount > 0)
+                {
+                    if (checkOut["A"].Physic.Vxyz.X > -50 &&
+                        checkOut["A"].Physic.Vxyz.X < 50 &&
+                        checkOut["A"].Physic.Vxyz.Z > -50 &&
+                        checkOut["A"].Physic.Vxyz.Z < 50 &&
+                        checkOut["B"].Physic.Vxyz.X > -50 &&
+                        checkOut["B"].Physic.Vxyz.X < 50 &&
+                        checkOut["B"].Physic.Vxyz.Z > -50 &&
+                        checkOut["B"].Physic.Vxyz.Z < 50)
+                    {
+                        checkOut["A"].TranslateWC(
+                        checkOut["A"].Physic.Vxyz.X,
+                        checkOut["A"].Physic.Vxyz.Y,
+                        checkOut["A"].Physic.Vxyz.Z);
+
+                        checkOut["B"].TranslateWC(
+                            checkOut["B"].Physic.Vxyz.X,
+                            checkOut["B"].Physic.Vxyz.Y,
+                            checkOut["B"].Physic.Vxyz.Z);
+                    }
+
+                    
+
+                    colCount = CheckCollisions(checkOut).Count;
+
+                    if (i == 10) break;
+                    i++;
+                }
+
+
+				***************************************************
+
+				//shapes3D[item.Shape3Da].InvertColor();
+                //shapes3D[item.Shape3Db].InvertColor();
+
+				if (coolDownColor > 0) coolDownColor--;
+            else
+            {
+                foreach (var item in shapes3D)
+                {
+                    item.Value.SetColor(Color4.Gold);
+                }
+            }
+
+
+			//shapes3D[collisions[0].Shape3Da].SetColor(Color4.Crimson);
+                coolDownColor = 30;
+
+
+
+				***********************
+
+
+				 /// <summary>
+        /// Rotate shape with an axis and angle. Base of axis can be wcs(0,0,0) or
+        /// lcs(0,0,0) depending on isCenterWC status.
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <param name="isCenterWC">True if base of axis rotation is wcs(0,0,0).</param>
+        public virtual void Rotate(Vector3 axis, float angle, bool isCenterWC)
+        {
+            Vector3 positionB = new Vector3(position);
+
+            if (!isCenterWC)
+            {
+                positionB = Vector3.Multiply(positionB, -1f);
+                // translates to (0,0,0) before rotate
+                TranslateWC(positionB.X, positionB.Y, positionB.Z);
+            }
+
+            foreach (Vertex vertex in VertexsIndicesData.Vertexs)
+            {
+                vertex.Position = Vector3.Transform(vertex.Position, Matrix4.CreateFromAxisAngle(axis, angle));
+                vertex.Normal = Vector3.Transform(vertex.Normal, Matrix4.CreateFromAxisAngle(axis, angle));
+            }
+
+            if (!isCenterWC)
+            {
+                // translate to original position
+                positionB = Vector3.Multiply(positionB, -1f);
+                TranslateWC(positionB.X, positionB.Y, positionB.Z);
+            }
+            //rotate shapeUVW
+            shapeVersorsUVW = Matrix4.Mult(shapeVersorsUVW, Matrix4.CreateFromAxisAngle(axis, angle));
+        }
+
+		**************************
+
+
+		public override void Rotate(Vector3 axis, float angle, bool isCenterWC)
+        {
+            Vector3 positionB = new Vector3(position);
+
+            if (!isCenterWC)
+            {
+                positionB = Vector3.Multiply(positionB, -1f);
+                // translates to (0,0,0) before rotate
+                TranslateWC(positionB.X, positionB.Y, positionB.Z);
+            }
+
+            for (int i = 0; i < ShapeMesh.Count; i++)
+            {
+                ShapeMesh[i] = Matrix4.Mult(ShapeMesh[i], Matrix4.CreateFromAxisAngle(axis, angle));
+            }
+
+            if (!isCenterWC)
+            {
+                // translate to original position
+                positionB = Vector3.Multiply(positionB, -1f);
+                TranslateWC(positionB.X, positionB.Y, positionB.Z);
+            }
+            //rotate shapeUVW
+            ShapeVersorsUVW = Matrix4.Mult(ShapeVersorsUVW, Matrix4.CreateFromAxisAngle(axis, angle));
+        }
+
+
+		**************************
+
+		/*
+            if (Physic.Mass != 0.0f)
+            {
+                Vector3 deltaVuvw =
+                new Vector3(Physic.Fuvw.X / Physic.Mass,
+                            Physic.Fuvw.Y / Physic.Mass,
+                            Physic.Fuvw.Z / Physic.Mass);
+
+                Physic.Vuvw = Physic.Vuvw + deltaVuvw;
+            }*/
+
+			***********************************
+
+			vec3 vertexViewSpacePosition = (modelview_matrix * vec4(vertex_position, 1.0)).xyz;
+
+
+			******************************
+
+			OpenTK.Graphics.GraphicsMode.Default
