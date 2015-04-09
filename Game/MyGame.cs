@@ -66,6 +66,8 @@ namespace OpenTK_NRCGL.Game
         public static string Debug = "";
         public static double MaxTableAngle = 4;
         public static float DeltaTableAngle = MathHelper.PiOver6 / 40;
+
+        public static bool[] collisionsAll = new bool[6]{true,true,true,true,true,true};
         
 
         public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)
@@ -259,65 +261,69 @@ namespace OpenTK_NRCGL.Game
             switch (blockName)
             {
                 case "00":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2);
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 5f, y + 5f, shapes3D, 2f, 2f,
+                        new bool[6] { true, true, true, true, true, true });
+                    insertBlock(x + 5f, y + 8.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, true, true });
+                    insertBlock(x + 8.5f, y + 5f, shapes3D, 1.5f, 2f,
+                        new bool[6] { true, true, true, true, true, true });
                     break;
                 case "10":
                 case "14":
                 case "30":
                 case "34":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
                     break;
                 case "01":
                 case "03":
                 case "41":
                 case "43":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
                     break;
                 case "02":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5);
-                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
+                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
                     break;
                 case "20":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2);
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
+                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f, collisionsAll);
                     break;
                 case "42":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5);
-                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
+                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
                     break;
                 case "24":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
                     break;
                 case "21":
-                    insertBlock(x + 5, y + 3.5f, shapes3D, 2, 3.5f);
+                    insertBlock(x + 5, y + 3.5f, shapes3D, 2, 3.5f, collisionsAll);
                     break;
                 case "23":
-                    insertBlock(x + 5, y + 6.5f, shapes3D, 2, 3.5f);
+                    insertBlock(x + 5, y + 6.5f, shapes3D, 2, 3.5f, collisionsAll);
                     break;
                 case "22":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5);
-                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2);
-                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
+                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
+                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
                     break;
                 case "32":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2);
+                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
                     break;
                 case "12":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
                     break;
                 case "40":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2);
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f, collisionsAll);
                     break;
                 case "44":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
                     break;
                 case "04":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f);
+                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
                     break;
                 default:
                     break;
@@ -325,7 +331,7 @@ namespace OpenTK_NRCGL.Game
         }
 
         private static void insertBlock(float x, float y, 
-            Dictionary<string, Shape3D> shapes3D, float xScale, float yScale)
+            Dictionary<string, Shape3D> shapes3D, float xScale, float yScale, bool[] collisions)
         {
             Random r = new Random();
 
@@ -338,6 +344,7 @@ namespace OpenTK_NRCGL.Game
             cube.Physic.Vxyz = Vector3.Zero;
             cube.Bounding = new Bounding(cube, xScale * 2, 2, yScale * 2);
             cube.Scale(xScale, 1f, yScale);
+            cube.Bounding.Collisions = collisions;
             cube.TextureShadowMap = shadowMapG.DepthTexture;
             cube.ShadowMatrix = shadowMapG.ShadowMatrix;
             cube.TextureBumpMap = bump_texture;

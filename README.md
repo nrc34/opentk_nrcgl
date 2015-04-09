@@ -20,7 +20,7 @@ Main features:
   - Simple shapes creation
   - Simple skybox
   - Text render
-  - Vertex attributes import from 3DS(Blender)
+  - Vertex attributes import from x3D(Blender)
   - Vertex model(xml)
   - Shadows creation
   - Sphere3DEnvCubeMap

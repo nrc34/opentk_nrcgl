@@ -99,28 +99,34 @@ namespace OpenTK_NRCGL.NRCGL
 
                     bool collisionInXL =
                         (item2check.Value.Bounding.MinX < shapes3D[shapeName].Bounding.MaxX &&
-                            item2check.Value.Position.X >= shapes3D[shapeName].Position.X);
+                            item2check.Value.Position.X >= shapes3D[shapeName].Position.X) && 
+                            item2check.Value.Bounding.Collisions[0];
 
                     bool collisionInXR =
                         (item2check.Value.Bounding.MaxX > shapes3D[shapeName].Bounding.MinX &&
-                            item2check.Value.Position.X <= shapes3D[shapeName].Position.X);
+                            item2check.Value.Position.X <= shapes3D[shapeName].Position.X) &&
+                            item2check.Value.Bounding.Collisions[1];
                         
                     bool collisionInYU =
                         (item2check.Value.Bounding.MaxY > shapes3D[shapeName].Bounding.MinY &&
-                            item2check.Value.Position.Y <= shapes3D[shapeName].Position.Y);
+                            item2check.Value.Position.Y <= shapes3D[shapeName].Position.Y) &&
+                            item2check.Value.Bounding.Collisions[2];
                         
                     bool collisionInYD =
                         (item2check.Value.Bounding.MinY < shapes3D[shapeName].Bounding.MaxY &&
-                            item2check.Value.Position.Y >= shapes3D[shapeName].Position.Y);
+                            item2check.Value.Position.Y >= shapes3D[shapeName].Position.Y) &&
+                            item2check.Value.Bounding.Collisions[3];
 
                     bool collisionInZF =
                         (item2check.Value.Bounding.MaxZ > shapes3D[shapeName].Bounding.MinZ &&
-                            item2check.Value.Position.Z <= shapes3D[shapeName].Position.Z);
-                        
+                            item2check.Value.Position.Z <= shapes3D[shapeName].Position.Z) &&
+                            item2check.Value.Bounding.Collisions[4];
 
                     bool collisionInZB =
                         (item2check.Value.Bounding.MinZ < shapes3D[shapeName].Bounding.MaxZ &&
-                            item2check.Value.Position.Z >= shapes3D[shapeName].Position.Z);
+                            item2check.Value.Position.Z >= shapes3D[shapeName].Position.Z) &&
+                            item2check.Value.Bounding.Collisions[5];
+
 
                     if ((collisionInXL || collisionInXR) && 
                         (collisionInYU || collisionInYD) && 

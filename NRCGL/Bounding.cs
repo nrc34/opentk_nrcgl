@@ -55,8 +55,18 @@ namespace OpenTK_NRCGL.NRCGL
         private float boxYLength;
         private float boxZLength;
         private Type boundingType;
+        private bool[] collisions;
 
 
+        /// <summary>
+        /// XLeft, XRight, YUp, YDown, ZFront, ZBack
+        /// </summary>
+        public bool[] Collisions
+        {
+            get { return collisions; }
+            set { collisions = value; }
+        }
+        
         public Type BoundingType
         {
             get { return boundingType; }
@@ -183,6 +193,9 @@ namespace OpenTK_NRCGL.NRCGL
 
             if (type == Type.Box) 
                 throw new ArgumentException("Bounding Type must be Sphere.");
+
+            collisions = new bool[6] { true, true, true, true, true, true };
+
         }
 
         public Bounding(Shape3D shape3D, 
@@ -199,6 +212,8 @@ namespace OpenTK_NRCGL.NRCGL
 
             if (type == Type.Sphere)
                 throw new ArgumentException("Bounding Type must be Box.");
+
+            collisions = new bool[6] { true, true, true, true, true, true };
         }
     }
 }
