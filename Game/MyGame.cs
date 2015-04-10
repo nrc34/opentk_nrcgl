@@ -262,9 +262,9 @@ namespace OpenTK_NRCGL.Game
             {
                 case "00":
                     insertBlock(x + 5f, y + 5f, shapes3D, 2f, 2f,
-                        new bool[6] { true, true, true, true, true, true });
+                        new bool[6] { true, false, true, true, false, true });
                     insertBlock(x + 5f, y + 8.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true });
                     insertBlock(x + 8.5f, y + 5f, shapes3D, 1.5f, 2f,
                         new bool[6] { true, true, true, true, true, true });
                     break;
@@ -272,13 +272,15 @@ namespace OpenTK_NRCGL.Game
                 case "14":
                 case "30":
                 case "34":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2,
+                        new bool[6] { false, false, true, true, true, true });
                     break;
                 case "01":
                 case "03":
                 case "41":
                 case "43":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 case "02":
                     insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
@@ -342,9 +344,14 @@ namespace OpenTK_NRCGL.Game
                                1f), 0); //current_texture);
             cube.Physic.Mass = 1000000;
             cube.Physic.Vxyz = Vector3.Zero;
-            cube.Bounding = new Bounding(cube, xScale * 2, 2, yScale * 2);
+            cube.Bounding = new Bounding(cube, xScale * 2.2f, 2, yScale * 2.2f);
             cube.Scale(xScale, 1f, yScale);
-            cube.Bounding.Collisions = collisions;
+            cube.Bounding.CollisionInXL = collisions[0];
+            cube.Bounding.CollisionInXR = collisions[1];
+            cube.Bounding.CollisionInYU = collisions[2];
+            cube.Bounding.CollisionInYD = collisions[3];
+            cube.Bounding.CollisionInZF = collisions[4];
+            cube.Bounding.CollisionInZB = collisions[5];
             cube.TextureShadowMap = shadowMapG.DepthTexture;
             cube.ShadowMatrix = shadowMapG.ShadowMatrix;
             cube.TextureBumpMap = bump_texture;

@@ -55,16 +55,48 @@ namespace OpenTK_NRCGL.NRCGL
         private float boxYLength;
         private float boxZLength;
         private Type boundingType;
-        private bool[] collisions;
+        private bool collisionInXL;
+        private bool collisionInXR;
+        private bool collisionInYU;
+        private bool collisionInYD;
+        private bool collisionInZF;
+        private bool collisionInZB;
 
 
-        /// <summary>
-        /// XLeft, XRight, YUp, YDown, ZFront, ZBack
-        /// </summary>
-        public bool[] Collisions
+        public bool CollisionInXL
         {
-            get { return collisions; }
-            set { collisions = value; }
+            get { return collisionInXL; }
+            set { collisionInXL = value; }
+        }
+
+        public bool CollisionInXR
+        {
+            get { return collisionInXR; }
+            set { collisionInXR = value; }
+        }
+
+        public bool CollisionInYU
+        {
+            get { return collisionInYU; }
+            set { collisionInYU = value; }
+        }
+
+        public bool CollisionInYD
+        {
+            get { return collisionInYD; }
+            set { collisionInYD = value; }
+        }
+
+        public bool CollisionInZF
+        {
+            get { return collisionInZF; }
+            set { collisionInZF = value; }
+        }
+
+        public bool CollisionInZB
+        {
+            get { return collisionInZB; }
+            set { collisionInZB = value; }
         }
         
         public Type BoundingType
@@ -194,7 +226,12 @@ namespace OpenTK_NRCGL.NRCGL
             if (type == Type.Box) 
                 throw new ArgumentException("Bounding Type must be Sphere.");
 
-            collisions = new bool[6] { true, true, true, true, true, true };
+            collisionInXL = true;
+            collisionInXR = true;
+            collisionInYD = true;
+            collisionInYU = true;
+            collisionInZF = true;
+            collisionInZB = true;
 
         }
 
@@ -213,7 +250,12 @@ namespace OpenTK_NRCGL.NRCGL
             if (type == Type.Sphere)
                 throw new ArgumentException("Bounding Type must be Box.");
 
-            collisions = new bool[6] { true, true, true, true, true, true };
+            collisionInXL = true;
+            collisionInXR = true;
+            collisionInYD = true;
+            collisionInYU = true;
+            collisionInZF = true;
+            collisionInZB = true;
         }
     }
 }

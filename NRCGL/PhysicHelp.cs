@@ -99,35 +99,29 @@ namespace OpenTK_NRCGL.NRCGL
 
                     bool collisionInXL =
                         (item2check.Value.Bounding.MinX < shapes3D[shapeName].Bounding.MaxX &&
-                            item2check.Value.Position.X >= shapes3D[shapeName].Position.X) && 
-                            item2check.Value.Bounding.Collisions[0];
+                            item2check.Value.Position.X >= shapes3D[shapeName].Position.X); 
 
                     bool collisionInXR =
                         (item2check.Value.Bounding.MaxX > shapes3D[shapeName].Bounding.MinX &&
-                            item2check.Value.Position.X <= shapes3D[shapeName].Position.X) &&
-                            item2check.Value.Bounding.Collisions[1];
-                        
+                            item2check.Value.Position.X <= shapes3D[shapeName].Position.X);
+
                     bool collisionInYU =
                         (item2check.Value.Bounding.MaxY > shapes3D[shapeName].Bounding.MinY &&
-                            item2check.Value.Position.Y <= shapes3D[shapeName].Position.Y) &&
-                            item2check.Value.Bounding.Collisions[2];
-                        
+                            item2check.Value.Position.Y <= shapes3D[shapeName].Position.Y);
+
                     bool collisionInYD =
                         (item2check.Value.Bounding.MinY < shapes3D[shapeName].Bounding.MaxY &&
-                            item2check.Value.Position.Y >= shapes3D[shapeName].Position.Y) &&
-                            item2check.Value.Bounding.Collisions[3];
+                            item2check.Value.Position.Y >= shapes3D[shapeName].Position.Y);
 
                     bool collisionInZF =
                         (item2check.Value.Bounding.MaxZ > shapes3D[shapeName].Bounding.MinZ &&
-                            item2check.Value.Position.Z <= shapes3D[shapeName].Position.Z) &&
-                            item2check.Value.Bounding.Collisions[4];
+                            item2check.Value.Position.Z <= shapes3D[shapeName].Position.Z);
 
                     bool collisionInZB =
                         (item2check.Value.Bounding.MinZ < shapes3D[shapeName].Bounding.MaxZ &&
-                            item2check.Value.Position.Z >= shapes3D[shapeName].Position.Z) &&
-                            item2check.Value.Bounding.Collisions[5];
+                            item2check.Value.Position.Z >= shapes3D[shapeName].Position.Z);
 
-
+                    // collision detection
                     if ((collisionInXL || collisionInXR) && 
                         (collisionInYU || collisionInYD) && 
                         (collisionInZF || collisionInZB))
@@ -135,111 +129,17 @@ namespace OpenTK_NRCGL.NRCGL
                         Collision collision = new Collision();
                         collision.Shape3Da = item2check.Key;
                         collision.Shape3Db = shapeName;
+
+                        collision.CollisionInXL = collisionInXL;
+                        collision.CollisionInXR = collisionInXR;
+                        collision.CollisionInYD = collisionInYD;
+                        collision.CollisionInYU = collisionInYU;
+                        collision.CollisionInZB = collisionInZB;
+                        collision.CollisionInZF = collisionInZF;
+
                         if (!collisions.Contains(collision))
-                        {
                             collisions.Add(collision);
-                            //move shapeName from colision
-                            float deltaX = 0;
-                            float deltaY = 0;
-                            float deltaZ = 0;
 
-                            bool asVx = Math.Abs(shapes3D[shapeName].Physic.Vxyz.X) > 0;
-                            bool asVy = Math.Abs(shapes3D[shapeName].Physic.Vxyz.Y) > 0;
-                            bool asVz = Math.Abs(shapes3D[shapeName].Physic.Vxyz.Z) > 0;
-                            
-                            if(asVx)
-                            {
-                                if(collisionInXL) 
-                                    deltaX = item2check.Value.Bounding.MinX - shapes3D[shapeName].Bounding.MaxX;
-
-                                if(collisionInXR) 
-                                    deltaX = item2check.Value.Bounding.MaxX - shapes3D[shapeName].Bounding.MinX;
-                            } 
-
-                            if(asVy)
-                            {
-                                if(collisionInYD)
-                                    deltaY =  item2check.Value.Bounding.MinY - shapes3D[shapeName].Bounding.MaxY;
-
-                                if(collisionInYU)
-                                    deltaY =  item2check.Value.Bounding.MaxY - shapes3D[shapeName].Bounding.MinY;
-                            }
-
-                            if(asVz)
-                            {
-                                if(collisionInZB)
-                                    deltaZ = item2check.Value.Bounding.MinZ - shapes3D[shapeName].Bounding.MaxZ;
-
-                                if(collisionInZF)
-                                    deltaZ = item2check.Value.Bounding.MaxZ - shapes3D[shapeName].Bounding.MinZ;
-
-                                
-                            }
-
-                            
-
-                            //detect the face that has collided X or Z
-                            float dpX = Math.Abs(shapes3D[shapeName].Position.X - item2check.Value.Position.X) / item2check.Value.Bounding.BoxXLength;
-                            float dpZ = Math.Abs(shapes3D[shapeName].Position.Z - item2check.Value.Position.Z) / item2check.Value.Bounding.BoxZLength;
-
-                            float el = -0.7f;
-
-                            if (dpX > dpZ)
-                            {
-                                shapes3D[shapeName].Physic.Vxyz
-                                 = new Vector3(
-                                     shapes3D[shapeName].Physic.Vxyz.X * el,
-                                     shapes3D[shapeName].Physic.Vxyz.Y,
-                                     shapes3D[shapeName].Physic.Vxyz.Z);
-
-                                Vector3 newPosition = new Vector3(
-                                 shapes3D[shapeName].Position.X + deltaX * 1.01f,
-                                 shapes3D[shapeName].Position.Y,
-                                 shapes3D[shapeName].Position.Z);
-
-                                shapes3D[shapeName].Position = newPosition;
-
-                                //MyGame.Debug = "Col in X";
-                            }
-
-                            else if (dpX < dpZ)
-                            {
-
-                                shapes3D[shapeName].Physic.Vxyz
-                                  = new Vector3(
-                                      shapes3D[shapeName].Physic.Vxyz.X,
-                                      shapes3D[shapeName].Physic.Vxyz.Y,
-                                      shapes3D[shapeName].Physic.Vxyz.Z * el);
-
-                                Vector3 newPosition = new Vector3(
-                                  shapes3D[shapeName].Position.X,
-                                  shapes3D[shapeName].Position.Y,
-                                  shapes3D[shapeName].Position.Z + deltaZ * 1.01f);
-
-                                shapes3D[shapeName].Position = newPosition;
-
-                                //MyGame.Debug = "Col in Z";
-                            }
-                            else
-                            {
-                                shapes3D[shapeName].Physic.Vxyz
-                                   = new Vector3(
-                                       shapes3D[shapeName].Physic.Vxyz.X * el,
-                                       shapes3D[shapeName].Physic.Vxyz.Y,
-                                       shapes3D[shapeName].Physic.Vxyz.Z * el);
-
-                                Vector3 newPosition = new Vector3(
-                                  shapes3D[shapeName].Position.X + deltaX * 1.01f,
-                                  shapes3D[shapeName].Position.Y,
-                                  shapes3D[shapeName].Position.Z + deltaZ * 1.01f);
-
-                                shapes3D[shapeName].Position = newPosition;
-
-                                MyGame.Debug = "Col in ZX";
-
-                            }
-                            
-                        }
                     }
                     
                 }
@@ -347,96 +247,116 @@ namespace OpenTK_NRCGL.NRCGL
 
         public static void SolveCollisionsOneShape(List<Collision> collisions, Dictionary<string, Shape3D> shapes3D, string shapeName)
         {
-            foreach (var item in collisions)
+
+            //TODO: solve multiple collisions
+
+            foreach (Collision item in collisions)
             {
-                
-                Vector3 Va = shapes3D[item.Shape3Da].Physic.Vxyz;
-                Vector3 Vb = shapes3D[item.Shape3Db].Physic.Vxyz;
-                Vector3 Vab = new Vector3();
 
-                Vab = Va - Vb;
+                //move shapeName from colision
+                float deltaX = 0;
+                float deltaY = 0;
+                float deltaZ = 0;
 
-                Vector3 Pa = shapes3D[item.Shape3Da].Position;
-                Vector3 Pb = shapes3D[item.Shape3Db].Position;
+                bool asVx = Math.Abs(shapes3D[shapeName].Physic.Vxyz.X) > 0;
+                bool asVy = Math.Abs(shapes3D[shapeName].Physic.Vxyz.Y) > 0;
+                bool asVz = Math.Abs(shapes3D[shapeName].Physic.Vxyz.Z) > 0;
 
-
-
-                Vector3 n = new Vector3();
-
-                n = Pa - Pb;
-
-                if (n.Length < 3.7)
+                if (asVx)
                 {
-                    shapes3D[item.Shape3Da].TranslateWC(shapes3D[item.Shape3Da].Physic.Vxyz.X * -2f,
-                                                    shapes3D[item.Shape3Da].Physic.Vxyz.Y * -2f,
-                                                    shapes3D[item.Shape3Da].Physic.Vxyz.Z * -2f);
+                    if (item.CollisionInXL)
+                        deltaX = shapes3D[item.Shape3Da].Bounding.MinX - shapes3D[shapeName].Bounding.MaxX;
 
-                    shapes3D[item.Shape3Db].TranslateWC(shapes3D[item.Shape3Db].Physic.Vxyz.X * -2f,
-                                                        shapes3D[item.Shape3Db].Physic.Vxyz.Y * -2f,
-                                                        shapes3D[item.Shape3Db].Physic.Vxyz.Z * -2f);
-
+                    if (item.CollisionInXR)
+                        deltaX = shapes3D[item.Shape3Da].Bounding.MaxX - shapes3D[shapeName].Bounding.MinX;
                 }
 
-                n.Normalize();
-
-                float Vn = Vector3.Dot(Vab, n);
-
-                float coefElaticity = 0.6f;
-                float ma = shapes3D[item.Shape3Da].Physic.Mass;
-                float mb = shapes3D[item.Shape3Db].Physic.Mass;
-
-                float J = (Vector3.Dot(Vector3.Multiply(Vab, -(1 + coefElaticity)), n))
-                           /
-                           (Vector3.Dot(n, Vector3.Multiply(n, (1 / ma) + (1 / mb))));
-
-                Vector3 nJma = Vector3.Multiply(n, (J / ma));
-
-                // only moves shapeName
-                if (item.Shape3Da == shapeName)
-                    shapes3D[item.Shape3Da].Physic.Vxyz = Va + nJma;
-
-
-                Vector3 nJmb = Vector3.Multiply(n, (J / mb));
-
-                if (item.Shape3Db == shapeName)
-                    shapes3D[item.Shape3Db].Physic.Vxyz = Vb - nJmb;
-
-
-
-                /*
-
-                Dictionary<string, Shape3D> checkOut = new Dictionary<string, Shape3D>();
-
-                checkOut.Add(item.Shape3Da, shapes3D[item.Shape3Da]);
-                checkOut.Add(item.Shape3Db, shapes3D[item.Shape3Db]);
-
-                int colCount = CheckCollisionsOneShape(checkOut, shapeName).Count;
-                int i = 0;
-                while (colCount > 0)
+                if (asVy)
                 {
-                    if (item.Shape3Da == shapeName)
-                    {
-                        checkOut[item.Shape3Da].TranslateWC(
-                        checkOut[item.Shape3Da].Physic.Vxyz.X,
-                        checkOut[item.Shape3Da].Physic.Vxyz.Y,
-                        checkOut[item.Shape3Da].Physic.Vxyz.Z);
-                    }
+                    if (item.CollisionInYD)
+                        deltaY = shapes3D[item.Shape3Da].Bounding.MinY - shapes3D[shapeName].Bounding.MaxY;
 
-                    if (item.Shape3Db == shapeName)
-                    {
-                        checkOut[item.Shape3Db].TranslateWC(
-                        checkOut[item.Shape3Db].Physic.Vxyz.X,
-                        checkOut[item.Shape3Db].Physic.Vxyz.Y,
-                        checkOut[item.Shape3Db].Physic.Vxyz.Z);
-                    }
-                    
+                    if (item.CollisionInYU)
+                        deltaY = shapes3D[item.Shape3Da].Bounding.MaxY - shapes3D[shapeName].Bounding.MinY;
+                }
 
-                    colCount = CheckCollisions(checkOut).Count;
+                if (asVz)
+                {
+                    if (item.CollisionInZB)
+                        deltaZ = shapes3D[item.Shape3Da].Bounding.MinZ - shapes3D[shapeName].Bounding.MaxZ;
 
-                    if (i == 10) break;
-                    i++;
-                }*/
+                    if (item.CollisionInZF)
+                        deltaZ = shapes3D[item.Shape3Da].Bounding.MaxZ - shapes3D[shapeName].Bounding.MinZ;
+                }
+
+
+
+                //detect the face that has collided X or Z
+                float dpX = Math.Abs(shapes3D[shapeName].Position.X - shapes3D[item.Shape3Da].Position.X) / shapes3D[item.Shape3Da].Bounding.BoxXLength;
+                float dpZ = Math.Abs(shapes3D[shapeName].Position.Z - shapes3D[item.Shape3Da].Position.Z) / shapes3D[item.Shape3Da].Bounding.BoxZLength;
+
+                float el = -0.2f;
+
+                if (dpX > dpZ && 
+                    ((shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||
+                     (shapes3D[item.Shape3Da].Bounding.CollisionInXL && item.CollisionInXL)))
+                {
+                    shapes3D[shapeName].Physic.Vxyz
+                     = new Vector3(
+                         shapes3D[shapeName].Physic.Vxyz.X * el,
+                         shapes3D[shapeName].Physic.Vxyz.Y,
+                         shapes3D[shapeName].Physic.Vxyz.Z);
+
+                    Vector3 newPosition = new Vector3(
+                     shapes3D[shapeName].Position.X + deltaX * 1.01f,
+                     shapes3D[shapeName].Position.Y,
+                     shapes3D[shapeName].Position.Z);
+
+                    shapes3D[shapeName].Position = newPosition;
+
+                    //MyGame.Debug = "Col in X";
+                }
+
+                else if (dpX < dpZ &&
+                         ((shapes3D[item.Shape3Da].Bounding.CollisionInZB && item.CollisionInZB) ||
+                         (shapes3D[item.Shape3Da].Bounding.CollisionInZF && item.CollisionInZF)))
+                {
+
+                    shapes3D[shapeName].Physic.Vxyz
+                      = new Vector3(
+                          shapes3D[shapeName].Physic.Vxyz.X,
+                          shapes3D[shapeName].Physic.Vxyz.Y,
+                          shapes3D[shapeName].Physic.Vxyz.Z * el);
+
+                    Vector3 newPosition = new Vector3(
+                      shapes3D[shapeName].Position.X,
+                      shapes3D[shapeName].Position.Y,
+                      shapes3D[shapeName].Position.Z + deltaZ * 1.01f);
+
+                    shapes3D[shapeName].Position = newPosition;
+
+                    //MyGame.Debug = "Col in Z";
+                }
+                else
+                {
+                    shapes3D[shapeName].Physic.Vxyz
+                       = new Vector3(
+                           shapes3D[shapeName].Physic.Vxyz.X * el,
+                           shapes3D[shapeName].Physic.Vxyz.Y,
+                           shapes3D[shapeName].Physic.Vxyz.Z * el);
+
+                    Vector3 newPosition = new Vector3(
+                      shapes3D[shapeName].Position.X + deltaX * 1.01f,
+                      shapes3D[shapeName].Position.Y,
+                      shapes3D[shapeName].Position.Z + deltaZ * 1.01f);
+
+                    shapes3D[shapeName].Position = newPosition;
+
+                    MyGame.Debug = "Col in ZX";
+                }
+
             }
+            
         }
     }
 }

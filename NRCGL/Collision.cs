@@ -40,7 +40,12 @@ namespace OpenTK_NRCGL.NRCGL
         private string shape3Da;
         private string shape3Db;
         private Vector3 collisionOverllap;
-
+        private bool collisionInXL;
+        private bool collisionInXR;
+        private bool collisionInYU;
+        private bool collisionInYD;
+        private bool collisionInZF;
+        private bool collisionInZB;
 
 
         public Vector3 CollisionOverllap
@@ -60,6 +65,44 @@ namespace OpenTK_NRCGL.NRCGL
             get { return shape3Db; }
             set { shape3Db = value; }
         }
+
+        public bool CollisionInXL
+        {
+            get { return collisionInXL; }
+            set { collisionInXL = value; }
+        }
+
+        public bool CollisionInXR
+        {
+            get { return collisionInXR; }
+            set { collisionInXR = value; }
+        }
+
+        public bool CollisionInYU
+        {
+            get { return collisionInYU; }
+            set { collisionInYU = value; }
+        }
+
+        public bool CollisionInYD
+        {
+            get { return collisionInYD; }
+            set { collisionInYD = value; }
+        }
+
+        public bool CollisionInZF
+        {
+            get { return collisionInZF; }
+            set { collisionInZF = value; }
+        }
+
+        public bool CollisionInZB
+        {
+            get { return collisionInZB; }
+            set { collisionInZB = value; }
+        }
+        
+        
 
         public bool Equals(Collision other)
         {

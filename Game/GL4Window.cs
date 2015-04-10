@@ -620,7 +620,7 @@ namespace OpenTK_NRCGL
             {
                 if (item.Key == "sphereEnvCubeMap")
                 {
-                    float speed = 2.5f;
+                    float speed = 2f;
                     shapes3D["sphereEnvCubeMap"].Physic.Vxyz
                         = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X - MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y + MyGame.TableXAngle * speed * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
@@ -695,8 +695,8 @@ namespace OpenTK_NRCGL
 
             List<Collision> collisions = PhysicHelp.CheckCollisionsOneShape(shapes3D, "sphereEnvCubeMap");
 
-            //if (collisions.Count != 0)
-               //PhysicHelp.SolveCollisions(collisions, shapes3D);
+            if (collisions.Count != 0)
+               PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap");
 
             
 
