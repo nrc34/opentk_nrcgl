@@ -176,9 +176,14 @@ namespace OpenTK_NRCGL
                                           -camera.Position.Y,
                                           -camera.Position.Z);
 
+            string[] wavFilesNames = new string[2]{
+                "Audio\\ocean-drift.wav",
+                "Audio\\ball-f.wav"
+            };
 
-            audio = new Audio("Audio\\ball-f.wav");
+            audio = new Audio(wavFilesNames);
 
+            audio.Play(0, true); //main music
         }
 
         private void checkKeyBoard()
@@ -708,7 +713,7 @@ namespace OpenTK_NRCGL
 
                 if ((MyGame.collisionOverllap / collisions[0].CollisionOverllap.Length) < 1f && audioCoolDown == 0)
                 {
-                    audio.Play();
+                    audio.Play(1);
                     audioCoolDown = 22;
                 }
 

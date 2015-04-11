@@ -55,45 +55,54 @@ namespace OpenTK_NRCGL.NRCGL.Audio
         private int[] mySources;
 
 
-        public Audio(string fileName)
+        public Audio(string[] wavFilesNames)
         {
             var AC = new AudioContext();
             var XRam = new XRamExtension(); // must be instantiated per used Device if X-Ram is desired.
 
-            // reserve 2 Handles
-            myBuffers = AL.GenBuffers(2);
+            // reserve n Handles
+            myBuffers = AL.GenBuffers(wavFilesNames.Length);
+            mySources = new int[wavFilesNames.Length];
 
-            if (XRam.IsInitialized)
-            {
-                XRam.SetBufferMode(1 , ref myBuffers[0], XRamExtension.XRamStorage.Hardware); // optional
-            }
+            int count = 0;
+            foreach (string fileName in wavFilesNames)
+	        {
+                if (XRam.IsInitialized)
+                {
+                    XRam.SetBufferMode(1, ref myBuffers[count], XRamExtension.XRamStorage.Hardware); // optional
+                }
 
-            // Load a .wav file from disk. See example code at:
-            // https://github.com/opentk/opentk/blob/develop/Source/Examples/OpenAL/1.1/Playback.cs#L21
-            int channels, bits_per_sample, sample_rate;
-            var sound_data = LoadWave(
-                File.Open(fileName, FileMode.Open),
-                out channels,
-                out bits_per_sample,
-                out sample_rate);
-            var sound_format =
-                channels == 1 && bits_per_sample == 8 ? ALFormat.Mono8 :
-                channels == 1 && bits_per_sample == 16 ? ALFormat.Mono16 :
-                channels == 2 && bits_per_sample == 8 ? ALFormat.Stereo8 :
-                channels == 2 && bits_per_sample == 16 ? ALFormat.Stereo16 :
-                (ALFormat)0; // unknown
+                // Load a .wav file from disk. See example code at:
+                // https://github.com/opentk/opentk/blob/develop/Source/Examples/OpenAL/1.1/Playback.cs#L21
+                int channels, bits_per_sample, sample_rate;
+                var sound_data = LoadWave(
+                    File.Open(fileName, FileMode.Open),
+                    out channels,
+                    out bits_per_sample,
+                    out sample_rate);
+                var sound_format =
+                    channels == 1 && bits_per_sample == 8 ? ALFormat.Mono8 :
+                    channels == 1 && bits_per_sample == 16 ? ALFormat.Mono16 :
+                    channels == 2 && bits_per_sample == 8 ? ALFormat.Stereo8 :
+                    channels == 2 && bits_per_sample == 16 ? ALFormat.Stereo16 :
+                    (ALFormat)0; // unknown
 
-            AL.BufferData(myBuffers[0], sound_format, sound_data, sound_data.Length, sample_rate);
-            if (AL.GetError() != ALError.NoError)
-            {
-                // respond to load error etc.
-            }
+                AL.BufferData(myBuffers[count], sound_format, sound_data, sound_data.Length, sample_rate);
+                if (AL.GetError() != ALError.NoError)
+                {
+                    // respond to load error etc.
+                }
 
 
-            mySources = new int[1];
-            AL.GenSources(1, out mySources[0]); // gen 1 Source Handles
+                
+                AL.GenSources(1, out mySources[count]); // gen 1 Source Handles
 
-            AL.Source(mySources[0], ALSourcei.Buffer, (int)myBuffers[0]); // attach the buffer to a source
+                AL.Source(mySources[count], ALSourcei.Buffer, (int)myBuffers[count]); // attach the buffer to a source
+
+                count++;
+	        }
+
+            
 
             /*
             // Create a sinus waveform through parameters, this currently requires Alut.dll in the application directory
@@ -110,11 +119,11 @@ namespace OpenTK_NRCGL.NRCGL.Audio
             //AC.Dispose();
         }
 
-        public void Play()
+        public void Play(int source, bool looping = false)
         {
 
-            AL.SourcePlay(mySources[0]); // start playback
-            //AL.Source(MySources[0], ALSourceb.Looping, true); // source loops infinitely
+            AL.SourcePlay(mySources[source]); // start playback
+            if(looping)AL.Source(mySources[source], ALSourceb.Looping, true); // source loops infinitely
             /*
             AL.Source(MySources[1], ALSourcei.Buffer, (int)MyBuffers[1]);
             Vector3 Position = new Vector3(1f, 2f, 3f);
