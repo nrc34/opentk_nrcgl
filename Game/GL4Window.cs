@@ -620,12 +620,12 @@ namespace OpenTK_NRCGL
             {
                 if (item.Key == "sphereEnvCubeMap")
                 {
-                    float speed = 2f;
+                    float speed = 1.5f;
                     shapes3D["sphereEnvCubeMap"].Physic.Vxyz
                         = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X - MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
-                                      shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y + MyGame.TableXAngle * speed * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
+                                      shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y + MyGame.TableXAngle * 0 * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Z + MyGame.TableXAngle * speed * (float)Math.Cos(MyGame.TableXAngle));
-                    friction = 0.85f;
+                    friction = 0.9f;
                     item.Value.Physic.Vxyz = new Vector3(
                         item.Value.Physic.Vxyz.X * friction,
                         item.Value.Physic.Vxyz.Y * friction,

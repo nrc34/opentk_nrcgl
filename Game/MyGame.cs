@@ -247,6 +247,7 @@ namespace OpenTK_NRCGL.Game
             sphere1.Physic.Vxyz = Vector3.Zero;
             sphere1.ShadowMatrix = shadowMap.ShadowMatrix;
             sphere1.TextureShadowMap = shadowMap.DepthTexture;
+            sphere1.Bounding.R = 1.5f;
             sphere1.Load();
             shapes3D.Add("sphereEnvCubeMap", sphere1);
             
@@ -264,9 +265,9 @@ namespace OpenTK_NRCGL.Game
                     insertBlock(x + 5f, y + 5f, shapes3D, 2f, 2f,
                         new bool[6] { true, false, true, true, false, true });
                     insertBlock(x + 5f, y + 8.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { true, true, true, true, false, false });
                     insertBlock(x + 8.5f, y + 5f, shapes3D, 1.5f, 2f,
-                        new bool[6] { true, true, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true });
                     break;
                 case "10":
                 case "14":
@@ -283,49 +284,70 @@ namespace OpenTK_NRCGL.Game
                         new bool[6] { true, true, true, true, false, false });
                     break;
                 case "02":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
-                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5,
+                        new bool[6] { true, true, true, true, false, false });
+                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2,
+                        new bool[6] { false, false, true, true, true, true });
                     break;
                 case "20":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2,
+                        new bool[6] { false, false, true, true, true, true });
+                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 case "42":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
-                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5,
+                        new bool[6] { true, true, true, true, false, false });
+                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2,
+                        new bool[6] { false, false, true, true, true, true });
                     break;
                 case "24":
-                    insertBlock(x + 5, y + 5, shapes3D, 5, 2, collisionsAll);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 5, 2,
+                        new bool[6] { false, false, true, true, true, true });
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 case "21":
-                    insertBlock(x + 5, y + 3.5f, shapes3D, 2, 3.5f, collisionsAll);
+                    insertBlock(x + 5, y + 3.5f, shapes3D, 2, 3.5f,
+                        new bool[6] { true, true, true, true, true, false });
                     break;
                 case "23":
-                    insertBlock(x + 5, y + 6.5f, shapes3D, 2, 3.5f, collisionsAll);
+                    insertBlock(x + 5, y + 6.5f, shapes3D, 2, 3.5f,
+                        new bool[6] { true, true, true, true, false, true });
                     break;
                 case "22":
-                    insertBlock(x + 5, y + 5, shapes3D, 2, 5, collisionsAll);
-                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
-                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2, collisionsAll);
+                    insertBlock(x + 5, y + 5, shapes3D, 2, 5,
+                        new bool[6] { true, true, true, true, false, false });
+                    insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2,
+                        new bool[6] { false, false, true, true, true, true });
+                    insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2,
+                        new bool[6] { false, false, true, true, true, true });
                     break;
                 case "32":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
+                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2,
+                        new bool[6] { true, false, true, true, true, true });
                     break;
                 case "12":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
+                        new bool[6] { false, true, true, true, true, true });
                     break;
                 case "40":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f, collisionsAll);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
+                        new bool[6] { false, true, true, true, true, true });
+                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 case "44":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
+                        new bool[6] { false, true, true, true, true, true });
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 case "04":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2, collisionsAll);
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f, collisionsAll);
+                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2,
+                        new bool[6] { true, false, true, true, true, true });
+                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false });
                     break;
                 default:
                     break;
@@ -344,7 +366,7 @@ namespace OpenTK_NRCGL.Game
                                1f), 0); //current_texture);
             cube.Physic.Mass = 1000000;
             cube.Physic.Vxyz = Vector3.Zero;
-            cube.Bounding = new Bounding(cube, xScale * 2.2f, 2, yScale * 2.2f);
+            cube.Bounding = new Bounding(cube, xScale * 2f, 2, yScale * 2f);
             cube.Scale(xScale, 1f, yScale);
             cube.Bounding.CollisionInXL = collisions[0];
             cube.Bounding.CollisionInXR = collisions[1];
