@@ -68,6 +68,8 @@ namespace OpenTK_NRCGL.Game
         public static float DeltaTableAngle = MathHelper.PiOver6 / 40;
 
         public static bool[] collisionsAll = new bool[6]{true,true,true,true,true,true};
+
+        public static float collisionOverllap;
         
 
         public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)

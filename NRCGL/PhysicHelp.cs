@@ -290,16 +290,16 @@ namespace OpenTK_NRCGL.NRCGL
                 }
 
 
-
+                item.CollisionOverllap = new Vector3(deltaX, deltaY, deltaZ);
                 //detect the face that has collided X or Z
                 //float dpX = Math.Abs(shapes3D[shapeName].Position.X - shapes3D[item.Shape3Da].Position.X) / shapes3D[item.Shape3Da].Bounding.BoxXLength;
                 //float dpZ = Math.Abs(shapes3D[shapeName].Position.Z - shapes3D[item.Shape3Da].Position.Z) / shapes3D[item.Shape3Da].Bounding.BoxZLength;
 
                 float el = -0.2f;
-                float dd = 1.2f;
+                float dd = 1.5f;
 
                 //if (dpX > dpZ && 
-                  if ((shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||
+                if ((shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||
                         (shapes3D[item.Shape3Da].Bounding.CollisionInXL && item.CollisionInXL))
                 {
                     shapes3D[shapeName].Physic.Vxyz
@@ -319,7 +319,7 @@ namespace OpenTK_NRCGL.NRCGL
                 }
 
                 //else if (dpX < dpZ &&
-                  else if ((shapes3D[item.Shape3Da].Bounding.CollisionInZF && item.CollisionInZF) ||
+                else if ((shapes3D[item.Shape3Da].Bounding.CollisionInZF && item.CollisionInZF) ||
                          (shapes3D[item.Shape3Da].Bounding.CollisionInZB && item.CollisionInZB))
                 {
 

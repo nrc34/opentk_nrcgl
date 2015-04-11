@@ -54,6 +54,7 @@
     <Compile Include="NRCGL\AnimationRotateX.cs" />
     <Compile Include="NRCGL\AnimationsManager.cs" />
     <Compile Include="NRCGL\AnimationTranslationWC.cs" />
+    <Compile Include="NRCGL\Audio\Audio.cs" />
     <Compile Include="NRCGL\Bounding.cs" />
     <Compile Include="NRCGL\Camera.cs" />
     <Compile Include="NRCGL\Collision.cs" />
@@ -83,10 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="levels\level1.csv__">
+    <None Include="levels\level1.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="levels\level1.csv">
+    <None Include="levels\level1.csv_">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="LICENSE.md" />
@@ -118,6 +119,18 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\ball-f.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\ballkick.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Ring02.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Audio\Windows Foreground.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Models\cube3D1x1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

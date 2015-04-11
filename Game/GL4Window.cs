@@ -40,6 +40,7 @@ using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK_NRCGL.Game;
 using OpenTK_NRCGL.NRCGL.Shapes;
+using OpenTK_NRCGL.NRCGL.Audio;
 
 namespace OpenTK_NRCGL
 {
@@ -56,9 +57,12 @@ namespace OpenTK_NRCGL
         private TextRender textRender;
 
         private int coolDown = 0;
+        private int audioCoolDown = 0;
         private int updateCount = 0;
 
         private float aspectRatio;
+
+        private Audio audio;
 
         public GL4Window(int width = 1024, int height = 728)
             : base(width, height,
@@ -172,8 +176,8 @@ namespace OpenTK_NRCGL
                                           -camera.Position.Y,
                                           -camera.Position.Z);
 
-            
-            
+
+            audio = new Audio("Audio\\ball-f.wav");
 
         }
 
@@ -535,6 +539,7 @@ namespace OpenTK_NRCGL
             //if(updateCount % 60 == 0) ups = Convert.ToInt16(1 / e.Time);
 
             if (coolDown > 0) coolDown--;
+            if (audioCoolDown > 0) audioCoolDown--;
 
             checkKeyBoard();
 
@@ -692,11 +697,26 @@ namespace OpenTK_NRCGL
             }
 
 
-
             List<Collision> collisions = PhysicHelp.CheckCollisionsOneShape(shapes3D, "sphereEnvCubeMap");
 
             if (collisions.Count != 0)
-               PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap");
+            {
+                
+
+
+                PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap");
+
+                if ((MyGame.collisionOverllap / collisions[0].CollisionOverllap.Length) < 1f && audioCoolDown == 0)
+                {
+                    audio.Play();
+                    audioCoolDown = 22;
+                }
+
+                MyGame.Debug = ": " + (MyGame.collisionOverllap / collisions[0].CollisionOverllap.Length).ToString();
+
+                MyGame.collisionOverllap = collisions[0].CollisionOverllap.Length;
+            }
+               
 
             
 
