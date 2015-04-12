@@ -195,6 +195,7 @@ namespace OpenTK_NRCGL
             if (Keyboard[Key.F12] && coolDown == 0)
             {
                 MyGame.Debug = String.Empty;
+                MyGame.Debug1 = String.Empty;
                 coolDown = 5;
             }
 
@@ -649,6 +650,9 @@ namespace OpenTK_NRCGL
                               "SKYBOX : " + "X= " + shapes3D["skyBox"].Position.X + "; "
                                           + "Y= " + shapes3D["skyBox"].Position.Y + "; "
                                           + "Z= " + shapes3D["skyBox"].Position.Z + "\n" +
+                               "BALL  : " + "X= " + shapes3D["sphereEnvCubeMap"].Position.X + "; "
+                                          + "Y= " + shapes3D["sphereEnvCubeMap"].Position.Y + "; "
+                                          + "Z= " + shapes3D["sphereEnvCubeMap"].Position.Z + "\n" +
                               "Uangle : " + cameraUangle + " = "
                               + (float)Math.Acos(Convert.ToDouble(cameraUangle)) + " = " +
                               MathHelper.RadiansToDegrees((float)Math.Acos(Convert.ToDouble(cameraUangle))) + "\n" +
@@ -658,8 +662,8 @@ namespace OpenTK_NRCGL
                               "Light_Z : " + ShadowMap.LightView.Position.Z + "\n" +
                               "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
-                              "DEBUG : " + MyGame.Debug + "\n"
-
+                              "DEBUG : " + MyGame.Debug + "\n" +
+                              "DEBUG1 : " + MyGame.Debug1 + "\n"
                               );
             }
             #endregion

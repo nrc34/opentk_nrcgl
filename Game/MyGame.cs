@@ -65,7 +65,7 @@ namespace OpenTK_NRCGL.Game
 
         public static bool[] collisionsAll = new bool[6]{true,true,true,true,true,true};
 
-        public static float collisionOverllap;
+        public static string Debug1;
         
 
         public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)
@@ -255,113 +255,192 @@ namespace OpenTK_NRCGL.Game
         private static void insertBlocks(int xBlock, int yBlock, 
             string blockName, Dictionary<string, Shape3D> shapes3D)
         {
+
+            Color4 color;
+
             float x = (xBlock * 10) - 55;
             float y = (yBlock * 10) - 55;
             switch (blockName)
             {
                 case "00":
-                    insertBlock(x + 5f, y + 5f, shapes3D, 2f, 2f,
-                        new bool[6] { true, false, true, true, false, true });
+                    color = getRandomColor();
+                    insertBlock(x + 3.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
                     insertBlock(x + 5f, y + 8.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     insertBlock(x + 8.5f, y + 5f, shapes3D, 1.5f, 2f,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 3.5f, y + 5.5f, shapes3D, 0.5f, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 5.5f, y + 3.5f, shapes3D, 1.5f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 5.5f, y + 5.5f, shapes3D, 1.5f, 1.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "10":
                 case "14":
                 case "30":
                 case "34":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 5, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "01":
                 case "03":
                 case "41":
                 case "43":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 2, 5,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     break;
                 case "02":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 2, 5,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "20":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 5, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     break;
                 case "42":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 2, 5,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "24":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 5, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     break;
                 case "21":
-                    insertBlock(x + 5, y + 3.5f, shapes3D, 2, 3.5f,
-                        new bool[6] { true, true, true, true, true, false });
+                    color = getRandomColor();
+                    insertBlock(x + 5, y + 3f, shapes3D, 2, 3f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 5, y + 6.5f, shapes3D, 1f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 3.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 6.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
                     break;
                 case "23":
-                    insertBlock(x + 5, y + 6.5f, shapes3D, 2, 3.5f,
-                        new bool[6] { true, true, true, true, false, true });
+                    color = getRandomColor();
+                    insertBlock(x + 5, y + 7f, shapes3D, 2, 3f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 5, y + 3.5f, shapes3D, 1f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 3.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 6.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
                     break;
                 case "22":
+                    color = getRandomColor();
                     insertBlock(x + 5, y + 5, shapes3D, 2, 5,
-                        new bool[6] { true, true, true, true, false, false });
+                        new bool[6] { true, true, true, true, false, false }, color);
                     insertBlock(x + 1.5f, y + 5, shapes3D, 1.5f, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     insertBlock(x + 8.5f, y + 5, shapes3D, 1.5f, 2,
-                        new bool[6] { false, false, true, true, true, true });
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "32":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2,
-                        new bool[6] { true, false, true, true, true, true });
+                    color = getRandomColor();
+                    insertBlock(x + 7f, y + 5, shapes3D, 3f, 2,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 3.5f, y + 5, shapes3D, 0.5f, 1f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 3.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 3.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
                     break;
                 case "12":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
-                        new bool[6] { false, true, true, true, true, true });
+                    color = getRandomColor();
+                    insertBlock(x + 3f, y + 5, shapes3D, 3f, 2,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 6.5f, y + 5, shapes3D, 0.5f, 1f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 6.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 6.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
                     break;
                 case "40":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
-                        new bool[6] { false, true, true, true, true, true });
-                    insertBlock(x + 5, y + 8.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                    color = getRandomColor();
+                    insertBlock(x + 6.5f, y + 3.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 5f, y + 8.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 1.5f, y + 5f, shapes3D, 1.5f, 2f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 6.5f, y + 5.5f, shapes3D, 0.5f, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 4.5f, y + 3.5f, shapes3D, 1.5f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 4.5f, y + 5.5f, shapes3D, 1.5f, 1.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "44":
-                    insertBlock(x + 3.5f, y + 5, shapes3D, 3.5f, 2,
-                        new bool[6] { false, true, true, true, true, true });
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                    color = getRandomColor();
+                    insertBlock(x + 6.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 5f, y + 1.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 1.5f, y + 5f, shapes3D, 1.5f, 2f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 6.5f, y + 4.5f, shapes3D, 0.5f, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 4.5f, y + 6.5f, shapes3D, 1.5f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 4.5f, y + 4.5f, shapes3D, 1.5f, 1.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 case "04":
-                    insertBlock(x + 6.5f, y + 5, shapes3D, 3.5f, 2,
-                        new bool[6] { true, false, true, true, true, true });
-                    insertBlock(x + 5, y + 1.5f, shapes3D, 2, 1.5f,
-                        new bool[6] { true, true, true, true, false, false });
+                    color = getRandomColor();
+                    insertBlock(x + 3.5f, y + 6.5f, shapes3D, 0.5f, 0.5f,
+                        new bool[6] { false, false, true, true, false, false }, color);
+                    insertBlock(x + 5f, y + 1.5f, shapes3D, 2, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 8.5f, y + 5f, shapes3D, 1.5f, 2f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 3.5f, y + 4.5f, shapes3D, 0.5f, 1.5f,
+                        new bool[6] { true, true, true, true, false, false }, color);
+                    insertBlock(x + 5.5f, y + 6.5f, shapes3D, 1.5f, 0.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
+                    insertBlock(x + 5.5f, y + 4.5f, shapes3D, 1.5f, 1.5f,
+                        new bool[6] { false, false, true, true, true, true }, color);
                     break;
                 default:
                     break;
             }
         }
 
-        private static void insertBlock(float x, float y, 
-            Dictionary<string, Shape3D> shapes3D, float xScale, float yScale, bool[] collisions)
+        private static Color4 getRandomColor()
         {
             Random r = new Random();
 
-            Shape3D cube = new NRCGL.Shapes.Cube3D(new Vector3(x, 0.5f, y),
-                new Color4((float)r.NextDouble(),
+            Color4 color = new Color4((float)r.NextDouble(),
                                (float)r.NextDouble(),
                                (float)r.NextDouble(),
-                               1f), 0); //current_texture);
+                               1f);
+
+            return color;
+        }
+
+        private static void insertBlock(float x, float y, 
+            Dictionary<string, Shape3D> shapes3D, float xScale, float yScale, bool[] collisions, Color4 color)
+        {
+            Shape3D cube = new NRCGL.Shapes.Cube3D(new Vector3(x, 0.5f, y), color, 0); //current_texture);
+                                                                            
             cube.Physic.Mass = 1000000;
             cube.Physic.Vxyz = Vector3.Zero;
             cube.Bounding = new Bounding(cube, xScale * 2f, 2, yScale * 2f);

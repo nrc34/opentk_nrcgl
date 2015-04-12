@@ -104,7 +104,7 @@ namespace OpenTK_NRCGL.NRCGL
                     bool collisionInXR =
                         (item2check.Value.Bounding.MaxX > shapes3D[shapeName].Bounding.MinX &&
                             item2check.Value.Position.X <= shapes3D[shapeName].Position.X);
-
+                    
                     bool collisionInYU =
                         (item2check.Value.Bounding.MaxY > shapes3D[shapeName].Bounding.MinY &&
                             item2check.Value.Position.Y <= shapes3D[shapeName].Position.Y);
@@ -294,13 +294,19 @@ namespace OpenTK_NRCGL.NRCGL
                 //detect the face that has collided X or Z
                 //float dpX = Math.Abs(shapes3D[shapeName].Position.X - shapes3D[item.Shape3Da].Position.X) / shapes3D[item.Shape3Da].Bounding.BoxXLength;
                 //float dpZ = Math.Abs(shapes3D[shapeName].Position.Z - shapes3D[item.Shape3Da].Position.Z) / shapes3D[item.Shape3Da].Bounding.BoxZLength;
-
                 float el = -0.5f;
                 float dd = 1f;
+                MyGame.Debug1 = string.Empty;
+                MyGame.Debug1 = item.CollisionInXL ? "XL :" : 
+                                item.CollisionInXR ? "XR :" : "";
+                MyGame.Debug1 += item.CollisionInYD ? "YD :" :
+                                 item.CollisionInYU ? "YU :" : "";
+                MyGame.Debug1 += item.CollisionInZB ? "ZB :" :
+                                item.CollisionInZF ? "ZF" : "0";
 
-                //if (dpX > dpZ && 
-                if ((shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||
-                        (shapes3D[item.Shape3Da].Bounding.CollisionInXL && item.CollisionInXL))
+                if (true && //dpX > dpZ && 
+                    (shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||
+                    (shapes3D[item.Shape3Da].Bounding.CollisionInXL && item.CollisionInXL))
                 {
                     shapes3D[shapeName].Physic.Vxyz
                      = new Vector3(
@@ -310,7 +316,7 @@ namespace OpenTK_NRCGL.NRCGL
 
                     Vector3 newPosition = new Vector3(
                      shapes3D[shapeName].Position.X + deltaX * dd,
-                     shapes3D[shapeName].Position.Y,
+                     shapes3D[shapeName].Position.Y + deltaY * dd,
                      shapes3D[shapeName].Position.Z);
 
                     shapes3D[shapeName].Position = newPosition;
@@ -318,8 +324,8 @@ namespace OpenTK_NRCGL.NRCGL
                     //MyGame.Debug = "Col in X";
                 }
 
-                //else if (dpX < dpZ &&
-                else if ((shapes3D[item.Shape3Da].Bounding.CollisionInZF && item.CollisionInZF) ||
+                else if (true && //dpX < dpZ &&
+                         (shapes3D[item.Shape3Da].Bounding.CollisionInZF && item.CollisionInZF) ||
                          (shapes3D[item.Shape3Da].Bounding.CollisionInZB && item.CollisionInZB))
                 {
 
@@ -331,30 +337,30 @@ namespace OpenTK_NRCGL.NRCGL
 
                     Vector3 newPosition = new Vector3(
                       shapes3D[shapeName].Position.X,
-                      shapes3D[shapeName].Position.Y,
+                      shapes3D[shapeName].Position.Y + deltaY * dd,
                       shapes3D[shapeName].Position.Z + deltaZ * dd);
 
                     shapes3D[shapeName].Position = newPosition;
 
                     //MyGame.Debug = "Col in Z";
                 }
-                else
-                {
-                    shapes3D[shapeName].Physic.Vxyz
-                       = new Vector3(
-                           shapes3D[shapeName].Physic.Vxyz.X * el,
-                           shapes3D[shapeName].Physic.Vxyz.Y,
-                           shapes3D[shapeName].Physic.Vxyz.Z * el);
+                //else
+                //{
+                //    shapes3D[shapeName].Physic.Vxyz
+                //       = new Vector3(
+                //           shapes3D[shapeName].Physic.Vxyz.X * el,
+                //           shapes3D[shapeName].Physic.Vxyz.Y,
+                //           shapes3D[shapeName].Physic.Vxyz.Z * el);
 
-                    Vector3 newPosition = new Vector3(
-                      shapes3D[shapeName].Position.X + deltaX * dd,
-                      shapes3D[shapeName].Position.Y,
-                      shapes3D[shapeName].Position.Z + deltaZ * dd);
+                //    Vector3 newPosition = new Vector3(
+                //      shapes3D[shapeName].Position.X + deltaX * dd,
+                //      shapes3D[shapeName].Position.Y + deltaY * dd,
+                //      shapes3D[shapeName].Position.Z + deltaZ * dd);
 
-                    shapes3D[shapeName].Position = newPosition;
+                //    shapes3D[shapeName].Position = newPosition;
 
-                    MyGame.Debug = "Col in ZX";
-                }
+                //    MyGame.Debug = "Col in ZX";
+                //}
             }
             
         }
