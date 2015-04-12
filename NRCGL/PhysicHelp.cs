@@ -295,8 +295,8 @@ namespace OpenTK_NRCGL.NRCGL
                 //float dpX = Math.Abs(shapes3D[shapeName].Position.X - shapes3D[item.Shape3Da].Position.X) / shapes3D[item.Shape3Da].Bounding.BoxXLength;
                 //float dpZ = Math.Abs(shapes3D[shapeName].Position.Z - shapes3D[item.Shape3Da].Position.Z) / shapes3D[item.Shape3Da].Bounding.BoxZLength;
 
-                float el = -0.2f;
-                float dd = 1.5f;
+                float el = -0.5f;
+                float dd = 1f;
 
                 //if (dpX > dpZ && 
                 if ((shapes3D[item.Shape3Da].Bounding.CollisionInXR && item.CollisionInXR) ||

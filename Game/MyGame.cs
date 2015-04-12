@@ -45,10 +45,6 @@ namespace OpenTK_NRCGL.Game
 
         public static int sphere_texture;
 
-        public static float XAngle = 0f;
-        public static float YAngle = 0f;
-        public static float ZAngle = 0f;
-
         public static float TableXAngle = 0f;
         public static float TableZAngle = 0f;
 
@@ -64,8 +60,8 @@ namespace OpenTK_NRCGL.Game
         private static Matrix4 texMatrixG;
 
         public static string Debug = "";
-        public static double MaxTableAngle = 4;
-        public static float DeltaTableAngle = MathHelper.PiOver6 / 40;
+        public static double MaxTableAngle = 1;
+        public static float DeltaTableAngle = MathHelper.PiOver6 / 50;
 
         public static bool[] collisionsAll = new bool[6]{true,true,true,true,true,true};
 

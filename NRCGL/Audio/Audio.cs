@@ -119,11 +119,15 @@ namespace OpenTK_NRCGL.NRCGL.Audio
             //AC.Dispose();
         }
 
-        public void Play(int source, bool looping = false)
+        public void Play(int source, Vector3 position, 
+            bool looping = false, float gain = 0.85f)
+            
         {
 
             AL.SourcePlay(mySources[source]); // start playback
             if(looping)AL.Source(mySources[source], ALSourceb.Looping, true); // source loops infinitely
+            AL.Source(mySources[source], ALSourcef.Gain, gain);
+            if(position != Vector3.Zero)AL.Source(mySources[source], ALSource3f.Position, ref position);
             /*
             AL.Source(MySources[1], ALSourcei.Buffer, (int)MyBuffers[1]);
             Vector3 Position = new Vector3(1f, 2f, 3f);

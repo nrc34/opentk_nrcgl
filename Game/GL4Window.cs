@@ -178,12 +178,12 @@ namespace OpenTK_NRCGL
 
             string[] wavFilesNames = new string[2]{
                 "Audio\\ocean-drift.wav",
-                "Audio\\ball-f.wav"
+                "Audio\\ball.wav"
             };
 
             audio = new Audio(wavFilesNames);
 
-            audio.Play(0, true); //main music
+            audio.Play(0, Vector3.Zero, true, 0.05f); //main music
         }
 
         private void checkKeyBoard()
@@ -227,33 +227,20 @@ namespace OpenTK_NRCGL
                 coolDown = 20;
             }
 
-            float speed = 0.5f;
+            
 
             if (Keyboard[Key.I] && (MyGame.TableXAngle < MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
             {
 
                 MyGame.TableXAngle += MyGame.DeltaTableAngle;
 
-                
-
-                /*
-                shapes3D["sphereEnvCubeMap"].Physic.Vuvw
-                = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vuvw.X,
-                              shapes3D["sphereEnvCubeMap"].Physic.Vuvw.Y,
-                              -speed);*/
-                
             }
-
 
             if (Keyboard[Key.K] && (MyGame.TableXAngle > -MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
             {
 
                 MyGame.TableXAngle -= MyGame.DeltaTableAngle;
 
-
-                //shapes3D["sphereEnvCubeMap"].Physic.Vuvw = new Vector3(0, 0, speed);
-
-               
             }
 
             if (Keyboard[Key.J] && (MyGame.TableZAngle > -MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
@@ -261,25 +248,15 @@ namespace OpenTK_NRCGL
 
                 MyGame.TableZAngle -= MyGame.DeltaTableAngle;
 
-                //shapes3D["sphereEnvCubeMap"].Physic.Vxyz = new Vector3(-speed, 0, 0);
-
-
-
             }
+
             if (Keyboard[Key.L] && (MyGame.TableZAngle < MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
             {
 
                 MyGame.TableZAngle += MyGame.DeltaTableAngle;
 
-                //shapes3D["sphereEnvCubeMap"].Physic.Vxyz = new Vector3(speed, 0, 0);
             }
                 
-                
-                
-
-
-            
-            
             if (Keyboard[Key.Q]) camera.TranslateLC(0, 0, 5);
             if (Keyboard[Key.A]) camera.TranslateLC(0, 0, -5);
             
@@ -292,7 +269,7 @@ namespace OpenTK_NRCGL
 
             if (Keyboard[Key.Escape]) Exit();
 
-
+            /*
             if (Keyboard[Key.Space] && coolDown == 0)
             {
                 Random r = new Random();
@@ -322,7 +299,7 @@ namespace OpenTK_NRCGL
                 shapes3D.Add("movCube", sphere2);
                 coolDown = 50;
             }
-
+            
             if (Keyboard[Key.F] && coolDown == 0)
             {
                 foreach (var item in shapes3D)
@@ -353,8 +330,8 @@ namespace OpenTK_NRCGL
                     );
                 }
                 coolDown = 10;
-            }
-
+            }*/
+            
             if (Keyboard[Key.F8] && coolDown == 0)
             {
                 foreach (var item in shapes3D)
@@ -379,46 +356,37 @@ namespace OpenTK_NRCGL
                 coolDown = 50;
             }
 
-
-            if (Keyboard[Key.Number8] && !Keyboard[Key.ControlLeft] && coolDown == 0)
+            float speed = 2f;
+            if (Keyboard[Key.Keypad8] && coolDown == 0)
             {
-                MyGame.XAngle += MathHelper.PiOver2;
 
-                coolDown = 30;
+                shapes3D["sphereEnvCubeMap"].Physic.Vuvw
+                = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vuvw.X,
+                              shapes3D["sphereEnvCubeMap"].Physic.Vuvw.Y,
+                              -speed);
+
+                coolDown = 5;
             }
-            if (Keyboard[Key.Number9] && !Keyboard[Key.ControlLeft] && coolDown == 0)
+            if (Keyboard[Key.Keypad2] && coolDown == 0)
             {
-                MyGame.YAngle += MathHelper.PiOver2;
 
-                coolDown = 30;
+                shapes3D["sphereEnvCubeMap"].Physic.Vuvw = new Vector3(0, 0, speed);
+
+                coolDown = 5;
             }
-            if (Keyboard[Key.Number0] && !Keyboard[Key.ControlLeft] && coolDown == 0)
+            if (Keyboard[Key.Keypad4] && coolDown == 0)
             {
-                MyGame.ZAngle += MathHelper.PiOver2;
+                shapes3D["sphereEnvCubeMap"].Physic.Vxyz = new Vector3(-speed, 0, 0);
 
-                coolDown = 30;
+                coolDown = 5;
             }
-            if (Keyboard[Key.Number8] && Keyboard[Key.ControlLeft] && coolDown == 0)
+            if (Keyboard[Key.Keypad6] && coolDown == 0)
             {
-                MyGame.XAngle -= MathHelper.PiOver2;
+                shapes3D["sphereEnvCubeMap"].Physic.Vxyz = new Vector3(speed, 0, 0);
 
-                coolDown = 30;
+                coolDown = 5;
             }
-            if (Keyboard[Key.Number9] && Keyboard[Key.ControlLeft] && coolDown == 0)
-            {
-                MyGame.YAngle -= MathHelper.PiOver2;
-
-                coolDown = 30;
-            }
-            if (Keyboard[Key.Number0] && Keyboard[Key.ControlLeft] && coolDown == 0)
-            {
-                MyGame.ZAngle -= MathHelper.PiOver2;
-
-                coolDown = 30;
-            }
-
-
-
+            
 
             if (Keyboard[Key.Number6] && coolDown == 0)
             {
@@ -467,9 +435,9 @@ namespace OpenTK_NRCGL
 
                 coolDown = 30;
             }
-            if (Keyboard[Key.S]) shapes3D["sphere"].VertexBuffer.SerializeBufer(@"Models\sphere.xml");
+            //if (Keyboard[Key.S]) shapes3D["sphere"].VertexBuffer.SerializeBufer(@"Models\sphere.xml");
 
-            if (Keyboard[Key.T]) Tools.GenerateModelFrom3DS(@"Models\sphere3D64x64x1.x3d");
+            //if (Keyboard[Key.T]) Tools.GenerateModelFrom3DS(@"Models\sphere3D64x64x1.x3d");
 
 
             //mouse
@@ -546,80 +514,9 @@ namespace OpenTK_NRCGL
             if (coolDown > 0) coolDown--;
             if (audioCoolDown > 0) audioCoolDown--;
 
+
             checkKeyBoard();
 
-            #region check border limites
-            /*
-            foreach (var item in shapes3D)
-            {
-                if (item.Key.Contains("Panel")) continue;
-                if (item.Key.Contains("skyBox")) continue;
-                if (item.Key.Contains("bullet")) continue;
-
-                if (item.Value.Position.X > 50)
-                {
-                    item.Value.Position = new Vector3(  50f,
-                                                        item.Value.Position.Y,
-                                                        item.Value.Position.Z);
-
-                    item.Value.Physic.Vxyz = new Vector3(item.Value.Physic.Vxyz.X * -0.7f,
-                                                         item.Value.Physic.Vxyz.Y,
-                                                         item.Value.Physic.Vxyz.Z);
-
-                    item.Value.Physic.Fxyz = new Vector3(item.Value.Physic.Fxyz.X * -0.7f,
-                                                         item.Value.Physic.Fxyz.Y,
-                                                         item.Value.Physic.Fxyz.Z);
-                }
-
-                if (item.Value.Position.X < -50)
-                {
-                    item.Value.Position = new Vector3(-50f,
-                                                      item.Value.Position.Y,
-                                                      item.Value.Position.Z);
-
-                    item.Value.Physic.Vxyz = new Vector3(item.Value.Physic.Vxyz.X * -0.7f,
-                                                         item.Value.Physic.Vxyz.Y,
-                                                         item.Value.Physic.Vxyz.Z);
-
-                    item.Value.Physic.Fxyz = new Vector3(item.Value.Physic.Fxyz.X * -0.7f,
-                                                         item.Value.Physic.Fxyz.Y,
-                                                         item.Value.Physic.Fxyz.Z);
-                }
-
-
-                if (item.Value.Position.Z > 50)
-                {
-                    item.Value.Position = new Vector3(item.Value.Position.X,
-                                                      item.Value.Position.Y,
-                                                      50f);
-
-                    item.Value.Physic.Vxyz = new Vector3(item.Value.Physic.Vxyz.X,
-                                                         item.Value.Physic.Vxyz.Y,
-                                                         item.Value.Physic.Vxyz.Z * -0.7f);
-
-                    item.Value.Physic.Fxyz = new Vector3(item.Value.Physic.Fxyz.X,
-                                                         item.Value.Physic.Fxyz.Y,
-                                                         item.Value.Physic.Fxyz.Z * -0.7f);
-                }
-
-                if (item.Value.Position.Z < -50)
-                {
-                    item.Value.Position = new Vector3(item.Value.Position.X,
-                                                      item.Value.Position.Y,
-                                                      -50f);
-
-                    item.Value.Physic.Vxyz = new Vector3(item.Value.Physic.Vxyz.X,
-                                                         item.Value.Physic.Vxyz.Y,
-                                                         item.Value.Physic.Vxyz.Z * -0.7f);
-
-                    item.Value.Physic.Fxyz = new Vector3(item.Value.Physic.Fxyz.X,
-                                                         item.Value.Physic.Fxyz.Y,
-                                                         item.Value.Physic.Fxyz.Z * -0.7f);
-                }
-            }*/
-            #endregion
-
-            
 
             camera.LevelU2XZ(0.9998470f);
 
@@ -630,12 +527,12 @@ namespace OpenTK_NRCGL
             {
                 if (item.Key == "sphereEnvCubeMap")
                 {
-                    float speed = 1.5f;
+                    float speed = 5f;
                     shapes3D["sphereEnvCubeMap"].Physic.Vxyz
                         = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X - MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y + MyGame.TableXAngle * 0 * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Z + MyGame.TableXAngle * speed * (float)Math.Cos(MyGame.TableXAngle));
-                    friction = 0.9f;
+                    friction = 0.85f;
                     item.Value.Physic.Vxyz = new Vector3(
                         item.Value.Physic.Vxyz.X * friction,
                         item.Value.Physic.Vxyz.Y * friction,
@@ -706,20 +603,21 @@ namespace OpenTK_NRCGL
 
             if (collisions.Count != 0)
             {
-                
-
+                float velIni = shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
 
                 PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap");
-
-                if ((MyGame.collisionOverllap / collisions[0].CollisionOverllap.Length) < 1f && audioCoolDown == 0)
+                
+                float velFin = shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
+                float deltaV = velIni - velFin;
+                if (deltaV > 0.05f && audioCoolDown == 0)
                 {
-                    audio.Play(1);
-                    audioCoolDown = 22;
+                    audio.Play(1, shapes3D["sphereEnvCubeMap"].Position, false, 0.015f * (deltaV * 10));
+                    audioCoolDown = 4;
+
+                    MyGame.Debug = ": " + deltaV.ToString();
                 }
+                
 
-                MyGame.Debug = ": " + (MyGame.collisionOverllap / collisions[0].CollisionOverllap.Length).ToString();
-
-                MyGame.collisionOverllap = collisions[0].CollisionOverllap.Length;
             }
                
 
@@ -755,12 +653,11 @@ namespace OpenTK_NRCGL
                               + (float)Math.Acos(Convert.ToDouble(cameraUangle)) + " = " +
                               MathHelper.RadiansToDegrees((float)Math.Acos(Convert.ToDouble(cameraUangle))) + "\n" +
                               "Shapes : " + shapes3D.Count + "\n" +
-                              "XAngle : " + MathHelper.RadiansToDegrees(MyGame.XAngle) + "\n" +
-                              "YAngle : " + MathHelper.RadiansToDegrees(MyGame.YAngle) + "\n" +
-                              "ZAngle : " + MathHelper.RadiansToDegrees(MyGame.ZAngle) + "\n" +
                               "Light_X : " + ShadowMap.LightView.Position.X + "\n" +
                               "Light_Y : " + ShadowMap.LightView.Position.Y + "\n" +
                               "Light_Z : " + ShadowMap.LightView.Position.Z + "\n" +
+                              "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
+                              "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n"
 
                               );
