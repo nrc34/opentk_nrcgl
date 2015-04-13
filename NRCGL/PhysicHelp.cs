@@ -245,13 +245,16 @@ namespace OpenTK_NRCGL.NRCGL
             }
         }
 
-        public static void SolveCollisionsOneShape(List<Collision> collisions, Dictionary<string, Shape3D> shapes3D, string shapeName)
+        public static void SolveCollisionsOneShape(List<Collision> collisions,
+            Dictionary<string, Shape3D> shapes3D, string shapeName, string shape2Ignore)
         {
 
             //TODO: solve multiple collisions
 
             foreach (Collision item in collisions)
             {
+
+                if (item.Shape3Da == shape2Ignore) continue;
 
                 //move shapeName from colision
                 float deltaX = 0;

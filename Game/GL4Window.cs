@@ -176,21 +176,27 @@ namespace OpenTK_NRCGL
                                           -camera.Position.Y,
                                           -camera.Position.Z);
 
-            string[] wavFilesNames = new string[2]{
+            string[] wavFilesNames = new string[4]{
                 "Audio\\ocean-drift.wav",
-                "Audio\\ball.wav"
+                "Audio\\ball.wav",
+                "Audio\\timer-with-ding.wav",
+                "Audio\\yelling-yeah.wav"
             };
 
             audio = new Audio(wavFilesNames);
 
-            audio.Play(0, Vector3.Zero, true, 0.05f); //main music
+            audio.Play(0, Vector3.Zero, true, 2f); //main music
         }
 
         private void checkKeyBoard()
         {
-
-
             //OpenTK.Input.Keyboard.GetState();
+
+            if (Keyboard[Key.F11] && coolDown == 0)
+            {
+                audio.Play(2, Vector3.Zero, true);
+                coolDown = 20;
+            }
 
             if (Keyboard[Key.F12] && coolDown == 0)
             {
@@ -464,7 +470,7 @@ namespace OpenTK_NRCGL
 
             if (mouseState.Y > this.Height - 10) OpenTK.Input.Mouse.SetPosition(this.Width / 2, this.Height / 2);
             if (mouseState.Y < 10) OpenTK.Input.Mouse.SetPosition(this.Width /2, this.Height);
-
+            /*
             if (mouseState.IsButtonDown(MouseButton.Left) && coolDown == 0)
             {
                 Random r = new Random();
@@ -486,7 +492,7 @@ namespace OpenTK_NRCGL
                 shapes3D.Add("bullet" + Guid.NewGuid().ToString(), bullet);
                 coolDown = 5;
             }
-
+            */
 
             oldMouseState = OpenTK.Input.Mouse.GetCursorState();
 
@@ -546,10 +552,10 @@ namespace OpenTK_NRCGL
                              "  TabZAngl: " + MathHelper.RadiansToDegrees(MyGame.TableZAngle).ToString();
                 */
 
-                
-                
 
-                if (item.Key == "basePanel")
+
+
+                if (item.Key == "basePanel" || item.Key == "target")
                 {
                     item.Value.Quaternion = 
                         Quaternion.FromAxisAngle(Vector3.UnitX, MyGame.TableXAngle - MathHelper.PiOver2);
@@ -604,15 +610,33 @@ namespace OpenTK_NRCGL
 
             if (collisions.Count != 0)
             {
+                
+                foreach (var item in collisions)
+                {
+                    if (item.Shape3Da == "target")
+                    {
+                        MyGame.Debug2 = "TARGET";
+                        if(audioCoolDown == 0)audio.Play(3, Vector3.Zero);
+                        audioCoolDown = 20;
+                    }
+                    else
+                    {
+                        MyGame.Debug2 = item.Shape3Da;
+                    }
+                }
+
+                
+                
                 float velIni = shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
 
-                PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap");
+                
+                PhysicHelp.SolveCollisionsOneShape(collisions, shapes3D, "sphereEnvCubeMap", "target");
                 
                 float velFin = shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
                 float deltaV = velIni - velFin;
                 if (deltaV > 0.05f && audioCoolDown == 0)
                 {
-                    audio.Play(1, shapes3D["sphereEnvCubeMap"].Position, false, 0.015f * (deltaV * 10));
+                    audio.Play(1, shapes3D["sphereEnvCubeMap"].Position, false, 0.3f * (deltaV * 5));
                     audioCoolDown = 4;
 
                     MyGame.Debug = ": " + deltaV.ToString();
@@ -663,7 +687,8 @@ namespace OpenTK_NRCGL
                               "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +
-                              "DEBUG1 : " + MyGame.Debug1 + "\n"
+                              "DEBUG1 : " + MyGame.Debug1 + "\n" +
+                              "DEBUG2 : " + MyGame.Debug2 + "\n"
                               );
             }
             #endregion

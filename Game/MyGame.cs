@@ -66,6 +66,7 @@ namespace OpenTK_NRCGL.Game
         public static bool[] collisionsAll = new bool[6]{true,true,true,true,true,true};
 
         public static string Debug1;
+        public static string Debug2;
         
 
         public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)
@@ -204,6 +205,20 @@ namespace OpenTK_NRCGL.Game
             sphere3.Load();
             shapes3D.Add("sphere3", sphere3);
             */
+
+            Shape3D target = new Panel3D(new Vector3(45, -1f, 45), 0f, 0f, 0f, Color4.Chocolate, 0);
+
+            target.Scale(1.5f);
+            target.Bounding = new Bounding(target, 1f);
+            target.Physic.Mass = 100000000f;
+            target.RotateU(-MathHelper.PiOver3);
+            target.TextureShadowMap = shadowMap.DepthTexture;
+            target.ShadowMatrix = shadowMap.ShadowMatrix;
+            target.TextureBumpMap = bump_texture;
+            target.TexMatrix = texMatrix;
+            target.Collision = true;
+            target.Load();
+            shapes3D.Add("target", target);
 
             string[] lines = File.ReadAllLines("levels\\level1.csv");
 
@@ -439,7 +454,7 @@ namespace OpenTK_NRCGL.Game
         private static void insertBlock(float x, float y, 
             Dictionary<string, Shape3D> shapes3D, float xScale, float yScale, bool[] collisions, Color4 color)
         {
-            Shape3D cube = new NRCGL.Shapes.Cube3D(new Vector3(x, 0.5f, y), color, 0); //current_texture);
+            Shape3D cube = new NRCGL.Shapes.Cube3D(new Vector3(x, 0.5f, y), color, current_texture);
                                                                             
             cube.Physic.Mass = 1000000;
             cube.Physic.Vxyz = Vector3.Zero;

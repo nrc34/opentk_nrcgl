@@ -51,6 +51,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
             Model = @"Models\Panel3D.xml";
             Position = centerPosition;
+            FirstPosition = Position;
             RotateX(angleX);
             RotateY(angleY);
             RotateZ(angleZ);
