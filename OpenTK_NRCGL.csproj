@@ -58,6 +58,8 @@
     <Compile Include="NRCGL\Bounding.cs" />
     <Compile Include="NRCGL\Camera.cs" />
     <Compile Include="NRCGL\Collision.cs" />
+    <Compile Include="NRCGL\Level\IWGameable.cs" />
+    <Compile Include="NRCGL\Level\Level.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />
     <Compile Include="NRCGL\Shapes\Bullet3D.cs" />
     <Compile Include="NRCGL\Shapes\Cube3D.cs" />
