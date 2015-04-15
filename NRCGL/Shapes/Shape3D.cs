@@ -67,9 +67,25 @@ namespace OpenTK_NRCGL.NRCGL
         private Matrix4 shadowMatrix;
         private Matrix4 texMatrix;
         public Vector3 firstPosition;
+        private bool isVisible;
+        private bool isShadowCaster;
 
 
+        
 
+        public bool IsShadowCaster
+        {
+            get { return isShadowCaster; }
+            set { isShadowCaster = value; }
+        }
+        
+
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set { isVisible = value; }
+        }
+        
 
         public Vector3 FirstPosition
         {
@@ -233,6 +249,8 @@ namespace OpenTK_NRCGL.NRCGL
             set { vertexsIndicesData = value; }
         }
 
+
+
         /// <summary>
         /// Initializes the shape with Position = Vector3.Zero and Front Direction
         /// </summary>
@@ -243,7 +261,11 @@ namespace OpenTK_NRCGL.NRCGL
             shapeVersorsUVW = Matrix4.Identity;
             Physic = new Physic(this);
             collision = true;
+            isVisible = true;
+            isShadowCaster = true;
         }
+
+
 
         /// <summary>
         /// Traslate the shape in world coords.
@@ -611,6 +633,8 @@ namespace OpenTK_NRCGL.NRCGL
 
         public virtual void Render()
         {
+            if (!IsVisible) return;
+                
 
             GL.UseProgram(Shader.Program);
 

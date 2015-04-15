@@ -42,8 +42,15 @@ namespace OpenTK_NRCGL.NRCGL
     class Sphere3D : Shape3D
     {
         private float r;
-
         private static VertexsIndicesData vid;
+
+
+        public float R
+        {
+            get { return r; }
+            set { r = value; }
+        }
+        
 
         public Sphere3D(Vector3 position, float r, Color4 color , int textureId = 0) : base()
         {
@@ -103,6 +110,7 @@ namespace OpenTK_NRCGL.NRCGL
             }
             
         }
+
 
         public override void Update(Matrix4 ViewMatrix, Matrix4 ProjectionMatrix,
             Dictionary<string, Shape3D> shapes3D, Camera mainCamera, GameWindow gameWindow)

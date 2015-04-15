@@ -148,8 +148,9 @@ namespace OpenTK_NRCGL.NRCGL
 
             foreach (var item in shapes3D)
             {
-                
 
+
+                if (!item.Value.IsVisible || !item.Value.IsShadowCaster) continue;
 
                 //GL.ActiveTexture(TextureUnit.Texture0);
                 //GL.BindTexture(TextureTarget.Texture2D, item.Value.TextureID);
@@ -196,6 +197,8 @@ namespace OpenTK_NRCGL.NRCGL
 
                 foreach (var item in shapes3D)
                 {
+                    if (!item.Value.IsVisible || !item.Value.IsShadowCaster) continue;
+                    
                     GL.UseProgram(Shader.Program);
 
 

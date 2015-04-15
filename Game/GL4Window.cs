@@ -250,17 +250,17 @@ namespace OpenTK_NRCGL
 
             }
 
-            if (Keyboard[Key.J] && (MyGame.TableZAngle > -MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
-            {
-
-                MyGame.TableZAngle -= MyGame.DeltaTableAngle;
-
-            }
-
-            if (Keyboard[Key.L] && (MyGame.TableZAngle < MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
+            if (Keyboard[Key.J] && (MyGame.TableZAngle < MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
             {
 
                 MyGame.TableZAngle += MyGame.DeltaTableAngle;
+
+            }
+
+            if (Keyboard[Key.L] && (MyGame.TableZAngle > -MathHelper.DegreesToRadians(MyGame.MaxTableAngle)))
+            {
+
+                MyGame.TableZAngle -= MyGame.DeltaTableAngle;
 
             }
                 
@@ -508,15 +508,10 @@ namespace OpenTK_NRCGL
         {
             base.OnUpdateFrame(e);
 
-            if (updateCount == 600)
-            {
-                updateCount = 0;
-                updateCount++;
-            }
+            if (updateCount == 20)
+                updateCount = 1;
             else
                 updateCount++;
-
-            //if(updateCount % 60 == 0) ups = Convert.ToInt16(1 / e.Time);
 
             if (coolDown > 0) coolDown--;
             if (audioCoolDown > 0) audioCoolDown--;
@@ -532,12 +527,15 @@ namespace OpenTK_NRCGL
             
             foreach (var item in shapes3D)
             {
+                if (item.Key == "target" && updateCount > 15) item.Value.IsVisible = false;
+                else if (item.Key == "target" && updateCount <= 15) item.Value.IsVisible = true;
+
                 if (item.Key == "sphereEnvCubeMap")
                 {
                     float speed = 5f;
                     shapes3D["sphereEnvCubeMap"].Physic.Vxyz
-                        = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X - MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
-                                      shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y + MyGame.TableXAngle * 0 * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
+                        = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X + MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
+                                      shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y, // + MyGame.TableXAngle * speed * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Z + MyGame.TableXAngle * speed * (float)Math.Cos(MyGame.TableXAngle));
                     friction = 0.85f;
                     item.Value.Physic.Vxyz = new Vector3(
@@ -560,13 +558,13 @@ namespace OpenTK_NRCGL
                     item.Value.Quaternion = 
                         Quaternion.FromAxisAngle(Vector3.UnitX, MyGame.TableXAngle - MathHelper.PiOver2);
                     item.Value.Quaternion =
-                        Quaternion.FromAxisAngle(Vector3.UnitZ, MyGame.TableZAngle) * item.Value.Quaternion;
+                        Quaternion.FromAxisAngle(Vector3.UnitZ, -MyGame.TableZAngle) * item.Value.Quaternion;
                 }
                 else if (item.Key != "skyBox" && item.Key != "sphereEnvCubeMap")
                 {
                     item.Value.Quaternion = Quaternion.FromAxisAngle(Vector3.UnitX, MyGame.TableXAngle);
                     item.Value.Quaternion =
-                        Quaternion.FromAxisAngle(Vector3.UnitZ, MyGame.TableZAngle) * item.Value.Quaternion;
+                        Quaternion.FromAxisAngle(Vector3.UnitZ, -MyGame.TableZAngle) * item.Value.Quaternion;
                 }
 
 
@@ -588,18 +586,27 @@ namespace OpenTK_NRCGL
                     rx = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2) + Math.Pow(item.Value.Position.Z, 2));
                     rz = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2) + Math.Pow(item.Value.Position.X, 2));
                 }
+                double x;
+                double y;
+                double z;
+                if (item.Key == "sphereEnvCubeMap")
+                {
+                    y = -(item.Value as Sphere3D).R + rx * Math.Sin(MyGame.TableXAngle - initXAngle);
+                    z = rx * Math.Cos(MyGame.TableXAngle - initXAngle);
+                    y -= rz * Math.Sin(-MyGame.TableZAngle - initZAngle);
+                    x = rz * Math.Cos(-MyGame.TableZAngle - initZAngle);
+                }
+                else
+                {
+                    y = rx * Math.Sin(MyGame.TableXAngle - initXAngle);
+                    z = rx * Math.Cos(MyGame.TableXAngle - initXAngle);
+                    y += rz * Math.Sin(MyGame.TableZAngle - initZAngle);
+                    x = rz * Math.Cos(MyGame.TableZAngle - initZAngle);
+                }
+               
 
-                double y = rx * Math.Sin(MyGame.TableXAngle - initXAngle);
-                double z = rx * Math.Cos(MyGame.TableXAngle - initXAngle);
-
-                y -= rz * Math.Sin(MyGame.TableZAngle - initZAngle);
-                double x = rz * Math.Cos(MyGame.TableZAngle - initZAngle);
-
-                if (item.Key != "skyBox" && item.Key != "basePanel" && item.Key != "sphereEnvCubeMap")
+                if (item.Key != "skyBox" && item.Key != "basePanel")
                     item.Value.Position = new Vector3((float)x, -(float)y, (float)z);
-                else if (item.Key == "sphereEnvCubeMap")
-                    item.Value.Position = new Vector3((float)x, -(float)y, (float)z);
-                                                     
               
 
                 item.Value.Update(camera.View, MyGame.ProjectionMatrix, shapes3D, camera, this);
@@ -641,15 +648,11 @@ namespace OpenTK_NRCGL
 
                     MyGame.Debug = ": " + deltaV.ToString();
                 }
-                
-
             }
                
 
-            
-
             #region text render
-                if (textRender.Visible && (updateCount % 60 == 0))
+                if (textRender.Visible && (updateCount % 10 == 0))
             {
                 Vector3 v1 = new Vector3(camera.CameraUVW.Row0);
                 Vector3 v2 = new Vector3(camera.CameraUVW.Row0.X, 0f, camera.CameraUVW.Row0.Z);
@@ -708,21 +711,11 @@ namespace OpenTK_NRCGL
         {
             base.OnRenderFrame(e);
 
-            //if (updateCount % 60 == 0) fps = Convert.ToInt16(1 / e.Time);
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             //render
-            foreach (var item in shapes3D)
-            {
-                //if (item.Key.Contains("Panel")) continue;
-
-                item.Value.Render();
-            }
+            foreach (var item in shapes3D) item.Value.Render();
                 
-
-            //if (updateCount % 10 == 0) shapes3D["sphereEnvCubeMap"].Render();
-
             textRender.Render();
 
             SwapBuffers();

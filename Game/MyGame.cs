@@ -88,6 +88,8 @@ namespace OpenTK_NRCGL.Game
 
             bump_texture = Texture.LoadTexture(@"Textures\Rock_01_local.jpg", 0, false, false);
 
+            int target_texture = Texture.LoadTexture(@"Textures\target.png", 0, false, false);
+
 
             // create texture matrix
             Matrix4 ProjectionMatrixTex = Matrix4.CreateOrthographic(110, 110, -1, 1);
@@ -110,7 +112,7 @@ namespace OpenTK_NRCGL.Game
             
             #region panels
 
-            Shape3D basePanel = new Panel3D(new Vector3(0, -1f, 0), 0f, 0f, 0f, Color4.Chocolate, current_texture);
+            Shape3D basePanel = new Panel3D(new Vector3(0f, 0f, 0), 0f, 0f, 0f, Color4.Chocolate, current_texture);
 
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
@@ -206,17 +208,21 @@ namespace OpenTK_NRCGL.Game
             shapes3D.Add("sphere3", sphere3);
             */
 
-            Shape3D target = new Panel3D(new Vector3(45, -1f, 45), 0f, 0f, 0f, Color4.Chocolate, 0);
-
-            target.Scale(1.5f);
-            target.Bounding = new Bounding(target, 1f);
+            Shape3D target = new Panel3D(new Vector3(15, 0.05f, 25), 0f, 0f, 0f, Color4.Chocolate, target_texture);
+            string vst = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
+            string fst = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_.txt");
+            Shader shaderTarget = new Shader(ref vst, ref fst);
+            target.Shader = shaderTarget;
+            target.Scale(3f);
+            target.Bounding = new Bounding(target, 3f);
             target.Physic.Mass = 100000000f;
             target.RotateU(-MathHelper.PiOver3);
             target.TextureShadowMap = shadowMap.DepthTexture;
             target.ShadowMatrix = shadowMap.ShadowMatrix;
-            target.TextureBumpMap = bump_texture;
-            target.TexMatrix = texMatrix;
+            //target.TextureBumpMap = bump_texture;
+            //target.TexMatrix = texMatrix;
             target.Collision = true;
+            target.IsShadowCaster = false;
             target.Load();
             shapes3D.Add("target", target);
 
@@ -255,7 +261,7 @@ namespace OpenTK_NRCGL.Game
             shpereEnvCubeMap.Load();
             shapes3D.Add("sphereEnvCubeMap", shpereEnvCubeMap);
             */
-            Shape3D sphere1 = new Sphere3D(new Vector3(-45f, 0.5f, -45f), 1.5f, Color4.Gold, sphere_texture);
+            Shape3D sphere1 = new Sphere3D(new Vector3(-45f, 1.5f, -45f), 1.5f, Color4.Gold, sphere_texture);
             sphere1.Physic.Mass = 10f;
             sphere1.Physic.Vxyz = Vector3.Zero;
             sphere1.ShadowMatrix = shadowMap.ShadowMatrix;
