@@ -29,6 +29,7 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK_NRCGL.NRCGL;
+using OpenTK_NRCGL.NRCGL.Level;
 using OpenTK_NRCGL.NRCGL.Shapes;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ using System.Threading.Tasks;
 
 namespace OpenTK_NRCGL.Game
 {
-    class MyGame
+    static class MyGame
     {
 
         public static int sphere_texture;
@@ -67,7 +68,11 @@ namespace OpenTK_NRCGL.Game
 
         public static string Debug1;
         public static string Debug2;
-        
+
+        static MyGame()
+        {
+            
+        }
 
         public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)
         {
