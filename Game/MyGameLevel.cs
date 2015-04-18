@@ -8,6 +8,7 @@ using OpenTK_NRCGL.NRCGL;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK_NRCGL.NRCGL.Audio;
+using OpenTK.Graphics.OpenGL4;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -612,6 +613,21 @@ namespace OpenTK_NRCGL.Game
 
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
             
+        }
+
+        public override void Render()
+        {
+            base.Render();
+
+            GL.Clear(ClearBufferMask.ColorBufferBit |
+                                ClearBufferMask.DepthBufferBit);
+
+
+            foreach (var item in Shapes3D) item.Value.Render();
+
+            TextRender.Render();
+
+            GameWindow.SwapBuffers();
         }
     }
 }

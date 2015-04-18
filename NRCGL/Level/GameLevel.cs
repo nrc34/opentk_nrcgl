@@ -79,18 +79,15 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
         public override void CheckMouse()
         {
-            throw new NotImplementedException();
         }
 
         public override void CheckKeyBoard()
         {
-            throw new NotImplementedException();
         }
 
 
         public override void Render()
         {
-            throw new NotImplementedException();
         }
 
     }
