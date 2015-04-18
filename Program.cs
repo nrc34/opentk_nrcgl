@@ -39,7 +39,11 @@ namespace OpenTK_NRCGL
         [STAThread]
         static void Main(string[] args)
         {
-            new GL4Window();
+            using (GL4Window gL4Window  = new GL4Window())
+            {
+                gL4Window.Run(20, 60);
+            }
+            
         }
     }
 }
