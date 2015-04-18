@@ -95,3 +95,4 @@ C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NR
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Audio\yelling-yeah.wav
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\target.png
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\fShader_UV_Normal_panel_.txt
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\levels\level2.csv

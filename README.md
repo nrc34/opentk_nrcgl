@@ -9,6 +9,8 @@ I,K,J,L control the maze table
 
 F3 - control text render
 
+F10 - Screenshot to a bmp file
+
 *****************************************************************************************************************
 
 Topics:
@@ -28,6 +30,7 @@ Main features:
   - Collision detection(Bounding Box)
   - World coords (x, y, z) and local versors (u, v, w)
   - Shape Animation
+  - Audio
 
 There is a lot of cleaning to do, but this is the first commit. I will improve the wiki. For now check:
 

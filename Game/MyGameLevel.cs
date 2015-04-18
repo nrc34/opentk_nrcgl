@@ -37,6 +37,7 @@ using OpenTK;
 using OpenTK.Input;
 using OpenTK_NRCGL.NRCGL.Audio;
 using OpenTK.Graphics.OpenGL4;
+using System.Drawing;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -128,6 +129,15 @@ namespace OpenTK_NRCGL.Game
         public override void CheckKeyBoard()
         {
             base.CheckKeyBoard();
+
+            if (GameWindow.Keyboard[Key.F10] && coolDown == 0)
+            {
+                Bitmap  bitmapScreenShot = Tools.GrabScreenshot(GameWindow);
+
+                bitmapScreenShot.Save("screenshot.bmp");
+
+                coolDown = 20;
+            }
 
             if (GameWindow.Keyboard[Key.F11] && coolDown == 0)
             {

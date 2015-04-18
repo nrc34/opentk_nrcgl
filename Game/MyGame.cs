@@ -213,7 +213,7 @@ namespace OpenTK_NRCGL.Game
             shapes3D.Add("sphere3", sphere3);
             */
 
-            Shape3D target = new Panel3D(new Vector3(15, 0.05f, 25), 0f, 0f, 0f, Color4.Chocolate, target_texture);
+            Shape3D target = new Panel3D(new Vector3(35, 0.05f, 35), 0f, 0f, 0f, Color4.Chocolate, target_texture);
             string vst = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
             string fst = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_.txt");
             Shader shaderTarget = new Shader(ref vst, ref fst);
@@ -231,7 +231,7 @@ namespace OpenTK_NRCGL.Game
             target.Load();
             shapes3D.Add("target", target);
 
-            string[] lines = File.ReadAllLines("levels\\level1.csv");
+            string[] lines = File.ReadAllLines("levels\\level2.csv");
 
             foreach (var item in lines)
             {

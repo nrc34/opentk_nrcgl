@@ -28,6 +28,8 @@
 
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK_NRCGL.Game;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -307,6 +309,31 @@ namespace OpenTK_NRCGL.NRCGL
             return vertexsIndicesData;
         }
 
+        public static Bitmap GrabScreenshot(GameWindow gameWindow)
+        {
+            if (GraphicsContext.CurrentContext == null)
+                throw new GraphicsContextMissingException();
+
+            Bitmap bmp = new Bitmap(gameWindow.ClientSize.Width, 
+                                    gameWindow.ClientSize.Height);
+
+            System.Drawing.Imaging.BitmapData data =
+                bmp.LockBits(gameWindow.ClientRectangle, 
+                             System.Drawing.Imaging.ImageLockMode.WriteOnly, 
+                             System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+            GL.ReadPixels(0, 0, gameWindow.ClientSize.Width, 
+                          gameWindow.ClientSize.Height, 
+                          PixelFormat.Bgr, 
+                          PixelType.UnsignedByte, 
+                          data.Scan0);
+
+            bmp.UnlockBits(data);
+
+            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+            return bmp;
+        }
 
     }
 }
