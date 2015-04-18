@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,20 @@ namespace OpenTK_NRCGL.NRCGL.Level
     class GameLevel : Level
     {
 
-        public GameLevel(int id, string name)
+        public GameLevel(int id, string name, GameWindow gameWindow)
         {
             ID = id;
             Name = name;
 
+            GameWindow = gameWindow;
+
+            TextRender = new TextRender(300, 300, new Vector2(10, 10));
+
+            TextRender.Load(GameWindow.Width, GameWindow.Height);
+
             Load();
         }
+
 
         public override void Load()
         {
@@ -29,17 +37,7 @@ namespace OpenTK_NRCGL.NRCGL.Level
             LoadShapes();
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Render()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LoadShadowMap()
+        public virtual void LoadShadowMap()
         {
             Camera lightView = new Camera();
 
@@ -53,19 +51,30 @@ namespace OpenTK_NRCGL.NRCGL.Level
             ShadowMap = new ShadowMap(lightView);
         }
 
-        public void LoadShapes()
+        public virtual void LoadShapes() 
+        {
+        }
+
+        public virtual void LoadAudio()
+        {
+        }
+
+        public virtual void LoadTextures()
+        {
+        }
+
+
+        public override void Unload()
         {
             throw new NotImplementedException();
         }
 
-        public void LoadAudio()
-        {
-            throw new NotImplementedException();
-        }
 
-        public void LoadTextures()
+        public override void Update()
         {
-            throw new NotImplementedException();
+            CheckKeyBoard();
+
+            CheckMouse();
         }
 
         public override void CheckMouse()
@@ -78,9 +87,11 @@ namespace OpenTK_NRCGL.NRCGL.Level
             throw new NotImplementedException();
         }
 
-        public override void Unload()
+
+        public override void Render()
         {
             throw new NotImplementedException();
         }
+
     }
 }

@@ -46,7 +46,6 @@ namespace OpenTK_NRCGL
 {
     class GL4Window : GameWindow
     {
-        private float friction = 0.8f;
         OpenTK.Input.MouseState oldMouseState;
 
         private Dictionary<string, Shape3D> shapes3D;
@@ -164,6 +163,7 @@ namespace OpenTK_NRCGL
             //camera.RotateU(MathHelper.PiOver6);
             //camera.Position = new Vector3(-5f, -2f, 5f);
             //camera.Rotate(Vector3.UnitX, MathHelper.PiOver2);
+            
 
             oldMouseState = OpenTK.Input.Mouse.GetCursorState();
 
@@ -537,7 +537,7 @@ namespace OpenTK_NRCGL
                         = new Vector3(shapes3D["sphereEnvCubeMap"].Physic.Vxyz.X + MyGame.TableZAngle * speed * (float)Math.Cos(MyGame.TableZAngle),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Y, // + MyGame.TableXAngle * speed * ((float)Math.Sin(MyGame.TableXAngle) - (float)Math.Sin(MyGame.TableZAngle)),
                                       shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Z + MyGame.TableXAngle * speed * (float)Math.Cos(MyGame.TableXAngle));
-                    friction = 0.85f;
+                    float friction = 0.85f;
                     item.Value.Physic.Vxyz = new Vector3(
                         item.Value.Physic.Vxyz.X * friction,
                         item.Value.Physic.Vxyz.Y * friction,

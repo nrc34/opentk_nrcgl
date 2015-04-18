@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenTK;
+using OpenTK.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +14,11 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
         public string Name { get; set; }
 
+        public GameWindow GameWindow { get; set; }
+
         public bool IsFinished { get; set; }
 
-        public Dictionary<string, Shape3D> Shapes { get; set; }
+        public Dictionary<string, Shape3D> Shapes3D { get; set; }
 
         public Dictionary<string, int> Textures { get; set; }
 
@@ -23,6 +27,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
         public Camera Camera { get; set; }
 
         public Audio.Audio Audio { get; set; }
+
+        public TextRender TextRender { get; set; }
 
 
 
@@ -45,5 +51,6 @@ namespace OpenTK_NRCGL.NRCGL.Level
         public abstract void CheckKeyBoard();
 
         #endregion
+
     }
 }
