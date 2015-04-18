@@ -48,6 +48,7 @@
     <Compile Include="Game\GameEntity.cs" />
     <Compile Include="Game\GL4Window.cs" />
     <Compile Include="Game\MyGame.cs" />
+    <Compile Include="Game\MyGameLevel.cs" />
     <Compile Include="Models\x3D.cs" />
     <Compile Include="NRCGL\Animation.cs" />
     <Compile Include="NRCGL\AnimationRotate.cs" />

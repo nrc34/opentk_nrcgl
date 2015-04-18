@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace OpenTK_NRCGL.NRCGL.Level
 {
-    interface ILevel
+    interface ILevel : IWGameable
     {
-        void LoadResources();
-
+        void Load();
+        void Unload();
+        void CheckMouse();
+        void CheckKeyBoard();
     }
 }
