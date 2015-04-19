@@ -96,3 +96,4 @@ C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NR
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\fShader_UV_Normal_panel_.txt
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\levels\level2.csv
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\ScreenShots\TextFile1.txt
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Audio\levelFail.wav

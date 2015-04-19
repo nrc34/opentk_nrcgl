@@ -72,13 +72,16 @@ namespace OpenTK_NRCGL.NRCGL
         public VertexsIndicesData VertexsIndicesData { get; set; }
 
 
-        public TextRender(int width, int height, Vector2 position, bool visible = true)
+        public TextRender(int width, int height, Vector2 position,
+                   FontFamily fontFamily, float fontSize = 12, bool visible = true)
         {
             Width = width;
             Height = height;
             Position = position;
 
-            Font = SystemFonts.IconTitleFont;
+            Font = new System.Drawing.Font(fontFamily,
+                                           fontSize, 
+                                           System.Drawing.FontStyle.Regular);
             TextBrush = Brushes.White;
             BackgroundColor = Color.FromArgb(150, 0, 0, 0);
             FontStyle = System.Drawing.FontStyle.Regular;
@@ -167,7 +170,7 @@ namespace OpenTK_NRCGL.NRCGL
 
             //TextTexture = Texture.Load(text_bmp);
 
-            Text = "Hello World !!! \nHello Again!!";
+            Text = "";
 
             using (Graphics gfx = Graphics.FromImage(text_bmp))
             {

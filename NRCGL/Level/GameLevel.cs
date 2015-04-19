@@ -30,6 +30,8 @@ using OpenTK;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +50,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
             GameWindow = gameWindow;
 
-            TextRender = new TextRender(300, 300, new Vector2(10, 10));
+            TextRender = new TextRender(300, 300, new Vector2(10, 10), 
+                                        FontFamily.Families[125], 9);
 
             TextRender.Load(GameWindow.Width, GameWindow.Height);
 

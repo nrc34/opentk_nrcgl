@@ -47,6 +47,12 @@ namespace OpenTK_NRCGL.Game
 
         public Vector2 TargetPosition { get; set; }
 
+        public int Clock = 100;
+
+        DateTime DateTimeClock;
+
+        TextRender TextRenderClock;
+
         private int coolDown = 0;
         private int audioCoolDown = 0;
         private int updateCount = 0;
@@ -74,6 +80,19 @@ namespace OpenTK_NRCGL.Game
 
             Camera.Update();
 
+            TextRenderClock = 
+                new TextRender(150, 100, 
+                               new Vector2(GameWindow.Width - 160 - 100, 10),
+                               FontFamily.Families[19], 52);
+
+            TextRenderClock.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
+
+            TextRenderClock.FontStyle = FontStyle.Bold;
+
+            TextRenderClock.Load(GameWindow.Width, GameWindow.Height);
+
+            DateTimeClock = DateTime.Now;
+
             Load();
         }
 
@@ -88,11 +107,12 @@ namespace OpenTK_NRCGL.Game
         {
             base.LoadAudio();
 
-            string[] wavFilesNames = new string[4]{
+            string[] wavFilesNames = new string[5]{
                 "Audio\\ocean-drift.wav",
                 "Audio\\ball.wav",
                 "Audio\\timer-with-ding.wav",
-                "Audio\\yelling-yeah.wav"
+                "Audio\\yelling-yeah.wav",
+                "Audio\\levelFail.wav"
             };
 
             Audio = new Audio(wavFilesNames);
@@ -134,6 +154,10 @@ namespace OpenTK_NRCGL.Game
         public override void CheckKeyBoard()
         {
             base.CheckKeyBoard();
+
+            if (GameWindow.Keyboard[Key.Escape]) GameWindow.Exit();
+
+            if (IsFinished) return;
 
             if (GameWindow.Keyboard[Key.F10] && coolDown == 0)
             {
@@ -239,11 +263,6 @@ namespace OpenTK_NRCGL.Game
                 Camera.Position = new Vector3(Camera.Position.X,
                                               5f + Camera.Position.Y,
                                               Camera.Position.Z);
-
-
-            if (GameWindow.Keyboard[Key.Escape]) GameWindow.Exit();
-
-         
 
             if (GameWindow.Keyboard[Key.F8] && coolDown == 0)
             {
@@ -372,6 +391,7 @@ namespace OpenTK_NRCGL.Game
         {
             base.CheckMouse();
 
+            if (IsFinished) return;
 
             OpenTK.Input.MouseState mouseState = OpenTK.Input.Mouse.GetCursorState();
 
@@ -648,7 +668,6 @@ namespace OpenTK_NRCGL.Game
                               "Light_Z : " + ShadowMap.LightView.Position.Z + "\n" +
                               "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
-                              "LevelFinish : " + IsFinished.ToString() + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +
                               "DEBUG1 : " + MyGame.Debug1 + "\n" +
                               "DEBUG2 : " + MyGame.Debug2 + "\n"
@@ -657,6 +676,15 @@ namespace OpenTK_NRCGL.Game
             #endregion
 
 
+            Clock =  80 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
+
+            if (Clock <= 0)
+            {
+                IsFinished = true;
+                Audio.Play(4, Vector3.Zero);
+            }
+
+            TextRenderClock.Update(Clock.ToString());
 
             Shapes3D["skyBox"].Position = new Vector3(
                                           -Camera.Position.X,
@@ -678,6 +706,7 @@ namespace OpenTK_NRCGL.Game
             foreach (var item in Shapes3D) item.Value.Render();
 
             TextRender.Render();
+            TextRenderClock.Render();
 
             GameWindow.SwapBuffers();
         }
@@ -701,7 +730,18 @@ namespace OpenTK_NRCGL.Game
                                                       MathHelper.PiOver2);
 
             FinishCamera.Update();
+            /*
+            Camera.Position = new Vector3(FinishCamera.Position.X,
+                                          FinishCamera.Position.Y,
+                                          FinishCamera.Position.Z);
 
+            Camera.Quaternion = new Quaternion(FinishCamera.Quaternion.X,
+                                               FinishCamera.Quaternion.Y,
+                                               FinishCamera.Quaternion.Z,
+                                               FinishCamera.Quaternion.W);
+
+            Camera.Update();
+            */
             float initXAngle = 
                 (float)Math.Atan2(Shapes3D["sphereEnvCubeMap"].Position.Y,
                                   Shapes3D["sphereEnvCubeMap"].Position.Z);
@@ -727,11 +767,18 @@ namespace OpenTK_NRCGL.Game
             Shapes3D["sphereEnvCubeMap"].Position =
                         new Vector3((float)x, -(float)y, (float)z);
 
-            Shapes3D["sphereEnvCubeMap"].Update(FinishCamera.View,
-                                  MyGame.ProjectionMatrix,
-                                  Shapes3D,
-                                  Camera,
-                                  GameWindow);
+            Shapes3D["target"].IsVisible = true;
+
+            foreach (Shape3D item in Shapes3D.Values)
+            {
+                item.Update(FinishCamera.View,
+                            MyGame.ProjectionMatrix,
+                            Shapes3D,
+                            FinishCamera,
+                            GameWindow);
+            }
+
+            
 
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
         }
