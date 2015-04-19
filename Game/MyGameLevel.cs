@@ -391,6 +391,8 @@ namespace OpenTK_NRCGL.Game
         {
             base.CheckMouse();
 
+            return; // disable mouse
+
             if (IsFinished) return;
 
             OpenTK.Input.MouseState mouseState = OpenTK.Input.Mouse.GetCursorState();

@@ -51,7 +51,7 @@ namespace OpenTK_NRCGL.NRCGL.Level
             GameWindow = gameWindow;
 
             TextRender = new TextRender(300, 300, new Vector2(10, 10), 
-                                        FontFamily.Families[125], 9);
+                                        FontFamily.Families[125], 9, false);
 
             TextRender.Load(GameWindow.Width, GameWindow.Height);
 
