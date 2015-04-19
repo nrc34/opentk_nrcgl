@@ -55,14 +55,14 @@ void main()
 	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,of,of,0));
 	f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,0,0,0));
 	//f /= 4;
-	//f += 0.1;
+	f += 0.5;
 
 	//vec4 color = texture2DProj(TextureUnit0, att.texcoord);
     
 	//fragColor = textColor * f;
 
 	//fragColor = vec4((color * (lambert + phong)).xyz * f, 1);
-	fragColor = color * f;
+	fragColor = vec4(vec3(color * f), color.w);
 	//if(att.position.x > 0) fragColor = color;
 	
 }

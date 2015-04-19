@@ -81,9 +81,7 @@
     <Compile Include="NRCGL\Tools.cs" />
     <Compile Include="NRCGL\Vertex.cs" />
     <Compile Include="NRCGL\VertexFloatBuffer.cs" />
-    <Compile Include="NRCGL\VertexsIndicesData.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="NRCGL\VertexsIndicesData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

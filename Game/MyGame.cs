@@ -74,7 +74,7 @@ namespace OpenTK_NRCGL.Game
             
         }
 
-        public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap, GameLevel gameLevel)
+        public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap, MyGameLevel gameLevel)
         {
             Dictionary<string, Shape3D> shapes3D = new Dictionary<string,Shape3D>();
 
@@ -213,7 +213,13 @@ namespace OpenTK_NRCGL.Game
             shapes3D.Add("sphere3", sphere3);
             */
 
-            Shape3D target = new Panel3D(new Vector3(35, 0.05f, 35), 0f, 0f, 0f, Color4.Chocolate, target_texture);
+            Shape3D target = 
+                new Panel3D(new Vector3(gameLevel.TargetPosition.X, 
+                                        0.05f, 
+                                        gameLevel.TargetPosition.Y), 
+                                        0f, 0f, 0f, 
+                                        Color4.Chocolate, 
+                                        target_texture);
             string vst = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
             string fst = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_.txt");
             Shader shaderTarget = new Shader(ref vst, ref fst);

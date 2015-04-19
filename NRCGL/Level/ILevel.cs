@@ -40,5 +40,6 @@ namespace OpenTK_NRCGL.NRCGL.Level
         void Unload();
         void CheckMouse();
         void CheckKeyBoard();
+        void Finish();
     }
 }

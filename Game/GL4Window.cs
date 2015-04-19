@@ -116,7 +116,8 @@ namespace OpenTK_NRCGL
 
             GL.Viewport(0, 0, MyGame.Width, MyGame.Height);
 
-            myGameLevel = new MyGameLevel(1, "level1", this);
+            myGameLevel = 
+                new MyGameLevel(1, "level1", this, new Vector2(35f, 35f));
 
         }
 

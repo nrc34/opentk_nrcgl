@@ -43,7 +43,9 @@ namespace OpenTK_NRCGL.Game
 {
     class MyGameLevel : GameLevel
     {
-        protected string BlocksMapFilePath { get; set; }
+        public string BlocksMapFilePath { get; set; }
+
+        public Vector2 TargetPosition { get; set; }
 
         private int coolDown = 0;
         private int audioCoolDown = 0;
@@ -53,13 +55,16 @@ namespace OpenTK_NRCGL.Game
 
         private float aspectRatio;
 
-        public MyGameLevel(int id, string name, GameWindow gameWindow)
+        public MyGameLevel(int id, string name, GameWindow gameWindow, 
+                                                Vector2 targetPosition)
             : base(id, name, gameWindow)
         {
 
             aspectRatio = (float)GameWindow.Width / GameWindow.Height;
 
             oldMouseState = OpenTK.Input.Mouse.GetCursorState();
+
+            TargetPosition = targetPosition;
 
             Camera = new Camera();
 
@@ -68,8 +73,8 @@ namespace OpenTK_NRCGL.Game
                                                 MathHelper.PiOver2);
 
             Camera.Update();
-            
-            
+
+            Load();
         }
 
         public override void LoadShapes()
@@ -408,6 +413,8 @@ namespace OpenTK_NRCGL.Game
         {
             base.Update();
 
+            if (IsFinished) return;
+
             if (updateCount == 20)
                 updateCount = 1;
             else
@@ -417,13 +424,7 @@ namespace OpenTK_NRCGL.Game
             if (audioCoolDown > 0) audioCoolDown--;
 
 
-            CheckKeyBoard();
-            CheckMouse();
-
-
-            Camera.LevelU2XZ(0.9998470f);
-
-            Camera.Update();
+            
 
 
             foreach (var item in Shapes3D)
@@ -567,11 +568,12 @@ namespace OpenTK_NRCGL.Game
                 {
                     if (item.Shape3Da == "target")
                     {
-                        IsFinished = true;
-                        
                         MyGame.Debug2 = "TARGET";
-                        if (audioCoolDown == 0) Audio.Play(3, Vector3.Zero);
-                        audioCoolDown = 20;
+
+
+                        Audio.Play(3, Vector3.Zero);
+
+                        IsFinished = true;
                     }
                     else
                     {
@@ -680,6 +682,59 @@ namespace OpenTK_NRCGL.Game
             GameWindow.SwapBuffers();
         }
 
+
+        public override void Finish()
+        {
+            base.Finish();
+
+            Shapes3D["sphereEnvCubeMap"].Position =
+                new Vector3(TargetPosition.X, 
+                            Shapes3D["sphereEnvCubeMap"].Position.Y, 
+                            TargetPosition.Y);
+
+            Shapes3D["sphereEnvCubeMap"].Physic.Vxyz = Vector3.Zero;
+
+            Camera FinishCamera = new Camera();
+
+            FinishCamera.Position = new Vector3(0, -150, 0);
+            FinishCamera.Rotate(new Vector3(FinishCamera.CameraUVW.Row0),
+                                                      MathHelper.PiOver2);
+
+            FinishCamera.Update();
+
+            float initXAngle = 
+                (float)Math.Atan2(Shapes3D["sphereEnvCubeMap"].Position.Y,
+                                  Shapes3D["sphereEnvCubeMap"].Position.Z);
+
+            float initZAngle = 
+                (float)Math.Atan2(Shapes3D["sphereEnvCubeMap"].Position.Y,
+                                  Shapes3D["sphereEnvCubeMap"].Position.X);
+
+            double rx = 
+                Math.Sqrt(Math.Pow(Shapes3D["sphereEnvCubeMap"].Position.Y, 2)
+                + Math.Pow(Shapes3D["sphereEnvCubeMap"].Position.Z, 2));
+
+            double rz = 
+                Math.Sqrt(Math.Pow(Shapes3D["sphereEnvCubeMap"].Position.Y, 2)
+                + Math.Pow(Shapes3D["sphereEnvCubeMap"].Position.X, 2));
+
+            double y = -(Shapes3D["sphereEnvCubeMap"] as Sphere3D).R
+                        + rx * Math.Sin(MyGame.TableXAngle - initXAngle);
+            double z = rx * Math.Cos(MyGame.TableXAngle - initXAngle);
+            y -= rz * Math.Sin(-MyGame.TableZAngle - initZAngle);
+            double x = rz * Math.Cos(-MyGame.TableZAngle - initZAngle);
+
+            Shapes3D["sphereEnvCubeMap"].Position =
+                        new Vector3((float)x, -(float)y, (float)z);
+
+            Shapes3D["sphereEnvCubeMap"].Update(FinishCamera.View,
+                                  MyGame.ProjectionMatrix,
+                                  Shapes3D,
+                                  Camera,
+                                  GameWindow);
+
+            ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
+        }
 
         public override void Unload()
         {

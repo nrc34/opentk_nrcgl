@@ -52,7 +52,6 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
             TextRender.Load(GameWindow.Width, GameWindow.Height);
 
-            Load();
         }
 
 
@@ -105,6 +104,16 @@ namespace OpenTK_NRCGL.NRCGL.Level
             CheckKeyBoard();
 
             CheckMouse();
+
+            Camera.LevelU2XZ(0.9998470f);
+
+            Camera.Update();
+
+            if (IsFinished)
+            {
+                Finish();
+                return;
+            }
         }
 
         public override void CheckMouse()
@@ -117,6 +126,10 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
 
         public override void Render()
+        {
+        }
+
+        public override void Finish()
         {
         }
 

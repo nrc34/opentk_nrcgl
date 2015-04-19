@@ -21,7 +21,6 @@ C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NR
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\vShader_UV_Normal.txt
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\fShader_UV_Normal.txt
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Models\TextFile1.txt
-C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\NRCGL\VertexsIndicesData.cs
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Models\sphere3D.x3d
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\fShader_Color_Normal1.txt
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\vShader_Color_Normal1.txt

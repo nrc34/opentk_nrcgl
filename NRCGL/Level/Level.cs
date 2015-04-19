@@ -66,6 +66,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
         public abstract void Unload();
 
+        public abstract void Finish();
+
         #region IWGable implementation
 
         public abstract void Update();
