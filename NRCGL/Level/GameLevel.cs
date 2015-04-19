@@ -44,6 +44,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
             ID = id;
             Name = name;
 
+            IsFinished = false;
+
             GameWindow = gameWindow;
 
             TextRender = new TextRender(300, 300, new Vector2(10, 10));

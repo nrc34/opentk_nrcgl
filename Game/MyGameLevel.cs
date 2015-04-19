@@ -76,7 +76,7 @@ namespace OpenTK_NRCGL.Game
         {
             base.LoadShapes();
 
-            Shapes3D = MyGame.LoadShapes(ShadowMap);
+            Shapes3D = MyGame.LoadShapes(ShadowMap, this);
         }
 
         public override void LoadAudio()
@@ -134,7 +134,7 @@ namespace OpenTK_NRCGL.Game
             {
                 Bitmap  bitmapScreenShot = Tools.GrabScreenshot(GameWindow);
 
-                bitmapScreenShot.Save("screenshot.bmp");
+                bitmapScreenShot.Save("ScreenShots\\screenshot.bmp");
 
                 coolDown = 20;
             }
@@ -567,6 +567,8 @@ namespace OpenTK_NRCGL.Game
                 {
                     if (item.Shape3Da == "target")
                     {
+                        IsFinished = true;
+                        
                         MyGame.Debug2 = "TARGET";
                         if (audioCoolDown == 0) Audio.Play(3, Vector3.Zero);
                         audioCoolDown = 20;
@@ -644,6 +646,7 @@ namespace OpenTK_NRCGL.Game
                               "Light_Z : " + ShadowMap.LightView.Position.Z + "\n" +
                               "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
+                              "LevelFinish : " + IsFinished.ToString() + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +
                               "DEBUG1 : " + MyGame.Debug1 + "\n" +
                               "DEBUG2 : " + MyGame.Debug2 + "\n"
@@ -675,6 +678,12 @@ namespace OpenTK_NRCGL.Game
             TextRender.Render();
 
             GameWindow.SwapBuffers();
+        }
+
+
+        public override void Unload()
+        {
+            base.Unload();
         }
     }
 }

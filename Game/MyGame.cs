@@ -74,7 +74,7 @@ namespace OpenTK_NRCGL.Game
             
         }
 
-        public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap)
+        public static Dictionary<string, Shape3D> LoadShapes(ShadowMap shadowMap, GameLevel gameLevel)
         {
             Dictionary<string, Shape3D> shapes3D = new Dictionary<string,Shape3D>();
 
@@ -83,17 +83,17 @@ namespace OpenTK_NRCGL.Game
             shadowMapG = shadowMap;
 
             //textures
-            current_texture = Texture.LoadTexture(@"Textures\sand_texture1037.jpg", 0, false, false);
+            current_texture = gameLevel.Textures["current_texture"];
 
-            int cube_texture = Texture.LoadTexture(@"Textures\cube3DTexture.png", 0, false, false);
+            int cube_texture = gameLevel.Textures["cube_texture"];
 
-            sphere_texture = Texture.LoadTexture(@"Textures\beach_ball.png", 0, false, false);
+            sphere_texture = gameLevel.Textures["sphere_texture"];
 
-            int sky_texture = Texture.LoadTexture(@"Textures\Day_Skybox.png", 0, false, false);
+            int sky_texture = gameLevel.Textures["sky_texture"];
 
-            bump_texture = Texture.LoadTexture(@"Textures\Rock_01_local.jpg", 0, false, false);
+            bump_texture = gameLevel.Textures["bump_texture"];
 
-            int target_texture = Texture.LoadTexture(@"Textures\target.png", 0, false, false);
+            int target_texture = gameLevel.Textures["target_texture"];
 
 
             // create texture matrix
@@ -231,7 +231,8 @@ namespace OpenTK_NRCGL.Game
             target.Load();
             shapes3D.Add("target", target);
 
-            string[] lines = File.ReadAllLines("levels\\level2.csv");
+            string[] lines = 
+                File.ReadAllLines("levels\\" + gameLevel.Name + ".csv");
 
             foreach (var item in lines)
             {
