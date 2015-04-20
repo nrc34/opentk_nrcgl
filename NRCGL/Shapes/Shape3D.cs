@@ -69,8 +69,17 @@ namespace OpenTK_NRCGL.NRCGL
         public Vector3 firstPosition;
         private bool isVisible;
         private bool isShadowCaster;
+        private SpotLight spotLight;
 
 
+
+        
+
+        public SpotLight SpotLight
+        {
+            get { return spotLight; }
+            set { spotLight = value; }
+        }
         
 
         public bool IsShadowCaster
@@ -263,6 +272,13 @@ namespace OpenTK_NRCGL.NRCGL
             collision = true;
             isVisible = true;
             isShadowCaster = true;
+
+            SpotLight = new SpotLight
+            {
+                Color = Vector3.Zero,
+                Intensity = 1f,
+                Position = Vector3.Zero
+            };
         }
 
 
@@ -619,6 +635,15 @@ namespace OpenTK_NRCGL.NRCGL
                 LightPosition.Y, LightPosition.Z, 0f };
             int light_position_location = GL.GetUniformLocation(Shader.Program, "light_position");
             GL.Uniform1(light_position_location, 1, LightPositionShader);
+
+            Vector3 SpotLightPositionShader = new Vector3 ( spotLight.Position.X, 
+                spotLight.Position.Y, spotLight.Position.Z );
+            int spot_light_position_location = GL.GetUniformLocation(Shader.Program, "spot_light_position");
+            GL.Uniform3(spot_light_position_location, SpotLightPositionShader);
+
+
+
+
             /*
             float[] Kd = new float[3] { 0.9f, 0.5f, 0.3f };
             int Kd_location = GL.GetUniformLocation(Shader.Program, "kd");

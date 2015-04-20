@@ -31,7 +31,8 @@ Main features:
   - World coords (x, y, z) and local versors (u, v, w)
   - Shape Animation
   - Audio
+  - SpotLight
 
-There is a lot of cleaning to do, but this is the first commit. I will improve the wiki. For now check:
+Demo video:
 
-https://youtu.be/FIUBUveCuEo
+http://youtu.be/CBMop7-_Q0k

@@ -61,6 +61,12 @@ namespace OpenTK_NRCGL.Game
 
         private float aspectRatio;
 
+        private SpotLight SpotLight;
+
+        private float spotLightAngle = 0; 
+
+
+
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
                                                 Vector2 targetPosition)
             : base(id, name, gameWindow)
@@ -92,6 +98,13 @@ namespace OpenTK_NRCGL.Game
             TextRenderClock.Load(GameWindow.Width, GameWindow.Height);
 
             DateTimeClock = DateTime.Now;
+
+            SpotLight = new SpotLight
+            {
+                Position = new Vector3(-30f, 5f, -30f),
+                Color = new Vector3(0, 0, 0),
+                Intensity = 0.4f
+            };
 
             Load();
         }
@@ -391,7 +404,7 @@ namespace OpenTK_NRCGL.Game
         {
             base.CheckMouse();
 
-            return; // disable mouse
+            //return; // disable mouse
 
             if (IsFinished) return;
 
@@ -446,7 +459,7 @@ namespace OpenTK_NRCGL.Game
             if (audioCoolDown > 0) audioCoolDown--;
 
 
-            
+
 
 
             foreach (var item in Shapes3D)
@@ -462,19 +475,19 @@ namespace OpenTK_NRCGL.Game
                     float speed = 5f;
                     Shapes3D["sphereEnvCubeMap"].Physic.Vxyz
                         = new Vector3(Shapes3D["sphereEnvCubeMap"].
-                                        Physic.Vxyz.X + 
-                                        MyGame.TableZAngle * speed * 
+                                        Physic.Vxyz.X +
+                                        MyGame.TableZAngle * speed *
                                         (float)Math.Cos(MyGame.TableZAngle),
 
                                       Shapes3D["sphereEnvCubeMap"].
                                         Physic.Vxyz.Y, // +
-                                        // MyGame.TableXAngle * speed * 
-                                        // ((float)Math.Sin(MyGame.TableXAngle)
-                                        //- (float)Math.Sin(MyGame.TableZAngle)),
+                        // MyGame.TableXAngle * speed * 
+                        // ((float)Math.Sin(MyGame.TableXAngle)
+                        //- (float)Math.Sin(MyGame.TableZAngle)),
 
                                       Shapes3D["sphereEnvCubeMap"].
-                                        Physic.Vxyz.Z + 
-                                        MyGame.TableXAngle * speed * 
+                                        Physic.Vxyz.Z +
+                                        MyGame.TableXAngle * speed *
                                         (float)Math.Cos(MyGame.TableXAngle));
 
                     float friction = 0.85f;
@@ -490,7 +503,7 @@ namespace OpenTK_NRCGL.Game
                     item.Value.Quaternion =
                         Quaternion.
                             FromAxisAngle(
-                                Vector3.UnitX, 
+                                Vector3.UnitX,
                                 MyGame.TableXAngle - MathHelper.PiOver2);
 
                     item.Value.Quaternion =
@@ -498,12 +511,13 @@ namespace OpenTK_NRCGL.Game
                             FromAxisAngle(
                                 Vector3.UnitZ, -MyGame.TableZAngle)
                         * item.Value.Quaternion;
-                                
+
                 }
-                else if (item.Key != "skyBox" && 
-                         item.Key != "sphereEnvCubeMap")
+                else if (item.Key != "skyBox" &&
+                         item.Key != "sphereEnvCubeMap" &&
+                         item.Key != "spotLight")
                 {
-                    item.Value.Quaternion = 
+                    item.Value.Quaternion =
                         Quaternion.FromAxisAngle(
                                 Vector3.UnitX, MyGame.TableXAngle);
 
@@ -529,21 +543,21 @@ namespace OpenTK_NRCGL.Game
                     rx = Math.Sqrt(Math.Pow(item.Value.FirstPosition.Y, 2)
                                     + Math.Pow(item.Value.FirstPosition.Z, 2));
 
-                    rz = Math.Sqrt(Math.Pow(item.Value.FirstPosition.Y, 2) 
+                    rz = Math.Sqrt(Math.Pow(item.Value.FirstPosition.Y, 2)
                                     + Math.Pow(item.Value.FirstPosition.X, 2));
                 }
                 else
                 {
-                    initXAngle = (float)Math.Atan2(item.Value.Position.Y, 
+                    initXAngle = (float)Math.Atan2(item.Value.Position.Y,
                                                    item.Value.Position.Z);
 
                     initZAngle = (float)Math.Atan2(item.Value.Position.Y,
                                                    item.Value.Position.X);
 
-                    rx = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2) 
+                    rx = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2)
                                     + Math.Pow(item.Value.Position.Z, 2));
 
-                    rz = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2) 
+                    rz = Math.Sqrt(Math.Pow(item.Value.Position.Y, 2)
                                     + Math.Pow(item.Value.Position.X, 2));
                 }
                 double x;
@@ -551,7 +565,7 @@ namespace OpenTK_NRCGL.Game
                 double z;
                 if (item.Key == "sphereEnvCubeMap")
                 {
-                    y = -(item.Value as Sphere3D).R 
+                    y = -(item.Value as Sphere3D).R
                         + rx * Math.Sin(MyGame.TableXAngle - initXAngle);
                     z = rx * Math.Cos(MyGame.TableXAngle - initXAngle);
                     y -= rz * Math.Sin(-MyGame.TableZAngle - initZAngle);
@@ -566,18 +580,33 @@ namespace OpenTK_NRCGL.Game
                 }
 
 
-                if (item.Key != "skyBox" && item.Key != "basePanel")
-                    item.Value.Position = 
-                        new Vector3((float)x, -(float)y, (float)z);
+                if (item.Key != "skyBox" && 
+                    item.Key != "basePanel" && 
+                    item.Key != "spotLight")
+                        item.Value.Position =
+                            new Vector3((float)x, -(float)y, (float)z);
 
+                spotLightAngle += 0.0005f;
 
-                item.Value.Update(Camera.View, 
-                                  MyGame.ProjectionMatrix, 
-                                  Shapes3D, 
-                                  Camera, 
+                SpotLight.Position = 
+                    new Vector3(40f * (float)Math.Cos(spotLightAngle),
+                                SpotLight.Position.Y,
+                                40f * (float)Math.Sin(spotLightAngle));
+
+                item.Value.SpotLight.Position = SpotLight.Position;
+
+                if (item.Key == "spotLight")
+                {
+                    item.Value.Position = SpotLight.Position;
+                }
+
+                item.Value.Update(Camera.View,
+                                  MyGame.ProjectionMatrix,
+                                  Shapes3D,
+                                  Camera,
                                   GameWindow);
-            }
 
+            }
 
             List<Collision> collisions = 
                 PhysicHelp.CheckCollisionsOneShape(

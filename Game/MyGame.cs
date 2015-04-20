@@ -281,6 +281,21 @@ namespace OpenTK_NRCGL.Game
             sphere1.Bounding.R = 1.5f;
             sphere1.Load();
             shapes3D.Add("sphereEnvCubeMap", sphere1);
+
+            Shape3D sphere2 = new Sphere3D(new Vector3(-30f, 5f, -30f), 1.5f, new Color4(1f, 1f, 0.3f, 1f));
+            string vs2 = File.ReadAllText("Shaders\\vShader_Color_Normal1.txt");
+            string fs2 = File.ReadAllText("Shaders\\fShader_Color_Normal1.txt");
+            Shader Shader2 = new Shader(ref vs, ref fs);
+            sphere2.Shader = Shader2;
+            sphere2.Collision = false;
+            sphere2.IsShadowCaster = false;
+            sphere2.Physic.Mass = 10f;
+            sphere2.Physic.Vxyz = Vector3.Zero;
+            sphere2.ShadowMatrix = shadowMap.ShadowMatrix;
+            sphere2.TextureShadowMap = shadowMap.DepthTexture;
+            sphere2.Bounding.R = 1.5f;
+            sphere2.Load();
+            shapes3D.Add("spotLight", sphere2);
             
             return shapes3D;
         }

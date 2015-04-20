@@ -13,6 +13,7 @@ in Attributes
 	vec4 shadowcoord;
 	vec4 worldposition;
 	vec4 texcoord;
+	vec3 spotLightPosition;
 } att;
 
 in vec4 colorout;
@@ -21,6 +22,16 @@ out vec4 fragColor;
 
 void main()
 {
+
+	vec4 SpotLightPosition = vec4(att.spotLightPosition, 0f); //vec4(-30f, 5f, -30f, 0f);
+	
+	vec4 SpotLightDistance = SpotLightPosition - att.worldposition;
+
+	float d = length(SpotLightDistance.xyz) * 0.2;
+
+	vec3 spotLightColor = vec3(0.9f, 0.9f, 0.1);
+
+
     //vec4 color = texture(TextureUnit0, att.uv);
 	//vec3 N = 2.0 * texture2DProj(TextureUnit2, att.texcoord).rgb -1.0;
 	//vec4 color = vec4(0.5f, 0f, 0f, 1f);
@@ -59,7 +70,7 @@ void main()
     
 	//fragColor = textColor * f * 0.7;
 
-	fragColor = vec4((color * (lambert + phong)).xyz * f, 1);
+	fragColor = vec4((color * (lambert + phong)).xyz * f + spotLightColor * (1 / pow(d, 2)), 1);
 	//fragColor = color * f;
 	//if(att.position.x > 0) fragColor = color;
 	
