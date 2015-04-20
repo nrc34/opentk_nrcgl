@@ -63,12 +63,12 @@
     <Compile Include="NRCGL\Level\ILevel.cs" />
     <Compile Include="NRCGL\Level\IWGameable.cs" />
     <Compile Include="NRCGL\Level\Level.cs" />
+    <Compile Include="NRCGL\PointLight.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />
     <Compile Include="NRCGL\Shapes\Bullet3D.cs" />
     <Compile Include="NRCGL\Shapes\Cube3D.cs" />
     <Compile Include="NRCGL\Shapes\SkyBox.cs" />
     <Compile Include="NRCGL\Shapes\Sphere3DEnvCubeMap.cs" />
-    <Compile Include="NRCGL\SpotLight.cs" />
     <Compile Include="NRCGL\TextRender.cs" />
     <Compile Include="OLDStuff\Cube3D.cs" />
     <Compile Include="NRCGL\Mesh.cs" />

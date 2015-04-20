@@ -295,7 +295,7 @@ namespace OpenTK_NRCGL.Game
             sphere2.TextureShadowMap = shadowMap.DepthTexture;
             sphere2.Bounding.R = 1.5f;
             sphere2.Load();
-            shapes3D.Add("spotLight", sphere2);
+            shapes3D.Add("pointLight", sphere2);
             
             return shapes3D;
         }

@@ -61,9 +61,9 @@ namespace OpenTK_NRCGL.Game
 
         private float aspectRatio;
 
-        private SpotLight SpotLight;
+        private PointLight PointLight;
 
-        private float spotLightAngle = 0; 
+        private float pointLightAngle = 0; 
 
 
 
@@ -99,11 +99,11 @@ namespace OpenTK_NRCGL.Game
 
             DateTimeClock = DateTime.Now;
 
-            SpotLight = new SpotLight
+            PointLight = new PointLight
             {
                 Position = new Vector3(-30f, 5f, -30f),
-                Color = new Vector3(0, 0, 0),
-                Intensity = 0.4f
+                Color = new Vector3(0.9f, 0.9f, 0.8f),
+                Intensity = 0.2f
             };
 
             Load();
@@ -586,19 +586,23 @@ namespace OpenTK_NRCGL.Game
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
 
-                spotLightAngle += 0.0005f;
+                pointLightAngle += 0.0005f;
 
-                SpotLight.Position = 
-                    new Vector3(40f * (float)Math.Cos(spotLightAngle),
-                                SpotLight.Position.Y,
-                                40f * (float)Math.Sin(spotLightAngle));
+                PointLight.Position = 
+                    new Vector3(40f * (float)Math.Cos(pointLightAngle),
+                                PointLight.Position.Y,
+                                40f * (float)Math.Sin(pointLightAngle));
 
-                item.Value.SpotLight.Position = SpotLight.Position;
+                PointLight.Color =
+                    new Vector3(pointLightAngle / 10, 0.9f, pointLightAngle / 10);
 
-                if (item.Key == "spotLight")
-                {
-                    item.Value.Position = SpotLight.Position;
-                }
+                item.Value.PointLight.Position = PointLight.Position;
+                item.Value.PointLight.Color = PointLight.Color;
+                item.Value.PointLight.Intensity = (float)Math.Sin(pointLightAngle) / 2;
+
+                if (item.Key == "pointLight")
+                        item.Value.Position = PointLight.Position;
+
 
                 item.Value.Update(Camera.View,
                                   MyGame.ProjectionMatrix,

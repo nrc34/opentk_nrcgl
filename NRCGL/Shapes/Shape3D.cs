@@ -69,16 +69,16 @@ namespace OpenTK_NRCGL.NRCGL
         public Vector3 firstPosition;
         private bool isVisible;
         private bool isShadowCaster;
-        private SpotLight spotLight;
+        private PointLight pointLight;
 
 
 
         
 
-        public SpotLight SpotLight
+        public PointLight PointLight
         {
-            get { return spotLight; }
-            set { spotLight = value; }
+            get { return pointLight; }
+            set { pointLight = value; }
         }
         
 
@@ -273,7 +273,7 @@ namespace OpenTK_NRCGL.NRCGL
             isVisible = true;
             isShadowCaster = true;
 
-            SpotLight = new SpotLight
+            PointLight = new PointLight
             {
                 Color = Vector3.Zero,
                 Intensity = 1f,
@@ -636,10 +636,14 @@ namespace OpenTK_NRCGL.NRCGL
             int light_position_location = GL.GetUniformLocation(Shader.Program, "light_position");
             GL.Uniform1(light_position_location, 1, LightPositionShader);
 
-            Vector3 SpotLightPositionShader = new Vector3 ( spotLight.Position.X, 
-                spotLight.Position.Y, spotLight.Position.Z );
-            int spot_light_position_location = GL.GetUniformLocation(Shader.Program, "spot_light_position");
-            GL.Uniform3(spot_light_position_location, SpotLightPositionShader);
+            int point_light_position_location = GL.GetUniformLocation(Shader.Program, "point_light_position");
+            GL.Uniform3(point_light_position_location, pointLight.Position);
+
+            int point_light_color_location = GL.GetUniformLocation(Shader.Program, "point_light_color");
+            GL.Uniform3(point_light_color_location, pointLight.Color);
+
+            int point_light_intensity_location = GL.GetUniformLocation(Shader.Program, "point_light_intensity");
+            GL.Uniform1(point_light_intensity_location, pointLight.Intensity);
 
 
 

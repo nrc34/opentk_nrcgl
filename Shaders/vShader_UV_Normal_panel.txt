@@ -11,7 +11,7 @@ uniform mat4 projection_matrix;
 uniform mat4 shadow_matrix;
 uniform mat4 model_matrix;
 uniform mat4 texture_matrix;
-uniform vec3 spot_light_position;
+
 
 out vec4 colorout;
 
@@ -23,7 +23,6 @@ out Attributes
 	vec4 shadowcoord;
 	vec4 worldposition;
 	vec4 texcoord;
-	vec3 spotLightPosition;
 } att;
 
 void main()
@@ -38,7 +37,6 @@ void main()
 	att.uv				= vertex_texcoord;
 	att.shadowcoord     = shadow_matrix * att.worldposition;
 	att.texcoord        = texture_matrix * att.worldposition;
-	att.spotLightPosition = spot_light_position;
 	
 	colorout = vertex_color;
 

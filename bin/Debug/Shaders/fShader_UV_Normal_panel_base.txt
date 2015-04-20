@@ -3,6 +3,9 @@ uniform sampler2D TextureUnit0;
 uniform sampler2DShadow TextureUnit1;
 uniform sampler2D TextureUnit2;
 uniform vec3 light_position;
+uniform vec3 point_light_position;
+uniform vec3 point_light_color;
+uniform float point_light_intensity;
 
 
 in Attributes
@@ -13,7 +16,6 @@ in Attributes
 	vec4 shadowcoord;
 	vec4 worldposition;
 	vec4 texcoord;
-	vec3 spotLightPosition;
 } att;
 
 in vec4 colorout;
@@ -23,13 +25,13 @@ out vec4 fragColor;
 void main()
 {
 
-	vec4 SpotLightPosition = vec4(att.spotLightPosition, 0f); //vec4(-30f, 5f, -30f, 0f);
+	vec4 PointLightPosition = vec4(point_light_position, 0f); //vec4(-30f, 5f, -30f, 0f);
 	
-	vec4 SpotLightDistance = SpotLightPosition - att.worldposition;
+	vec4 PointLightDistance = PointLightPosition - att.worldposition;
 
-	float d = length(SpotLightDistance.xyz) * 0.2;
+	float d = length(PointLightDistance.xyz) * point_light_intensity;
 
-	vec3 spotLightColor = vec3(0.9f, 0.9f, 0.1);
+	//vec3 pointLightColor = vec3(0.9f, 0.9f, 0.1);
 
 
     //vec4 color = texture(TextureUnit0, att.uv);
@@ -70,7 +72,7 @@ void main()
     
 	//fragColor = textColor * f * 0.7;
 
-	fragColor = vec4((color * (lambert + phong)).xyz * f + spotLightColor * (1 / pow(d, 2)), 1);
+	fragColor = vec4((color * (lambert + phong)).xyz * f + point_light_color * (1 / pow(d, 2)), 1);
 	//fragColor = color * f;
 	//if(att.position.x > 0) fragColor = color;
 	
