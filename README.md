@@ -31,7 +31,7 @@ Main features:
   - World coords (x, y, z) and local versors (u, v, w)
   - Shape Animation
   - Audio
-  - SpotLight
+  - PointLight
 
 Demo video:
 

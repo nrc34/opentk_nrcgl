@@ -63,7 +63,8 @@ namespace OpenTK_NRCGL.Game
 
         private PointLight PointLight;
 
-        private float pointLightAngle = 0; 
+        private float pointLightAngle = 0;
+        private bool IsLoadedAudioClockTick; 
 
 
 
@@ -120,12 +121,14 @@ namespace OpenTK_NRCGL.Game
         {
             base.LoadAudio();
 
-            string[] wavFilesNames = new string[5]{
+            string[] wavFilesNames = new string[7]{
                 "Audio\\ocean-drift.wav",
                 "Audio\\ball.wav",
                 "Audio\\timer-with-ding.wav",
                 "Audio\\yelling-yeah.wav",
-                "Audio\\levelFail.wav"
+                "Audio\\levelFail.wav",
+                "Audio\\lazer.wav",
+                "Audio\\peters-clock.wav"
             };
 
             Audio = new Audio(wavFilesNames);
@@ -594,11 +597,24 @@ namespace OpenTK_NRCGL.Game
                                 40f * (float)Math.Sin(pointLightAngle));
 
                 PointLight.Color =
-                    new Vector3(pointLightAngle / 10, 0.9f, pointLightAngle / 10);
+                    new Vector3(0.9f, 0.9f, 0.1f);
 
                 item.Value.PointLight.Position = PointLight.Position;
                 item.Value.PointLight.Color = PointLight.Color;
-                item.Value.PointLight.Intensity = (float)Math.Sin(pointLightAngle) / 2;
+
+                float intensity = (float)Math.Cos(pointLightAngle * 0.3f);
+
+                if (Math.Abs(intensity) < 0.4f){
+
+                    if (audioCoolDown == 0 && Math.Abs(intensity) < 0.1f)
+                    {
+                        Audio.Play(5, Vector3.Zero);
+                        audioCoolDown = 30;
+                    }
+
+                    item.Value.PointLight.Intensity = intensity;
+                } else 
+                    item.Value.PointLight.Intensity = 0.2f;
 
                 if (item.Key == "pointLight")
                         item.Value.Position = PointLight.Position;
@@ -625,7 +641,8 @@ namespace OpenTK_NRCGL.Game
                     {
                         MyGame.Debug2 = "TARGET";
 
-
+                        Audio.Stop(0);
+                        Audio.Stop(6);
                         Audio.Play(3, Vector3.Zero);
 
                         IsFinished = true;
@@ -716,7 +733,14 @@ namespace OpenTK_NRCGL.Game
             if (Clock <= 0)
             {
                 IsFinished = true;
+                Audio.Stop(0);
+                Audio.Stop(6);
                 Audio.Play(4, Vector3.Zero);
+            }
+            else if (Clock <= 10 && !IsLoadedAudioClockTick)
+            {
+                Audio.Play(6, Vector3.Zero, true, 2f);
+                IsLoadedAudioClockTick = true;
             }
 
             TextRenderClock.Update(Clock.ToString());

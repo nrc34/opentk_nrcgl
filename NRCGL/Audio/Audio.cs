@@ -53,13 +53,14 @@ namespace OpenTK_NRCGL.NRCGL.Audio
 
         private int[] myBuffers;
         private int[] mySources;
+        private AudioContext AC;
 
 
         public Audio(string[] wavFilesNames)
         {
-            var AC = new AudioContext();
+            AC = new AudioContext();
             var XRam = new XRamExtension(); // must be instantiated per used Device if X-Ram is desired.
-
+            
             // reserve n Handles
             myBuffers = AL.GenBuffers(wavFilesNames.Length);
             mySources = new int[wavFilesNames.Length];
@@ -143,6 +144,21 @@ namespace OpenTK_NRCGL.NRCGL.Audio
             //AL.DeleteSources(2, ref MySources); // free Handles
             // now delete Buffer Objects and dispose the AudioContext
         }
+
+        public void Stop(int source)
+        {
+            AL.SourceStop(mySources[source]);
+        }
+
+        public void DisposeAll()
+        {
+            AL.DeleteSources(mySources); // free Handles
+
+            AL.DeleteBuffers(myBuffers); // free previously reserved Handles
+            AC.Dispose();
+        }
+
+
 
         // Loads a wave/riff audio file. 
         public static byte[] LoadWave(Stream stream, out int channels, out int bits, out int rate) 

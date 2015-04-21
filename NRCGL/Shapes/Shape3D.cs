@@ -646,7 +646,7 @@ namespace OpenTK_NRCGL.NRCGL
             GL.Uniform1(point_light_intensity_location, pointLight.Intensity);
 
 
-
+            
 
             /*
             float[] Kd = new float[3] { 0.9f, 0.5f, 0.3f };
