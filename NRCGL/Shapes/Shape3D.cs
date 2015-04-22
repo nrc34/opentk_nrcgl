@@ -70,9 +70,16 @@ namespace OpenTK_NRCGL.NRCGL
         private bool isVisible;
         private bool isShadowCaster;
         private PointLight pointLight;
+        private SpotLight spotLight;
 
 
 
+
+        public SpotLight SpotLight
+        {
+            get { return spotLight; }
+            set { spotLight = value; }
+        }
         
 
         public PointLight PointLight
@@ -278,6 +285,15 @@ namespace OpenTK_NRCGL.NRCGL
                 Color = Vector3.Zero,
                 Intensity = 1f,
                 Position = Vector3.Zero
+            };
+
+            SpotLight = new SpotLight
+            {
+                Color = Vector3.Zero,
+                Intensity = 1f,
+                Position = Vector3.Zero,
+                ConeAngle = MathHelper.PiOver6,
+                ConeDirection = Vector3.Zero
             };
         }
 
@@ -646,6 +662,20 @@ namespace OpenTK_NRCGL.NRCGL
             GL.Uniform1(point_light_intensity_location, pointLight.Intensity);
 
 
+            int spot_light_position_location = GL.GetUniformLocation(Shader.Program, "spot_light_position");
+            GL.Uniform3(spot_light_position_location, spotLight.Position);
+
+            int spot_light_color_location = GL.GetUniformLocation(Shader.Program, "spot_light_color");
+            GL.Uniform3(spot_light_color_location, spotLight.Color);
+
+            int spot_light_intensity_location = GL.GetUniformLocation(Shader.Program, "spot_light_intensity");
+            GL.Uniform1(spot_light_intensity_location, spotLight.Intensity);
+
+            int spot_light_cone_angle_location = GL.GetUniformLocation(Shader.Program, "spot_light_cone_angle");
+            GL.Uniform1(spot_light_cone_angle_location, spotLight.ConeAngle);
+
+            int spot_light_cone_direction_location = GL.GetUniformLocation(Shader.Program, "spot_light_cone_direction");
+            GL.Uniform3(spot_light_cone_direction_location, spotLight.ConeDirection);
             
 
             /*

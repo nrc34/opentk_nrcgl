@@ -62,6 +62,7 @@ namespace OpenTK_NRCGL.Game
         private float aspectRatio;
 
         private PointLight PointLight;
+        private SpotLight SpotLight;
 
         private float pointLightAngle = 0;
         private bool IsLoadedAudioClockTick; 
@@ -105,6 +106,15 @@ namespace OpenTK_NRCGL.Game
                 Position = new Vector3(-30f, 5f, -30f),
                 Color = new Vector3(0.9f, 0.9f, 0.8f),
                 Intensity = 0.2f
+            };
+
+            SpotLight = new SpotLight
+            {
+                Position = new Vector3(30f, 6f, -30f),
+                Color = new Vector3(0.9f, 0.9f, 0.8f),
+                Intensity = 0.2f,
+                ConeAngle = 0.5f,
+                ConeDirection = new Vector3(0f, -1f, 0f)
             };
 
             Load();
@@ -613,11 +623,26 @@ namespace OpenTK_NRCGL.Game
                     }
 
                     item.Value.PointLight.Intensity = intensity;
-                } else 
+                    
+                }
+                else
                     item.Value.PointLight.Intensity = 0.2f;
+                    
 
                 if (item.Key == "pointLight")
                         item.Value.Position = PointLight.Position;
+
+                SpotLight.ConeDirection =
+                    new Vector3((float)Math.Sin(pointLightAngle * 0.3f), -1,
+                                (float)Math.Cos(pointLightAngle * 0.3f));
+
+                SpotLight.Position =
+                    new Vector3(-40f * (float)Math.Cos(pointLightAngle * 0.3),
+                                7f,
+                                -40f * (float)Math.Sin(pointLightAngle * 0.3));
+
+
+                item.Value.SpotLight = SpotLight;
 
 
                 item.Value.Update(Camera.View,

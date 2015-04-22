@@ -7,6 +7,12 @@ uniform vec3 point_light_position;
 uniform vec3 point_light_color;
 uniform float point_light_intensity;
 
+uniform vec3 spot_light_position;
+uniform vec3 spot_light_color;
+uniform vec3 spot_light_cone_direction;
+uniform float spot_light_cone_angle;
+uniform float spot_light_intensity;
+
 
 in Attributes
 {
@@ -24,15 +30,17 @@ out vec4 fragColor;
 
 void main()
 {
-
+	// point light
 	vec4 PointLightPosition = vec4(point_light_position, 0f); //vec4(-30f, 5f, -30f, 0f);
-	
 	vec4 PointLightDistance = PointLightPosition - att.worldposition;
-
 	float d = length(PointLightDistance.xyz) * point_light_intensity;
 
-	//vec3 pointLightColor = vec3(0.9f, 0.9f, 0.1);
+	// spot light
+	vec4 SpotLightPosition = vec4(spot_light_position, 0f); 
+	vec4 SpotLightDistance = att.worldposition - SpotLightPosition;
+	float angleSpotLight = acos(dot(normalize(spot_light_cone_direction), normalize(SpotLightDistance.xyz)));
 
+	float d1 = length(SpotLightDistance.xyz) * spot_light_intensity;
 
     //vec4 color = texture(TextureUnit0, att.uv);
 	//vec3 N = 2.0 * texture2DProj(TextureUnit2, att.texcoord).rgb -1.0;
@@ -72,7 +80,17 @@ void main()
     
 	//fragColor = textColor * f * 0.7;
 
-	fragColor = vec4((color * (lambert + phong)).xyz * f + point_light_color * (1 / pow(d, 2)), 1);
+	float spotLightAtenuation;
+	if(angleSpotLight > spot_light_cone_angle)
+		spotLightAtenuation = 0;						
+	else if(angleSpotLight > (spot_light_cone_angle - spot_light_cone_angle * 0.10f))
+		spotLightAtenuation = 0.4f;
+	else if(angleSpotLight > (spot_light_cone_angle - spot_light_cone_angle * 0.05f))
+		spotLightAtenuation = 0.7f;
+	else 
+		spotLightAtenuation = 1;
+
+	fragColor = vec4((color * (lambert + phong)).xyz * f + point_light_color * (1 / pow(d, 2))+ spot_light_color * (spotLightAtenuation / pow(d1, 2)), 1);
 	//fragColor = color * f;
 	//if(att.position.x > 0) fragColor = color;
 	

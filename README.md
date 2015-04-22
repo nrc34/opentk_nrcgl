@@ -32,7 +32,8 @@ Main features:
   - Shape Animation
   - Audio
   - PointLight
+  - SpotLight
 
 Demo video:
 
-https://youtu.be/ekX0cdt5upE
+http://youtu.be/fZIhWfYXjfw
