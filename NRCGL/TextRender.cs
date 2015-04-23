@@ -94,7 +94,7 @@ namespace OpenTK_NRCGL.NRCGL
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_UV_Text.txt");
             string fs = File.ReadAllText("Shaders\\fShader_UV_Text.txt");
-            Shader = new Shader(ref vs, ref fs);
+            Shader = new Shader(ref vs, ref fs, this);
             // initialize buffer
             VertexFormat = NRCGL.VertexFormat.XY_UV;
             VertexBuffer = new VertexFloatBuffer(VertexFormat, 512);

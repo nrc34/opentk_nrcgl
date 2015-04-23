@@ -122,7 +122,7 @@ namespace OpenTK_NRCGL.Game
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
             string fs = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_base.txt");
-            Shader shaderBasePanel = new Shader(ref vs, ref fs);
+            Shader shaderBasePanel = new Shader(ref vs, ref fs, basePanel);
             basePanel.Shader = shaderBasePanel;
             basePanel.Scale(55);
             //basePanel.Bounding = new Bounding(basePanel, 100, 1, 100);
@@ -222,7 +222,7 @@ namespace OpenTK_NRCGL.Game
                                         target_texture);
             string vst = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
             string fst = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_.txt");
-            Shader shaderTarget = new Shader(ref vst, ref fst);
+            Shader shaderTarget = new Shader(ref vst, ref fst, target);
             target.Shader = shaderTarget;
             target.Scale(3f);
             target.Bounding = new Bounding(target, 3f);
@@ -285,7 +285,7 @@ namespace OpenTK_NRCGL.Game
             Shape3D sphere2 = new Sphere3D(new Vector3(-30f, 5f, -30f), 1.5f, new Color4(1f, 1f, 0.3f, 1f));
             string vs2 = File.ReadAllText("Shaders\\vShader_Color_Normal1.txt");
             string fs2 = File.ReadAllText("Shaders\\fShader_Color_Normal1.txt");
-            Shader Shader2 = new Shader(ref vs, ref fs);
+            Shader Shader2 = new Shader(ref vs, ref fs, sphere2);
             sphere2.Shader = Shader2;
             sphere2.Collision = false;
             sphere2.IsShadowCaster = false;

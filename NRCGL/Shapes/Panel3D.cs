@@ -66,7 +66,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                 // initialize shaders
                 string vs = File.ReadAllText("Shaders\\vShader_Color_Normal1.txt");
                 string fs = File.ReadAllText("Shaders\\fShader_Color_Normal1.txt");
-                Shader = new Shader(ref vs, ref fs);
+                Shader = new Shader(ref vs, ref fs, this);
                 // initialize buffer
                 VertexFormat = NRCGL.VertexFormat.XYZ_NORMAL_COLOR;
                 VertexBuffer = new VertexFloatBuffer(VertexFormat, 512, BeginMode.Triangles);
@@ -76,7 +76,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                 // initialize shaders
                 string vs = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
                 string fs = File.ReadAllText("Shaders\\fShader_UV_Normal_panel.txt");
-                Shader = new Shader(ref vs, ref fs);
+                Shader = new Shader(ref vs, ref fs, this);
                 // initialize buffer
                 VertexFormat = NRCGL.VertexFormat.XYZ_NORMAL_UV_COLOR;
                 VertexBuffer = new VertexFloatBuffer(VertexFormat, 512);

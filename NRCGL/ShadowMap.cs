@@ -69,7 +69,7 @@ namespace OpenTK_NRCGL.NRCGL
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_ShadowMap.txt");
             string fs = File.ReadAllText("Shaders\\fShader_ShadowMap.txt");
-            Shader = new Shader(ref vs, ref fs);
+            Shader = new Shader(ref vs, ref fs, this);
 
             // initialize depth texture
             DepthTexture = GL.GenTexture();

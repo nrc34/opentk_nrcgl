@@ -36,7 +36,7 @@ using System.Threading.Tasks;
 namespace OpenTK_NRCGL.NRCGL
 {
     
-    public class Shader
+    class Shader
     {
         public string VertexSource { get; private set; }
         public string FragmentSource { get; private set; }
@@ -51,10 +51,40 @@ namespace OpenTK_NRCGL.NRCGL
         public int TexCoordLocation { get; set; }
         public int ColorLocation { get; set; }
 
-        public Shader(ref string vs, ref string fs)
+        public Shape3D Shape3D { get; set; }
+
+        public ShadowMap ShadowMap { get; set; }
+
+        public TextRender TextRender { get; set; }
+
+        
+
+        public Shader(ref string vs, ref string fs, Shape3D shape3D)
         {
             VertexSource = vs;
             FragmentSource = fs;
+
+            Shape3D = shape3D;
+
+            Build();
+        }
+
+        public Shader(ref string vs, ref string fs, ShadowMap shadowMap)
+        {
+            VertexSource = vs;
+            FragmentSource = fs;
+
+            ShadowMap = shadowMap;
+
+            Build();
+        }
+
+        public Shader(ref string vs, ref string fs, TextRender textRender)
+        {
+            VertexSource = vs;
+            FragmentSource = fs;
+
+            TextRender = textRender;
 
             Build();
         }
@@ -106,6 +136,25 @@ namespace OpenTK_NRCGL.NRCGL
                 GL.BindAttribLocation(Program, TexCoordLocation, "vertex_texcoord");
             if (ColorLocation >= 0)
                 GL.BindAttribLocation(Program, ColorLocation, "vertex_color");
+
+            if (Shape3D != null)
+            {
+                Shape3D.ShadowMatrix_location = GL.GetUniformLocation(Program, "shadow_matrix");
+                Shape3D.TexMatrix_location = GL.GetUniformLocation(Program, "texture_matrix");
+                Shape3D.ModelviewMatrix_location = GL.GetUniformLocation(Program, "modelview_matrix");
+                Shape3D.ModelMatrix_location = GL.GetUniformLocation(Program, "model_matrix");
+                Shape3D.ProjectionMatrix_location = GL.GetUniformLocation(Program, "projection_matrix");
+                Shape3D.Light_position_location = GL.GetUniformLocation(Program, "light_position");
+                Shape3D.Point_light_position_location = GL.GetUniformLocation(Program, "point_light_position");
+                Shape3D.Point_light_color_location = GL.GetUniformLocation(Program, "point_light_color");
+                Shape3D.Point_light_intensity_location = GL.GetUniformLocation(Program, "point_light_intensity");
+                Shape3D.Spot_light_position_location = GL.GetUniformLocation(Program, "spot_light_position");
+                Shape3D.Spot_light_color_location = GL.GetUniformLocation(Program, "spot_light_color");
+                Shape3D.Spot_light_intensity_location = GL.GetUniformLocation(Program, "spot_light_intensity");
+                Shape3D.Spot_light_cone_angle_location = GL.GetUniformLocation(Program, "spot_light_cone_angle");
+                Shape3D.Spot_light_cone_direction_location = GL.GetUniformLocation(Program, "spot_light_cone_direction");
+            }
+            
 
             GL.UseProgram(0);
         }

@@ -136,7 +136,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_UV_Normal_CubeMap.txt");
             string fs = File.ReadAllText("Shaders\\fShader_UV_Normal_CubeMap.txt");
-            Shader = new Shader(ref vs, ref fs);
+            Shader = new Shader(ref vs, ref fs, this);
             // initialize buffer
             VertexFormat = NRCGL.VertexFormat.XYZ_NORMAL;
             VertexBuffer = new VertexFloatBuffer(VertexFormat, 97920);

@@ -71,8 +71,120 @@ namespace OpenTK_NRCGL.NRCGL
         private bool isShadowCaster;
         private PointLight pointLight;
         private SpotLight spotLight;
+        private int modelviewMatrix_location;
+        private int shadowMatrix_location;
+        private int texMatrix_location;
+        private int modelMatrix_location;
+        private int projectionMatrix_location;
+        private int light_position_location;
+        private int point_light_position_location;
+        private int point_light_color_location;
+        private int point_light_intensity_location;
+        private int spot_light_position_location;
+        private int spot_light_color_location;
+        private int spot_light_intensity_location;
+        private int spot_light_cone_angle_location;
+        private int spot_light_cone_direction_location;
 
 
+
+
+        public int Light_position_location
+        {
+            get { return light_position_location; }
+            set { light_position_location = value; }
+        }
+        
+
+        public int Point_light_position_location
+        {
+            get { return point_light_position_location; }
+            set { point_light_position_location = value; }
+        }
+        
+
+        public int Point_light_color_location
+        {
+            get { return point_light_color_location; }
+            set { point_light_color_location = value; }
+        }
+        
+
+        public int Point_light_intensity_location
+        {
+            get { return point_light_intensity_location; }
+            set { point_light_intensity_location = value; }
+        }
+        
+
+        public int Spot_light_position_location
+        {
+            get { return spot_light_position_location; }
+            set { spot_light_position_location = value; }
+        }
+        
+
+        public int Spot_light_color_location
+        {
+            get { return spot_light_color_location; }
+            set { spot_light_color_location = value; }
+        }
+        
+
+        public int Spot_light_intensity_location
+        {
+            get { return spot_light_intensity_location; }
+            set { spot_light_intensity_location = value; }
+        }
+        
+
+        public int Spot_light_cone_angle_location
+        {
+            get { return spot_light_cone_angle_location; }
+            set { spot_light_cone_angle_location = value; }
+        }
+        
+
+        public int Spot_light_cone_direction_location
+        {
+            get { return spot_light_cone_direction_location; }
+            set { spot_light_cone_direction_location = value; }
+        }
+
+
+        public int ProjectionMatrix_location
+        {
+            get { return projectionMatrix_location; }
+            set { projectionMatrix_location = value; }
+        }
+
+
+        public int ModelMatrix_location
+        {
+            get { return modelMatrix_location; }
+            set { modelMatrix_location = value; }
+        }
+
+
+        public int TexMatrix_location
+        {
+            get { return texMatrix_location; }
+            set { texMatrix_location = value; }
+        }
+
+
+        public int ShadowMatrix_location
+        {
+            get { return shadowMatrix_location; }
+            set { shadowMatrix_location = value; }
+        }
+
+
+        public int ModelviewMatrix_location
+        {
+            get { return modelviewMatrix_location; }
+            set { modelviewMatrix_location = value; }
+        }
 
 
         public SpotLight SpotLight
@@ -167,7 +279,6 @@ namespace OpenTK_NRCGL.NRCGL
             get { return textureBumpMap; }
             set { textureBumpMap = value; }
         }
-        
         
 
         /// <summary>
@@ -264,7 +375,7 @@ namespace OpenTK_NRCGL.NRCGL
             get { return vertexsIndicesData; }
             set { vertexsIndicesData = value; }
         }
-
+      
 
 
         /// <summary>
@@ -618,75 +729,43 @@ namespace OpenTK_NRCGL.NRCGL
 
             ModelViewMatrix = ModelMatrix * ViewMatrix;
 
-            //VertexsIndicesData = tempVID;
 
             //send to shader
             GL.UseProgram(Shader.Program);
             //will return -1 without useprogram
-            /*
-            int mvp_matrix_location = GL.GetUniformLocation(Shader.Program, "mvp_matrix");
-            GL.UniformMatrix4(mvp_matrix_location, false, ref MVP_Matrix);
-            */
-
-            int ShadowMatrix_location = GL.GetUniformLocation(Shader.Program, "shadow_matrix");
+           
+            
             GL.UniformMatrix4(ShadowMatrix_location, false, ref shadowMatrix);
 
-            int TexMatrix_location = GL.GetUniformLocation(Shader.Program, "texture_matrix");
             GL.UniformMatrix4(TexMatrix_location, false, ref texMatrix);
 
-            int ModelviewMatrix_location = GL.GetUniformLocation(Shader.Program, "modelview_matrix");
             GL.UniformMatrix4(ModelviewMatrix_location, false, ref modelViewMatrix);
 
-            int ModelMatrix_location = GL.GetUniformLocation(Shader.Program, "model_matrix");
             GL.UniformMatrix4(ModelMatrix_location, false, ref modelMatrix);
 
-            int ProjectionMatrix_location = GL.GetUniformLocation(Shader.Program, "projection_matrix");
             GL.UniformMatrix4(ProjectionMatrix_location, false, ref ProjectionMatrix);
-            /*
-            int NormalMatrix_location = GL.GetUniformLocation(cube.Shader.Program, "normal_matrix");
-            GL.UniformMatrix4(NormalMatrix_location, false, ref NormalMatrix);
-            */
 
             float[] LightPositionShader = new float[4] { LightPosition.X, 
                 LightPosition.Y, LightPosition.Z, 0f };
-            int light_position_location = GL.GetUniformLocation(Shader.Program, "light_position");
-            GL.Uniform1(light_position_location, 1, LightPositionShader);
-
-            int point_light_position_location = GL.GetUniformLocation(Shader.Program, "point_light_position");
-            GL.Uniform3(point_light_position_location, pointLight.Position);
-
-            int point_light_color_location = GL.GetUniformLocation(Shader.Program, "point_light_color");
-            GL.Uniform3(point_light_color_location, pointLight.Color);
-
-            int point_light_intensity_location = GL.GetUniformLocation(Shader.Program, "point_light_intensity");
-            GL.Uniform1(point_light_intensity_location, pointLight.Intensity);
-
-
-            int spot_light_position_location = GL.GetUniformLocation(Shader.Program, "spot_light_position");
-            GL.Uniform3(spot_light_position_location, spotLight.Position);
-
-            int spot_light_color_location = GL.GetUniformLocation(Shader.Program, "spot_light_color");
-            GL.Uniform3(spot_light_color_location, spotLight.Color);
-
-            int spot_light_intensity_location = GL.GetUniformLocation(Shader.Program, "spot_light_intensity");
-            GL.Uniform1(spot_light_intensity_location, spotLight.Intensity);
-
-            int spot_light_cone_angle_location = GL.GetUniformLocation(Shader.Program, "spot_light_cone_angle");
-            GL.Uniform1(spot_light_cone_angle_location, spotLight.ConeAngle);
-
-            int spot_light_cone_direction_location = GL.GetUniformLocation(Shader.Program, "spot_light_cone_direction");
-            GL.Uniform3(spot_light_cone_direction_location, spotLight.ConeDirection);
             
+            GL.Uniform1(Light_position_location, 1, LightPositionShader);
+            
+            GL.Uniform3(Point_light_position_location, pointLight.Position);
 
-            /*
-            float[] Kd = new float[3] { 0.9f, 0.5f, 0.3f };
-            int Kd_location = GL.GetUniformLocation(Shader.Program, "kd");
-            GL.Uniform1(Kd_location, 1, Kd);
+            GL.Uniform3(Point_light_color_location, pointLight.Color);
 
-            float[] Ld = new float[3] { 0.5f, 0.0f, 0.5f };
-            int Ld_location = GL.GetUniformLocation(Shader.Program, "ld");
-            GL.Uniform1(Ld_location, 1, Ld);
-            */
+            GL.Uniform1(Point_light_intensity_location, pointLight.Intensity);
+
+            GL.Uniform3(Spot_light_position_location, spotLight.Position);
+
+            GL.Uniform3(Spot_light_color_location, spotLight.Color);
+
+            GL.Uniform1(Spot_light_intensity_location, spotLight.Intensity);
+
+            GL.Uniform1(Spot_light_cone_angle_location, spotLight.ConeAngle);
+
+            GL.Uniform3(Spot_light_cone_direction_location, spotLight.ConeDirection);
+            
             GL.UseProgram(0);
         }
 

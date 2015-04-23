@@ -62,7 +62,7 @@ namespace OpenTK_NRCGL.NRCGL
     //if you have a hard time understanding what a VBO is you can lookat
     //http://deathbyalgorithm.blogspot.com/2013/10/opentk-vertex-buffer-object-vbo.html
 
-    public class VertexFloatBuffer
+    internal class VertexFloatBuffer
     {
         public VertexFormat Format { get; private set; }
         public int Stride { get; private set; }

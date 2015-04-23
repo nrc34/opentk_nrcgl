@@ -71,7 +71,6 @@
     <Compile Include="NRCGL\Shapes\Sphere3DEnvCubeMap.cs" />
     <Compile Include="NRCGL\SpotLight.cs" />
     <Compile Include="NRCGL\TextRender.cs" />
-    <Compile Include="OLDStuff\Cube3D.cs" />
     <Compile Include="NRCGL\Mesh.cs" />
     <Compile Include="NRCGL\Shapes\Panel3D.cs" />
     <Compile Include="NRCGL\Physic.cs" />
