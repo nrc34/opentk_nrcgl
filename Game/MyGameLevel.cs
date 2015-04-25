@@ -170,7 +170,7 @@ namespace OpenTK_NRCGL.Game
 
             Textures.Add("bump_texture",
                          Texture.LoadTexture(
-                         @"Textures\Rock_01_local.jpg", 0, false, false));
+                         @"Textures\sand_texture1037_normal1.jpg", 0, false, false));
 
             Textures.Add("target_texture",
                          Texture.LoadTexture(
@@ -528,7 +528,8 @@ namespace OpenTK_NRCGL.Game
                 }
                 else if (item.Key != "skyBox" &&
                          item.Key != "sphereEnvCubeMap" &&
-                         item.Key != "spotLight")
+                         item.Key != "spotLight" &&
+                         item.Key != "sphereEnvM")
                 {
                     item.Value.Quaternion =
                         Quaternion.FromAxisAngle(
@@ -595,11 +596,12 @@ namespace OpenTK_NRCGL.Game
 
                 if (item.Key != "skyBox" && 
                     item.Key != "basePanel" && 
-                    item.Key != "spotLight")
+                    item.Key != "spotLight" &&
+                    item.Key != "sphereEnvM")
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
 
-                pointLightAngle += 0.0005f;
+                pointLightAngle += 0.0004f;
 
                 PointLight.Position = 
                     new Vector3(40f * (float)Math.Cos(pointLightAngle),

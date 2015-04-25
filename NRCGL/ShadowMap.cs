@@ -42,7 +42,7 @@ namespace OpenTK_NRCGL.NRCGL
     {
         private Shader Shader;
         private Matrix4 ScaleBiasMatrix;
-        private int textSize = 1024 * 4;
+        private int textSize = 1024 * 3;
         private Matrix4 projectionMatrixLightView;
 
 

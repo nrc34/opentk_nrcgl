@@ -296,6 +296,16 @@ namespace OpenTK_NRCGL.Game
             sphere2.Bounding.R = 1.5f;
             sphere2.Load();
             shapes3D.Add("pointLight", sphere2);
+
+            Shape3D shpereEnvCubeMap = new Sphere3DEnvCubeMap(new Vector3(0f, 10f, 0f), 10f);
+            shpereEnvCubeMap.Collision = false;
+            shpereEnvCubeMap.IsShadowCaster = false;
+            shpereEnvCubeMap.Physic.Mass = 10f;
+            shpereEnvCubeMap.Physic.Vxyz = Vector3.Zero;
+            shpereEnvCubeMap.ShadowMatrix = shadowMap.ShadowMatrix;
+            //shpereEnvCubeMap.TextureShadowMap = shadowMap.DepthTexture;
+            shpereEnvCubeMap.Load();
+            //shapes3D.Add("sphereEnvM", shpereEnvCubeMap);
             
             return shapes3D;
         }

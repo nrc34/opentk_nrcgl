@@ -101,3 +101,6 @@ C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NR
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Audio\lazer.wav
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Audio\time_tick.wav
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Audio\peters-clock.wav
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\sand_pv_590_bump.jpg
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\sand_texture1037 _normal.jpg
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\sand_texture1037_normal1.jpg

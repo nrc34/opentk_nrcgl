@@ -58,16 +58,16 @@ void main()
 	vec3 toEye = -att.position;
 	vec3 toLight = light_position - att.position;
     
-    vec3 nN = normalize(att.normal);
-	//vec3 nN = normalize(N);
+    //vec3 nN = normalize(att.normal);
+	vec3 nN = normalize(N);
     vec3 nE = normalize(toEye);
     vec3 nL = normalize(toLight);
     vec3 nR = normalize(reflect(-nL, nN));
     
     float lambert = max(dot(nN, nL), 0.0);
     float phong = 0;
-    if(lambert > 0)
-        phong = pow(max(dot(nE, nR), 0.0), 33);
+    //if(lambert > 0)
+        //phong = pow(max(dot(nE, nR), 0.0), 10);
 
 	float of = 0.15;
 
@@ -95,7 +95,7 @@ void main()
 	else 
 		spotLightAtenuation = 1;
 
-	fragColor = vec4(((color * (lambert + phong)).xyz * f) + point_light_color * (1 / pow(d, 2)) + spot_light_color * (spotLightAtenuation / pow(d1, 2)), 1);
+	fragColor = vec4(((color * 1.1 * (lambert + phong)).xyz  + point_light_color * (1 / pow(d, 2)) + spot_light_color * (spotLightAtenuation / pow(d1, 2)))* f, 1);
 	//fragColor = color * f;
 	//if(att.position.x > 0) fragColor = color;
 	

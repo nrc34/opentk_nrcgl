@@ -300,7 +300,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
             foreach (var item in shapes3D)
             {
-                if (item.Key.Contains("CubeMap")) continue;
+                if (item.Key.Contains("sphereEnvM")) continue;
 
                 GL.UseProgram(item.Value.Shader.Program);
 
@@ -314,6 +314,11 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                 GL.BindTexture(TextureTarget.Texture2D, item.Value.TextureShadowMap);
                 GL.Uniform1(GL.GetUniformLocation(item.Value.Shader.Program, "TextureUnit1"),
                     TextureUnit.Texture1 - TextureUnit.Texture0);
+
+                GL.ActiveTexture(TextureUnit.Texture2);
+                GL.BindTexture(TextureTarget.Texture2D, item.Value.TextureBumpMap);
+                GL.Uniform1(GL.GetUniformLocation(item.Value.Shader.Program, "TextureUnit2"), TextureUnit.Texture2 - TextureUnit.Texture0);
+
 
                 Matrix4 shadowMatrix = ShadowMatrix;
 
@@ -348,13 +353,13 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
                 GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
                 //GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-                //GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                //GL.ClearColor(0.9f, 0.9f, 0.1f, 1.0f);
 
                 GL.Viewport(64 * face, MyGame.Height, 64, 64);
 
                 foreach (var item in shapes3D)
                 {
-                    if (item.Key.Contains("CubeMap")) continue;
+                    if (item.Key.Contains("sphereEnvM")) continue;
 
                     GL.UseProgram(item.Value.Shader.Program);
 
@@ -368,6 +373,10 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                     GL.BindTexture(TextureTarget.Texture2D, item.Value.TextureShadowMap);
                     GL.Uniform1(GL.GetUniformLocation(item.Value.Shader.Program, "TextureUnit1"),
                         TextureUnit.Texture1 - TextureUnit.Texture0);
+
+                    GL.ActiveTexture(TextureUnit.Texture2);
+                    GL.BindTexture(TextureTarget.Texture2D, item.Value.TextureBumpMap);
+                    GL.Uniform1(GL.GetUniformLocation(item.Value.Shader.Program, "TextureUnit2"), TextureUnit.Texture2 - TextureUnit.Texture0);
 
                     Matrix4 shadowMatrix = ShadowMatrix;
 
@@ -457,10 +466,10 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
             GL.UseProgram(Shader.Program);
 
-            GL.ActiveTexture(TextureUnit.Texture2);
+            GL.ActiveTexture(TextureUnit.Texture3);
             GL.BindTexture(TextureTarget.TextureCubeMap, TextureID);
             GL.Uniform1(GL.GetUniformLocation(Shader.Program, "cubeMapTex"), 
-                TextureUnit.Texture2 - TextureUnit.Texture0);
+                TextureUnit.Texture3 - TextureUnit.Texture0);
 
             VertexBuffer.Bind(Shader);
             GL.UseProgram(0);
