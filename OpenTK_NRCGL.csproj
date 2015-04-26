@@ -63,12 +63,14 @@
     <Compile Include="NRCGL\Level\ILevel.cs" />
     <Compile Include="NRCGL\Level\IWGameable.cs" />
     <Compile Include="NRCGL\Level\Level.cs" />
+    <Compile Include="NRCGL\Light.cs" />
     <Compile Include="NRCGL\PointLight.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />
     <Compile Include="NRCGL\Shapes\Bullet3D.cs" />
     <Compile Include="NRCGL\Shapes\Cube3D.cs" />
     <Compile Include="NRCGL\Shapes\SkyBox.cs" />
     <Compile Include="NRCGL\Shapes\Sphere3DEnvCubeMap.cs" />
+    <Compile Include="NRCGL\Shapes\Torus3D.cs" />
     <Compile Include="NRCGL\SpotLight.cs" />
     <Compile Include="NRCGL\TextRender.cs" />
     <Compile Include="NRCGL\Mesh.cs" />
@@ -195,6 +197,9 @@
     <Content Include="Models\TextFile1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Models\Torus.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ScreenShots\TextFile1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -202,6 +207,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\fragmentShader1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\fShader_Color_Normal_Torus.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\fShader_Color_Normal2.txt">
@@ -247,6 +255,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\vertexShader1.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\vShader_Color_Normal_Torus.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\vShader_ShadowMap.txt">

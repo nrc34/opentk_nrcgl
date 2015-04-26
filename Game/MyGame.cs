@@ -297,15 +297,25 @@ namespace OpenTK_NRCGL.Game
             sphere2.Load();
             shapes3D.Add("pointLight", sphere2);
 
-            Shape3D shpereEnvCubeMap = new Sphere3DEnvCubeMap(new Vector3(0f, 10f, 0f), 10f);
-            shpereEnvCubeMap.Collision = false;
-            shpereEnvCubeMap.IsShadowCaster = false;
-            shpereEnvCubeMap.Physic.Mass = 10f;
-            shpereEnvCubeMap.Physic.Vxyz = Vector3.Zero;
-            shpereEnvCubeMap.ShadowMatrix = shadowMap.ShadowMatrix;
-            //shpereEnvCubeMap.TextureShadowMap = shadowMap.DepthTexture;
-            shpereEnvCubeMap.Load();
+            //Shape3D shpereEnvCubeMap = new Sphere3DEnvCubeMap(new Vector3(0f, 30f, 0f), 10f);
+            //shpereEnvCubeMap.Collision = false;
+            //shpereEnvCubeMap.IsShadowCaster = false;
+            //shpereEnvCubeMap.Physic.Mass = 10f;
+            //shpereEnvCubeMap.Physic.Vxyz = Vector3.Zero;
+            //shpereEnvCubeMap.ShadowMatrix = shadowMap.ShadowMatrix;
+            ////shpereEnvCubeMap.TextureShadowMap = shadowMap.DepthTexture;
+            //shpereEnvCubeMap.Load();
             //shapes3D.Add("sphereEnvM", shpereEnvCubeMap);
+
+            Shape3D torus = new Torus3D(new Vector3(0f, 40f, 0f), 10f, Color4.Chocolate);
+            torus.Collision = false;
+            torus.IsShadowCaster = true;
+            torus.Physic.Mass = 10f;
+            torus.Physic.Vxyz = Vector3.Zero;
+            torus.ShadowMatrix = shadowMap.ShadowMatrix;
+            //torus.TextureShadowMap = shadowMap.DepthTexture;
+            torus.Load();
+            shapes3D.Add("sphereEnvM", torus);
             
             return shapes3D;
         }

@@ -38,6 +38,7 @@ using OpenTK.Input;
 using OpenTK_NRCGL.NRCGL.Audio;
 using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
+using OpenTK.Graphics;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -290,32 +291,6 @@ namespace OpenTK_NRCGL.Game
                                               5f + Camera.Position.Y,
                                               Camera.Position.Z);
 
-            if (GameWindow.Keyboard[Key.F8] && coolDown == 0)
-            {
-                foreach (var item in Shapes3D)
-                {
-                    item.Value.LightPosition = 
-                        new Vector3(item.Value.LightPosition.X + 50,
-                                    item.Value.LightPosition.Y,
-                                    item.Value.LightPosition.Z);
-                }
-                coolDown = 50;
-            }
-
-            if (GameWindow.Keyboard[Key.F7] && coolDown == 0)
-            {
-                foreach (var item in Shapes3D)
-                {
-                    item.Value.LightPosition = 
-                        new Vector3(item.Value.LightPosition.X - 50,
-                                    item.Value.LightPosition.Y,
-                                    item.Value.LightPosition.Z);
-                }
-
-
-                coolDown = 50;
-            }
-
             float speed = 2f;
             if (GameWindow.Keyboard[Key.Keypad8] && coolDown == 0)
             {
@@ -374,6 +349,44 @@ namespace OpenTK_NRCGL.Game
 
 
 
+            if (GameWindow.Keyboard[Key.KeypadPlus] && coolDown == 0)
+            {
+                Vector4 tempV4 = new Vector4(Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.X,
+                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Y,
+                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Z,
+                                             0);
+                tempV4 = Vector4.Transform(tempV4, Matrix4.CreateRotationY(0.05f));
+
+                Shapes3D["sphereEnvM"].Light.DirectionalLightPosition = tempV4.Xyz;
+
+                
+            }
+            if (GameWindow.Keyboard[Key.KeypadMinus] && coolDown == 0)
+            {
+                Vector4 tempV4 = new Vector4(Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.X,
+                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Y,
+                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Z,
+                                             0);
+                tempV4 = Vector4.Transform(tempV4, Matrix4.CreateRotationY(-0.05f));
+
+                Shapes3D["sphereEnvM"].Light.DirectionalLightPosition = tempV4.Xyz;
+
+            }
+
+            if (GameWindow.Keyboard[Key.KeypadMultiply] && coolDown == 0)
+            {
+
+
+                Shapes3D["sphereEnvM"].Rotate(Vector3.UnitY, 0.05f);
+
+
+            }
+            if (GameWindow.Keyboard[Key.KeypadDivide] && coolDown == 0)
+            {
+                Shapes3D["sphereEnvM"].Rotate(Vector3.UnitY, 0.15f);
+
+            }
+
             if (GameWindow.Keyboard[Key.M] && coolDown == 0)
             {
                 MyGame.MultiView = !MyGame.MultiView;
@@ -407,8 +420,8 @@ namespace OpenTK_NRCGL.Game
             //if (Keyboard[Key.S]) Shapes3D["sphere"].
             //        VertexBuffer.SerializeBufer(@"Models\sphere.xml");
 
-            //if (Keyboard[Key.T]) Tools.
-            //        GenerateModelFrom3DS(@"Models\sphere3D64x64x1.x3d");
+            //if (GameWindow.Keyboard[Key.T]) Tools.
+            //        GenerateModelFrom3DS(@"Models\Torus.x3d");
 
 
         }
@@ -646,6 +659,13 @@ namespace OpenTK_NRCGL.Game
 
                 item.Value.SpotLight = SpotLight;
 
+                // test torus
+                //if (item.Key == "sphereEnvM")
+                //{
+                //    item.Value.RotateY(0.05f);
+                //}
+
+
 
                 item.Value.Update(Camera.View,
                                   MyGame.ProjectionMatrix,
@@ -749,13 +769,16 @@ namespace OpenTK_NRCGL.Game
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +
                               "DEBUG1 : " + MyGame.Debug1 + "\n" +
-                              "DEBUG2 : " + MyGame.Debug2 + "\n"
+                              "DEBUG2 : " + MyGame.Debug2 + "\n" +
+                              "AMB_LIGHT : " + "R= " + Shapes3D["sphereEnvM"].Light.Ambient.X * Color4.Chocolate.R + "; "
+                                          + "G= " + Shapes3D["sphereEnvM"].Light.Ambient.Y * Color4.Chocolate.G + "; "
+                                          + "B= " + Shapes3D["sphereEnvM"].Light.Ambient.Z * Color4.Chocolate.B + "\n"
                               );
             }
             #endregion
 
 
-            Clock =  80 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
+            Clock =  800 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
 
             if (Clock <= 0)
             {
@@ -776,6 +799,9 @@ namespace OpenTK_NRCGL.Game
                                           -Camera.Position.X,
                                           -Camera.Position.Y,
                                           -Camera.Position.Z);
+
+            
+
 
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
             

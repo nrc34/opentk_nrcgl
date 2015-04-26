@@ -18,7 +18,7 @@ out vec4 colorout;
 out Attributes
 {
 	vec3 position;
-	vec3 normal;
+	vec4 normal;
 	vec2 uv;
 	vec4 shadowcoord;
 	vec4 worldposition;
@@ -33,7 +33,7 @@ void main()
     
 	att.position		= vertexViewSpacePosition;
 	att.worldposition   = model_matrix * vec4(vertex_position, 1.0);
-	att.normal 			= mat3(modelview_matrix) * vertex_normal;
+	att.normal 			= model_matrix * vec4(vertex_normal, 0);
 	att.uv				= vertex_texcoord;
 	att.shadowcoord     = shadow_matrix * att.worldposition;
 	att.texcoord        = texture_matrix * att.worldposition;

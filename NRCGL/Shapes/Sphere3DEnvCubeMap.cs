@@ -77,8 +77,6 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
             ShapeVersorsUVW = Matrix4.Identity;
 
-            LightPosition = new Vector3(1000f, 1000f, 1000f);
-
             //GL.Disable(EnableCap.Texture2D);
 
             //GL.Enable(EnableCap.TextureCubeMap);
@@ -300,7 +298,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
             foreach (var item in shapes3D)
             {
-                if (item.Key.Contains("sphereEnvM")) continue;
+                if (item.Value is Sphere3DEnvCubeMap) continue;
 
                 GL.UseProgram(item.Value.Shader.Program);
 
@@ -333,10 +331,8 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                 int ProjectionMatrix_location = GL.GetUniformLocation(item.Value.Shader.Program, "projection_matrix");
                 GL.UniformMatrix4(ProjectionMatrix_location, false, ref CubeFaceProjectionMatrix);
 
-                float[] LightPositionShader = new float[4] { LightPosition.X, 
-                LightPosition.Y, LightPosition.Z, 0f };
                 int light_position_location = GL.GetUniformLocation(item.Value.Shader.Program, "light_position");
-                GL.Uniform1(light_position_location, 1, LightPositionShader);
+                GL.Uniform3(light_position_location, item.Value.Light.DirectionalLightPosition);
 
                 item.Value.VertexBuffer.Bind(item.Value.Shader);
 
@@ -359,7 +355,7 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
 
                 foreach (var item in shapes3D)
                 {
-                    if (item.Key.Contains("sphereEnvM")) continue;
+                    if (item.Value is Sphere3DEnvCubeMap) continue;
 
                     GL.UseProgram(item.Value.Shader.Program);
 
@@ -392,10 +388,8 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                     int ProjectionMatrix_location = GL.GetUniformLocation(Shader.Program, "projection_matrix");
                     GL.UniformMatrix4(ProjectionMatrix_location, false, ref CubeFaceProjectionMatrix);
 
-                    float[] LightPositionShader = new float[4] { LightPosition.X, 
-                    LightPosition.Y, LightPosition.Z, 0f };
                     int light_position_location = GL.GetUniformLocation(Shader.Program, "light_position");
-                    GL.Uniform1(light_position_location, 1, LightPositionShader);
+                    GL.Uniform3(light_position_location, Light.DirectionalLightPosition);
 
                     item.Value.VertexBuffer.Bind(item.Value.Shader);
 
@@ -439,10 +433,8 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
                         int ProjectionMatrix_location = GL.GetUniformLocation(Shader.Program, "projection_matrix");
                         GL.UniformMatrix4(ProjectionMatrix_location, false, ref CubeFaceProjectionMatrix);
 
-                        float[] LightPositionShader = new float[4] { LightPosition.X, 
-                        LightPosition.Y, LightPosition.Z, 0f };
                         int light_position_location = GL.GetUniformLocation(Shader.Program, "light_position");
-                        GL.Uniform1(light_position_location, 1, LightPositionShader);
+                        GL.Uniform3(light_position_location, Light.DirectionalLightPosition);
 
                         item.Value.VertexBuffer.Bind(item.Value.Shader);
 

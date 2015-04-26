@@ -51,7 +51,6 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
             Model = @"Models\skyBox.xml";
             Position = centerPosition;
             ShapeVersorsUVW = Matrix4.Identity;
-            LightPosition = new Vector3(1000f, 1000f, 1000f);
             TextureID = textureId;
             if (textureId == 0)
             {

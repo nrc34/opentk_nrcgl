@@ -57,7 +57,6 @@ namespace OpenTK_NRCGL.NRCGL
         private Color4 color;
         private VertexFloatBuffer vertexBuffer;
         private VertexFormat vertexFormat;
-        private Vector3 lightPosition;
         private VertexsIndicesData vertexsIndicesData;
         private Physic physic;
         private Bounding bounding;
@@ -85,8 +84,24 @@ namespace OpenTK_NRCGL.NRCGL
         private int spot_light_intensity_location;
         private int spot_light_cone_angle_location;
         private int spot_light_cone_direction_location;
+        private int ambient_light_location;
+        private Light light;
+        private int camera_position_location;
 
 
+
+
+        public int Camera_position_location
+        {
+            get { return camera_position_location; }
+            set { camera_position_location = value; }
+        }
+
+        public int Ambient_light_location
+        {
+            get { return ambient_light_location; }
+            set { ambient_light_location = value; }
+        }
 
 
         public int Light_position_location
@@ -186,6 +201,13 @@ namespace OpenTK_NRCGL.NRCGL
             set { modelviewMatrix_location = value; }
         }
 
+
+        public Light Light
+        {
+            get { return light; }
+            set { light = value; }
+        }
+        
 
         public SpotLight SpotLight
         {
@@ -390,6 +412,10 @@ namespace OpenTK_NRCGL.NRCGL
             collision = true;
             isVisible = true;
             isShadowCaster = true;
+            light = new Light();
+            light.Ambient = Vector3.One;
+            light.DirectionalLightPosition =
+                        new Vector3(3000, 3000, 0);
 
             PointLight = new PointLight
             {
@@ -677,15 +703,6 @@ namespace OpenTK_NRCGL.NRCGL
             set { vertexFormat = value; }
         }
 
-        /// <summary>
-        /// Light Position.
-        /// </summary>
-        public Vector3 LightPosition
-        {
-            get { return lightPosition; }
-            set { lightPosition = value; }
-        }
-
         public virtual void Load()
         {
             GL.UseProgram(Shader.Program);
@@ -745,10 +762,7 @@ namespace OpenTK_NRCGL.NRCGL
 
             GL.UniformMatrix4(ProjectionMatrix_location, false, ref ProjectionMatrix);
 
-            float[] LightPositionShader = new float[4] { LightPosition.X, 
-                LightPosition.Y, LightPosition.Z, 0f };
-            
-            GL.Uniform1(Light_position_location, 1, LightPositionShader);
+            GL.Uniform3(Light_position_location, light.DirectionalLightPosition);
             
             GL.Uniform3(Point_light_position_location, pointLight.Position);
 
@@ -765,6 +779,10 @@ namespace OpenTK_NRCGL.NRCGL
             GL.Uniform1(Spot_light_cone_angle_location, spotLight.ConeAngle);
 
             GL.Uniform3(Spot_light_cone_direction_location, spotLight.ConeDirection);
+
+            GL.Uniform3(Ambient_light_location, Light.Ambient);
+
+            GL.Uniform3(Camera_position_location, mainCamera.Position * -1);
             
             GL.UseProgram(0);
         }
@@ -791,5 +809,7 @@ namespace OpenTK_NRCGL.NRCGL
             VertexBuffer.Bind(Shader);
         }
 
+
+        
     }
 }

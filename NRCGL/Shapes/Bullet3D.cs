@@ -54,7 +54,6 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
             Physic.Vxyz = bulletVxyz;
 
             ShapeVersorsUVW = Matrix4.Identity;
-            LightPosition = new Vector3(1000f, 1000f, 1000f);
             TextureID = textureId;
             if (textureId == 0)
             {

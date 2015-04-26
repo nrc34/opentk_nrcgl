@@ -56,7 +56,6 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
             RotateY(angleY);
             RotateZ(angleZ);
             ShapeVersorsUVW = Matrix4.Identity;
-            LightPosition = new Vector3(0f, 100f, -150f);
             TextureID = textureId;
             if (textureId == 0)
             {

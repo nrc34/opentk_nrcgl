@@ -153,6 +153,8 @@ namespace OpenTK_NRCGL.NRCGL
                 Shape3D.Spot_light_intensity_location = GL.GetUniformLocation(Program, "spot_light_intensity");
                 Shape3D.Spot_light_cone_angle_location = GL.GetUniformLocation(Program, "spot_light_cone_angle");
                 Shape3D.Spot_light_cone_direction_location = GL.GetUniformLocation(Program, "spot_light_cone_direction");
+                Shape3D.Ambient_light_location = GL.GetUniformLocation(Program, "ambient_light");
+                Shape3D.Camera_position_location = GL.GetUniformLocation(Program, "camera_position");
             }
             
 
