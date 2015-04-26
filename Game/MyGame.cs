@@ -307,15 +307,14 @@ namespace OpenTK_NRCGL.Game
             //shpereEnvCubeMap.Load();
             //shapes3D.Add("sphereEnvM", shpereEnvCubeMap);
 
-            Shape3D torus = new Torus3D(new Vector3(0f, 40f, 0f), 10f, Color4.Chocolate);
-            torus.Collision = false;
-            torus.IsShadowCaster = true;
-            torus.Physic.Mass = 10f;
-            torus.Physic.Vxyz = Vector3.Zero;
-            torus.ShadowMatrix = shadowMap.ShadowMatrix;
-            //torus.TextureShadowMap = shadowMap.DepthTexture;
-            torus.Load();
-            shapes3D.Add("sphereEnvM", torus);
+            //Shape3D torus = new Torus3D(new Vector3(0f, 40f, 0f), 10f, Color4.Green);
+            //torus.Collision = false;
+            //torus.IsShadowCaster = true;
+            //torus.Physic.Mass = 10f;
+            //torus.Physic.Vxyz = Vector3.Zero;
+            //torus.ShadowMatrix = shadowMap.ShadowMatrix;
+            //torus.Load();
+            //shapes3D.Add("sphereEnvM", torus);
             
             return shapes3D;
         }

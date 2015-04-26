@@ -29,6 +29,7 @@
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK_NRCGL.NRCGL.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -87,15 +88,56 @@ namespace OpenTK_NRCGL.NRCGL
         private int ambient_light_location;
         private Light light;
         private int camera_position_location;
+        private Material material;
+        private int material_ambient_location;
+        private int material_diffuse_location;
+        private int material_specular_location;
+        private int material_shininess_location;
 
 
 
+
+        public int Material_ambient_location
+        {
+            get { return material_ambient_location; }
+            set { material_ambient_location = value; }
+        }
+        
+
+        public int Material_diffuse_location
+        {
+            get { return material_diffuse_location; }
+            set { material_diffuse_location = value; }
+        }
+        
+
+        public int Material_specular_location
+        {
+            get { return material_specular_location; }
+            set { material_specular_location = value; }
+        }
+        
+
+        public int Material_shininess_location
+        {
+            get { return material_shininess_location; }
+            set { material_shininess_location = value; }
+        }
+
+
+        public Material Material
+        {
+            get { return material; }
+            set { material = value; }
+        }
+        
 
         public int Camera_position_location
         {
             get { return camera_position_location; }
             set { camera_position_location = value; }
         }
+
 
         public int Ambient_light_location
         {
@@ -412,10 +454,19 @@ namespace OpenTK_NRCGL.NRCGL
             collision = true;
             isVisible = true;
             isShadowCaster = true;
+
+            // default values for Light
             light = new Light();
             light.Ambient = Vector3.One;
             light.DirectionalLightPosition =
                         new Vector3(3000, 3000, 0);
+
+            // default values for material
+            Material = new Shapes.Material();
+            Material.Ambient = Vector3.One;
+            Material.Diffuse = Vector3.One;
+            Material.Specular = Vector3.One;
+            Material.Shininess = 30f;
 
             PointLight = new PointLight
             {
@@ -783,6 +834,14 @@ namespace OpenTK_NRCGL.NRCGL
             GL.Uniform3(Ambient_light_location, Light.Ambient);
 
             GL.Uniform3(Camera_position_location, mainCamera.Position * -1);
+
+            GL.Uniform3(Material_ambient_location, Material.Ambient);
+
+            GL.Uniform3(Material_diffuse_location, Material.Diffuse);
+
+            GL.Uniform3(Material_specular_location, Material.Specular);
+
+            GL.Uniform1(Material_shininess_location, Material.Shininess);
             
             GL.UseProgram(0);
         }

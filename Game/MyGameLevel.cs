@@ -39,6 +39,7 @@ using OpenTK_NRCGL.NRCGL.Audio;
 using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
 using OpenTK.Graphics;
+using System.Diagnostics;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -66,9 +67,7 @@ namespace OpenTK_NRCGL.Game
         private SpotLight SpotLight;
 
         private float pointLightAngle = 0;
-        private bool IsLoadedAudioClockTick; 
-
-
+        private bool IsLoadedAudioClockTick;
 
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
                                                 Vector2 targetPosition)
@@ -659,13 +658,6 @@ namespace OpenTK_NRCGL.Game
 
                 item.Value.SpotLight = SpotLight;
 
-                // test torus
-                //if (item.Key == "sphereEnvM")
-                //{
-                //    item.Value.RotateY(0.05f);
-                //}
-
-
 
                 item.Value.Update(Camera.View,
                                   MyGame.ProjectionMatrix,
@@ -769,16 +761,13 @@ namespace OpenTK_NRCGL.Game
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +
                               "DEBUG1 : " + MyGame.Debug1 + "\n" +
-                              "DEBUG2 : " + MyGame.Debug2 + "\n" +
-                              "AMB_LIGHT : " + "R= " + Shapes3D["sphereEnvM"].Light.Ambient.X * Color4.Chocolate.R + "; "
-                                          + "G= " + Shapes3D["sphereEnvM"].Light.Ambient.Y * Color4.Chocolate.G + "; "
-                                          + "B= " + Shapes3D["sphereEnvM"].Light.Ambient.Z * Color4.Chocolate.B + "\n"
+                              "DEBUG2 : " + MyGame.Debug2 + "\n"
                               );
             }
             #endregion
 
 
-            Clock =  800 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
+            Clock =  80 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
 
             if (Clock <= 0)
             {
@@ -804,11 +793,13 @@ namespace OpenTK_NRCGL.Game
 
 
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
+
             
         }
 
         public override void Render()
         {
+            
             base.Render();
 
             GL.Clear(ClearBufferMask.ColorBufferBit |
@@ -821,6 +812,7 @@ namespace OpenTK_NRCGL.Game
             TextRenderClock.Render();
 
             GameWindow.SwapBuffers();
+            
         }
 
 

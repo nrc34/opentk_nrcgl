@@ -2,6 +2,10 @@
 uniform sampler2D TextureUnit0;
 uniform vec3 light_position;
 uniform vec3 ambient_light;
+uniform vec3 material_ambient;
+uniform vec3 material_diffuse;
+uniform vec3 material_specular;
+uniform float material_shininess;
 uniform vec3 camera_position;
 
 
@@ -39,8 +43,13 @@ void main()
     float lambert = max(dot(nN, nL), 0);
     float phong = 0;
     if(lambert > 0)
-        phong = pow(max(dot(nE, nR), 0), 30);
+        phong = pow(max(dot(nE, nR), 0), material_shininess);
     
 	//fragColor = vec4((color * (lambert + phong)).xyz, 1);
-	fragColor = vec4(color.xyz * ambient_light  * (lambert + phong), color.w);
+
+	vec3 ambient = mix(color.xyz * ambient_light, material_ambient * ambient_light, 0.1);
+	vec3 diffuse = mix(ambient * lambert,  ambient_light * material_diffuse * lambert, 0.1);
+	vec3 specular = mix(ambient * phong, ambient_light * material_specular * phong, 0.9);
+
+	fragColor = vec4(diffuse + specular, color.w);
 }
