@@ -36,4 +36,4 @@ Main features:
 
 Demo video:
 
-https://youtu.be/3nohTZiWtn0
+http://youtu.be/sMFUpMN-0do

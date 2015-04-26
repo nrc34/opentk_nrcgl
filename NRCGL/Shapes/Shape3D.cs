@@ -93,8 +93,33 @@ namespace OpenTK_NRCGL.NRCGL
         private int material_diffuse_location;
         private int material_specular_location;
         private int material_shininess_location;
+        private bool isUsingNormalMap;
+        private int isUsingNormalMap_location;
+        private int material_HasSpecular_location;
 
 
+
+
+
+        public int Material_HasSpecular_location
+        {
+            get { return material_HasSpecular_location; }
+            set { material_HasSpecular_location = value; }
+        }
+
+
+        public int IsUsingNormalMap_location
+        {
+            get { return isUsingNormalMap_location; }
+            set { isUsingNormalMap_location = value; }
+        }
+
+
+        public bool IsUsingNormalMap
+        {
+            get { return isUsingNormalMap; }
+            set { isUsingNormalMap = value; }
+        }
 
 
         public int Material_ambient_location
@@ -455,6 +480,8 @@ namespace OpenTK_NRCGL.NRCGL
             isVisible = true;
             isShadowCaster = true;
 
+            isUsingNormalMap = false;
+
             // default values for Light
             light = new Light();
             light.Ambient = Vector3.One;
@@ -467,6 +494,7 @@ namespace OpenTK_NRCGL.NRCGL
             Material.Diffuse = Vector3.One;
             Material.Specular = Vector3.One;
             Material.Shininess = 30f;
+            Material.HasSpecular = true;
 
             PointLight = new PointLight
             {
@@ -842,6 +870,10 @@ namespace OpenTK_NRCGL.NRCGL
             GL.Uniform3(Material_specular_location, Material.Specular);
 
             GL.Uniform1(Material_shininess_location, Material.Shininess);
+
+            GL.Uniform1(IsUsingNormalMap_location, IsUsingNormalMap ? 1 : 0);
+
+            GL.Uniform1(Material_HasSpecular_location, Material.HasSpecular ? 1 : 0);
             
             GL.UseProgram(0);
         }

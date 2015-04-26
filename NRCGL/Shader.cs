@@ -159,6 +159,8 @@ namespace OpenTK_NRCGL.NRCGL
                 Shape3D.Material_diffuse_location = GL.GetUniformLocation(Program, "material_diffuse");
                 Shape3D.Material_specular_location = GL.GetUniformLocation(Program, "material_specular");
                 Shape3D.Material_shininess_location = GL.GetUniformLocation(Program, "material_shininess");
+                Shape3D.IsUsingNormalMap_location = GL.GetUniformLocation(Program, "is_using_normalmap");
+                Shape3D.Material_HasSpecular_location = GL.GetUniformLocation(Program, "has_specular");
             }
             
 

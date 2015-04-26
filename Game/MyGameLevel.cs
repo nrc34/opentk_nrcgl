@@ -69,6 +69,10 @@ namespace OpenTK_NRCGL.Game
         private float pointLightAngle = 0;
         private bool IsLoadedAudioClockTick;
 
+        private Vector3 SunLightPosition;
+
+        private bool CubesHaveNormalMap;
+
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
                                                 Vector2 targetPosition)
             : base(id, name, gameWindow)
@@ -117,6 +121,10 @@ namespace OpenTK_NRCGL.Game
                 ConeDirection = new Vector3(0f, -1f, 0f)
             };
 
+            SunLightPosition = new Vector3(50, 200, 50);
+
+            CubesHaveNormalMap = false;
+
             Load();
         }
 
@@ -154,7 +162,7 @@ namespace OpenTK_NRCGL.Game
 
             Textures.Add("current_texture",
                          Texture.LoadTexture(
-                         @"Textures\sand_texture1037.jpg", 0, false, false));
+                         @"Textures\sand_texture1037.jpg", 0, false, true));
 
             Textures.Add("cube_texture",
                          Texture.LoadTexture(
@@ -170,7 +178,7 @@ namespace OpenTK_NRCGL.Game
 
             Textures.Add("bump_texture",
                          Texture.LoadTexture(
-                         @"Textures\sand_texture1037_normal1.jpg", 0, false, false));
+                         @"Textures\sand_texture1037_NormalMap.jpg", 0, false, true));
 
             Textures.Add("target_texture",
                          Texture.LoadTexture(
@@ -350,40 +358,32 @@ namespace OpenTK_NRCGL.Game
 
             if (GameWindow.Keyboard[Key.KeypadPlus] && coolDown == 0)
             {
-                Vector4 tempV4 = new Vector4(Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.X,
-                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Y,
-                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Z,
+                Vector4 tempV4 = new Vector4(SunLightPosition.X,
+                                             SunLightPosition.Y,
+                                             SunLightPosition.Z,
                                              0);
                 tempV4 = Vector4.Transform(tempV4, Matrix4.CreateRotationY(0.05f));
 
-                Shapes3D["sphereEnvM"].Light.DirectionalLightPosition = tempV4.Xyz;
+                SunLightPosition = tempV4.Xyz;
 
                 
             }
             if (GameWindow.Keyboard[Key.KeypadMinus] && coolDown == 0)
             {
-                Vector4 tempV4 = new Vector4(Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.X,
-                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Y,
-                                             Shapes3D["sphereEnvM"].Light.DirectionalLightPosition.Z,
+                Vector4 tempV4 = new Vector4(SunLightPosition.X,
+                                             SunLightPosition.Y,
+                                             SunLightPosition.Z,
                                              0);
                 tempV4 = Vector4.Transform(tempV4, Matrix4.CreateRotationY(-0.05f));
 
-                Shapes3D["sphereEnvM"].Light.DirectionalLightPosition = tempV4.Xyz;
+                SunLightPosition = tempV4.Xyz;
 
             }
 
-            if (GameWindow.Keyboard[Key.KeypadMultiply] && coolDown == 0)
-            {
-
-
-                Shapes3D["sphereEnvM"].Rotate(Vector3.UnitY, 0.05f);
-
-
-            }
-            if (GameWindow.Keyboard[Key.KeypadDivide] && coolDown == 0)
-            {
-                Shapes3D["sphereEnvM"].Rotate(Vector3.UnitY, 0.15f);
-
+            if (GameWindow.Keyboard[Key.KeypadMultiply] && coolDown == 0) 
+            { 
+                CubesHaveNormalMap = !CubesHaveNormalMap;
+                coolDown = 10;
             }
 
             if (GameWindow.Keyboard[Key.M] && coolDown == 0)
@@ -657,6 +657,20 @@ namespace OpenTK_NRCGL.Game
 
 
                 item.Value.SpotLight = SpotLight;
+
+                item.Value.Light.DirectionalLightPosition = SunLightPosition;
+
+
+                if (item.Key.Contains("Cube"))
+                {
+                    item.Value.IsUsingNormalMap = CubesHaveNormalMap;
+                    item.Value.Light.Ambient = Vector3.One * 1.5f;
+                }
+                else if(item.Key == "basePanel")
+                {
+                    item.Value.IsUsingNormalMap = CubesHaveNormalMap;
+                    item.Value.Light.Ambient = Vector3.One * 1.1f;
+                }
 
 
                 item.Value.Update(Camera.View,

@@ -11,6 +11,7 @@ uniform mat4 projection_matrix;
 uniform mat4 shadow_matrix;
 uniform mat4 model_matrix;
 uniform mat4 texture_matrix;
+uniform bool is_using_normalmap;
 
 
 out vec4 colorout;
@@ -19,10 +20,12 @@ out Attributes
 {
 	vec3 position;
 	vec4 normal;
+	vec4 normalVB;
 	vec2 uv;
 	vec4 shadowcoord;
 	vec4 worldposition;
 	vec4 texcoord;
+	mat3 mat;
 } att;
 
 void main()
@@ -37,6 +40,23 @@ void main()
 	att.uv				= vertex_texcoord;
 	att.shadowcoord     = shadow_matrix * att.worldposition;
 	att.texcoord        = texture_matrix * att.worldposition;
+	if(is_using_normalmap){
+		vec3 tangent;
+		vec3 v1 = cross(vertex_normal.xyz, vec3(0,0,-1));
+		vec3 v2 = cross(vertex_normal.xyz, vec3(0,-1,0));
+
+		if(length(v1)>length(v2))
+			tangent = v1;
+		else
+			tangent = v2;
+
+		vec3 n = normalize(att.normal.xyz);
+		vec3 t = normalize(model_matrix * vec4(tangent, 0)).xyz;
+		vec3 b = cross(n,t);
+
+		mat3 mat = mat3(t.x, b.x, n.x, t.y, b.y, n.y, t.z, b.z, n.z);
+		att.mat = mat;
+	}
 	
 	colorout = vertex_color;
 

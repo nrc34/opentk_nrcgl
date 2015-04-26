@@ -121,7 +121,7 @@ namespace OpenTK_NRCGL.Game
 
             // initialize shaders
             string vs = File.ReadAllText("Shaders\\vShader_UV_Normal_panel.txt");
-            string fs = File.ReadAllText("Shaders\\fShader_UV_Normal_panel_base.txt");
+            string fs = File.ReadAllText("Shaders\\fShader_UV_Normal_panel.txt");
             Shader shaderBasePanel = new Shader(ref vs, ref fs, basePanel);
             basePanel.Shader = shaderBasePanel;
             basePanel.Scale(55);
@@ -134,6 +134,7 @@ namespace OpenTK_NRCGL.Game
             basePanel.TextureBumpMap = bump_texture;
             basePanel.TexMatrix = texMatrix;
             basePanel.Collision = false;
+            basePanel.Material.HasSpecular = false;
             basePanel.Load();
             shapes3D.Add("basePanel", basePanel);
             /*
@@ -522,8 +523,9 @@ namespace OpenTK_NRCGL.Game
             cube.ShadowMatrix = shadowMapG.ShadowMatrix;
             cube.TextureBumpMap = bump_texture;
             cube.TexMatrix = texMatrixG;
+            cube.Material.HasSpecular = false;
             cube.Load();
-            shapes3D.Add(Guid.NewGuid().ToString(), cube);
+            shapes3D.Add("Cube" + Guid.NewGuid().ToString(), cube);
         }
 
        
