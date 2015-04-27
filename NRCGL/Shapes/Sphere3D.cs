@@ -58,19 +58,22 @@ namespace OpenTK_NRCGL.NRCGL
 
             Bounding = new Bounding(this, r);
 
+            Model = @"Models\sphere3D128x128x1_smooth.xml";
+
             if (vid is VertexsIndicesData)
             {
                 VertexsIndicesData = vid;
             }
             else
             {
-                vid = Tools.DeserializeModel(@"Models\sphere3D128x128x1.xml");
+                vid = Tools.DeserializeModel(Model);
 
                 VertexsIndicesData = vid;
-            }
-            
 
-            Model = @"Models\Sphere3D.xml";
+            }
+
+
+            
 
             Scale(r);
 

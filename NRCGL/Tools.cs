@@ -59,35 +59,35 @@ namespace OpenTK_NRCGL.NRCGL
 
         public static void GenerateModelFrom3DS(string path)
         {
-            X3D x3d = new X3D();
+            var x3d = new X3D();
 
-            XmlSerializer xmlSerializer = new XmlSerializer(x3d.GetType());
-            StreamReader reader = new StreamReader(path);
+            var xmlSerializer = new XmlSerializer(x3d.GetType());
+            var reader = new StreamReader(path);
             x3d = (X3D)xmlSerializer.Deserialize(reader);
 
             reader.Close();
 
-            X3DScene scene = new X3DScene();
+            var scene = new X3DScene();
             scene = x3d.Scene[0];
 
-            Transform transf0 = new Transform();
+            var transf0 = new Transform();
 
             transf0 = scene.Transform[0];
 
-            Transform transf1 = new Transform();
+            var transf1 = new Transform();
 
             transf1 = transf0.Transform1[0];
 
-            TransformGroup transfGroup = new TransformGroup();
+            var transfGroup = new TransformGroup();
 
             transfGroup = transf1.Group[0];
 
-            TransformGroupShape transfGroupShape = new TransformGroupShape();
+            var transfGroupShape = new TransformGroupShape();
 
             transfGroupShape = transfGroup.Shape[0];
 
-            TransformGroupShapeIndexedFaceSet shapeIndexedFaceSet 
-                = new TransformGroupShapeIndexedFaceSet();
+            var shapeIndexedFaceSet 
+                    = new TransformGroupShapeIndexedFaceSet();
 
             // indices
             shapeIndexedFaceSet = transfGroupShape.IndexedFaceSet[0];
@@ -109,13 +109,13 @@ namespace OpenTK_NRCGL.NRCGL
             */
 
 
-            List<Vector3> positionsList = new List<Vector3>();
+            var positionsList = new List<Vector3>();
 
             string[] positionCoordsStr = positionCoords.point.Split(' ');
 
             for (int i = 0; i < positionCoordsStr.Length - 1; )
             {
-                Vector3 vector3 = new Vector3(
+                var vector3 = new Vector3(
                     Convert.ToSingle(positionCoordsStr[i++], CultureInfo.InvariantCulture),
                     Convert.ToSingle(positionCoordsStr[i++], CultureInfo.InvariantCulture),
                     Convert.ToSingle(positionCoordsStr[i++], CultureInfo.InvariantCulture));
@@ -123,14 +123,14 @@ namespace OpenTK_NRCGL.NRCGL
                 positionsList.Add(vector3);
             }
 
-            List<Vector2> texCoordsList = new List<Vector2>();
+            var texCoordsList = new List<Vector2>();
 
             string[] texCoordsStr = texCoords.point.Split(' ');
 
             // OpenTK flips V texCoord. Used (U, 1-V) to convert from X3D to OpenTK
             for (int i = 0; i < texCoordsStr.Length - 1; )
             {
-                Vector2 vector2 = new Vector2(
+                var vector2 = new Vector2(
                     Convert.ToSingle(texCoordsStr[i++], CultureInfo.InvariantCulture),
                     1 - Convert.ToSingle(texCoordsStr[i++], CultureInfo.InvariantCulture));
 
@@ -142,15 +142,15 @@ namespace OpenTK_NRCGL.NRCGL
 
             // generate model xml
 
-            VertexsIndicesData vertexsIndicesData = new VertexsIndicesData();
+            var vertexsIndicesData = new VertexsIndicesData();
             vertexsIndicesData.VertexFormat = VertexFormat.XYZ_NORMAL_UV_COLOR;
             
-            List<Vertex> vertexs = new List<Vertex>();
+            var vertexs = new List<Vertex>();
             int idx = 0;
 
 
-            List<uint> texCoordIndexs = new List<uint>();
-            List<uint> coordIndexs = new List<uint>();
+            var texCoordIndexs = new List<uint>();
+            var coordIndexs = new List<uint>();
 
             string[] coordsIndexStr = shapeIndexedFaceSet.coordIndex.Split(' ');
             string[] texCoordsIndexStr = shapeIndexedFaceSet.texCoordIndex.Split(' ');
@@ -165,21 +165,21 @@ namespace OpenTK_NRCGL.NRCGL
                     {
                         case 4:
                             #region quad
-                            Vertex vertex0 = new Vertex();
+                            var vertex0 = new Vertex();
                             vertex0.Color = Color4.Chocolate;
                             vertex0.Normal = Vector3.Zero;
                             vertex0.Position = new Vector3(positionsList[(int)coordIndexs[idx]]);
                             vertex0.TexCoord = new Vector2(texCoordsList[(int)texCoordIndexs[idx]]);
                             vertexs.Add(vertex0);
                             v++;
-                            Vertex vertex1 = new Vertex();
+                            var vertex1 = new Vertex();
                             vertex1.Color = Color4.Chocolate;
                             vertex1.Normal = Vector3.Zero;
                             vertex1.Position = new Vector3(positionsList[(int)coordIndexs[idx+1]]);
                             vertex1.TexCoord = new Vector2(texCoordsList[(int)texCoordIndexs[idx+1]]);
                             vertexs.Add(vertex1);
                             v++;
-                            Vertex vertex2 = new Vertex();
+                            var vertex2 = new Vertex();
                             vertex2.Color = Color4.Chocolate;
                             vertex2.Normal = Vector3.Zero;
                             vertex2.Position = new Vector3(positionsList[(int)coordIndexs[idx + 2]]);
@@ -273,11 +273,11 @@ namespace OpenTK_NRCGL.NRCGL
             }
 
 
-
+            // bug! there are triangles also
             vertexsIndicesData.VertexCount = (coordIndexs.Count / 4) * 6;
             vertexsIndicesData.IndicesCount = (coordIndexs.Count / 4) * 6;
 
-            List<uint> indices = new List<uint>();
+            var indices = new List<uint>();
             for (int i = 0; i < vertexsIndicesData.IndicesCount; i++)
             {
                 indices.Add((uint)i);
@@ -286,13 +286,60 @@ namespace OpenTK_NRCGL.NRCGL
             vertexsIndicesData.Vertexs = vertexs;
             vertexsIndicesData.Indices = indices;
 
-            XmlSerializer xmlSerializerModel = new XmlSerializer(typeof(VertexsIndicesData));
-            TextWriter textWriter = new StringWriter();
+            var xmlSerializerModel = new XmlSerializer(typeof(VertexsIndicesData));
+            var textWriter = new StringWriter();
             xmlSerializerModel.Serialize(textWriter, vertexsIndicesData);
 
             File.WriteAllText(path + "_out", textWriter.ToString());
 
             //File.WriteAllText(@"Models\test.txt", output);
+
+            // smooth shadow
+
+            var solvedVertexesPositions = new List<Vector3>();
+
+            for (int i = 0; i < vertexsIndicesData.Vertexs.Count; i++)
+            {
+                if (solvedVertexesPositions.Contains(
+                                vertexsIndicesData.Vertexs[i].Position))
+                    continue;
+
+                solvedVertexesPositions.
+                    Add(vertexsIndicesData.Vertexs[i].Position);
+
+                var normal = new Vector3();
+
+                normal = vertexsIndicesData.Vertexs[i].Normal;
+
+                var vertexes2Solve = new Stack<Vertex>();
+                vertexes2Solve.Push(vertexsIndicesData.Vertexs[i]);
+
+                for (int j = 0; j < vertexsIndicesData.Vertexs.Count; j++)
+                {
+                    if (vertexsIndicesData.Vertexs[i].Position == 
+                        vertexsIndicesData.Vertexs[j].Position &&
+                        i != j)
+                    {
+                        normal += vertexsIndicesData.Vertexs[j].Normal;
+                        vertexes2Solve.Push(vertexsIndicesData.Vertexs[j]);
+                    }
+                }
+
+                normal.Normalize();
+
+                while (vertexes2Solve.Count > 0)
+                {
+                    vertexes2Solve.Pop().Normal = normal;
+                }
+
+                
+            }
+
+            var xmlSerializerModelSmooth = new XmlSerializer(typeof(VertexsIndicesData));
+            var textWriter1 = new StringWriter();
+            xmlSerializerModelSmooth.Serialize(textWriter1, vertexsIndicesData);
+
+            File.WriteAllText(path + "_out_smooth", textWriter1.ToString());
 
         }
 

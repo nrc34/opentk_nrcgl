@@ -419,8 +419,8 @@ namespace OpenTK_NRCGL.Game
             //if (Keyboard[Key.S]) Shapes3D["sphere"].
             //        VertexBuffer.SerializeBufer(@"Models\sphere.xml");
 
-            //if (GameWindow.Keyboard[Key.T]) Tools.
-            //        GenerateModelFrom3DS(@"Models\Torus.x3d");
+            if (GameWindow.Keyboard[Key.T]) Tools.
+                    GenerateModelFrom3DS(@"Models\sphere3D128x128x1.x3d");
 
 
         }
