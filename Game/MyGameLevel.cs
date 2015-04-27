@@ -72,6 +72,8 @@ namespace OpenTK_NRCGL.Game
         private Vector3 SunLightPosition;
 
         private bool CubesHaveNormalMap;
+        private bool ToggleSmooth;
+
 
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
                                                 Vector2 targetPosition)
@@ -386,6 +388,27 @@ namespace OpenTK_NRCGL.Game
                 coolDown = 10;
             }
 
+            if (GameWindow.Keyboard[Key.KeypadDecimal] && coolDown == 0)
+            {
+                Shapes3D.Remove("sphereEnvCubeMap");
+
+                ToggleSmooth = !ToggleSmooth;
+
+                Shape3D sphere1 = new Sphere3D(new Vector3(-45f, 1.5f, -45f), 1.5f, 
+                            Color4.Gold, Textures["sphere_texture"], ToggleSmooth);
+                sphere1.Physic.Mass = 10f;
+                sphere1.Physic.Vxyz = Vector3.Zero;
+                sphere1.ShadowMatrix = ShadowMap.ShadowMatrix;
+                sphere1.TextureShadowMap = ShadowMap.DepthTexture;
+                sphere1.Bounding.R = 1.5f;
+                sphere1.Load();
+                Shapes3D.Add("sphereEnvCubeMap", sphere1);
+
+
+
+                coolDown = 10;
+            }
+
             if (GameWindow.Keyboard[Key.M] && coolDown == 0)
             {
                 MyGame.MultiView = !MyGame.MultiView;
@@ -419,8 +442,8 @@ namespace OpenTK_NRCGL.Game
             //if (Keyboard[Key.S]) Shapes3D["sphere"].
             //        VertexBuffer.SerializeBufer(@"Models\sphere.xml");
 
-            if (GameWindow.Keyboard[Key.T]) Tools.
-                    GenerateModelFrom3DS(@"Models\sphere3D128x128x1.x3d");
+            //if (GameWindow.Keyboard[Key.T]) Tools.
+            //       GenerateModelFrom3DS(@"Models\sphere3D64x64x1.x3d");
 
 
         }

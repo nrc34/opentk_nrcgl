@@ -33,7 +33,9 @@ Main features:
   - Audio
   - PointLight
   - SpotLight
+  - NormalMap
+  - SmoothShading
 
 Demo video:
 
-http://youtu.be/sMFUpMN-0do
+http://youtu.be/-0v7CwrDBOs

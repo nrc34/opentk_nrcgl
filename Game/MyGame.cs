@@ -274,7 +274,7 @@ namespace OpenTK_NRCGL.Game
             shpereEnvCubeMap.Load();
             shapes3D.Add("sphereEnvCubeMap", shpereEnvCubeMap);
             */
-            Shape3D sphere1 = new Sphere3D(new Vector3(-45f, 1.5f, -45f), 1.5f, Color4.Gold, sphere_texture);
+            Shape3D sphere1 = new Sphere3D(new Vector3(-45f, 1.5f, -45f), 1.5f, Color4.Gold, sphere_texture, false);
             sphere1.Physic.Mass = 10f;
             sphere1.Physic.Vxyz = Vector3.Zero;
             sphere1.ShadowMatrix = shadowMap.ShadowMatrix;

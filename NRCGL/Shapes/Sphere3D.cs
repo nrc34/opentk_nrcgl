@@ -43,6 +43,7 @@ namespace OpenTK_NRCGL.NRCGL
     {
         private float r;
         private static VertexsIndicesData vid;
+        private static VertexsIndicesData vid_smooth;
 
 
         public float R
@@ -52,25 +53,46 @@ namespace OpenTK_NRCGL.NRCGL
         }
         
 
-        public Sphere3D(Vector3 position, float r, Color4 color , int textureId = 0) : base()
+        public Sphere3D(Vector3 position, float r, Color4 color, 
+            int textureId = 0, bool isSmoothShading = true) : base()
         {
             this.r = r;
-
+            IsSmoothShading = isSmoothShading;
             Bounding = new Bounding(this, r);
 
-            Model = @"Models\sphere3D128x128x1_smooth.xml";
+            Model = @"Models\sphere3D64x64x1.xml";
 
-            if (vid is VertexsIndicesData)
+            if (isSmoothShading)
             {
-                VertexsIndicesData = vid;
+                // smooth shading
+                if (vid_smooth is VertexsIndicesData)
+                {
+                    VertexsIndicesData = vid_smooth;
+                }
+                else
+                {
+                    vid_smooth = Tools.DeserializeModel(@"Models\sphere3D64x64x1_smooth.xml");
+
+                    VertexsIndicesData = vid_smooth;
+                }
             }
             else
             {
-                vid = Tools.DeserializeModel(Model);
+                // flat shading
+                if (vid is VertexsIndicesData)
+                {
+                    VertexsIndicesData = vid;
+                }
+                else
+                {
+                    vid = Tools.DeserializeModel(Model);
 
-                VertexsIndicesData = vid;
-
+                    VertexsIndicesData = vid;
+                }
             }
+            
+
+            
 
 
             

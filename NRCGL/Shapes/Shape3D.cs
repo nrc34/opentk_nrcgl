@@ -96,10 +96,18 @@ namespace OpenTK_NRCGL.NRCGL
         private bool isUsingNormalMap;
         private int isUsingNormalMap_location;
         private int material_HasSpecular_location;
+        private bool isSmoothShading;
 
 
 
+        
 
+        public bool IsSmoothShading
+        {
+            get { return isSmoothShading; }
+            set { isSmoothShading = value; }
+        }
+        
 
         public int Material_HasSpecular_location
         {
@@ -479,7 +487,7 @@ namespace OpenTK_NRCGL.NRCGL
             collision = true;
             isVisible = true;
             isShadowCaster = true;
-
+            isSmoothShading = true;
             isUsingNormalMap = false;
 
             // default values for Light
