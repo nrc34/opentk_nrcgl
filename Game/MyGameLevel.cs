@@ -40,6 +40,7 @@ using OpenTK.Graphics.OpenGL4;
 using System.Drawing;
 using OpenTK.Graphics;
 using System.Diagnostics;
+using System.IO;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -65,6 +66,7 @@ namespace OpenTK_NRCGL.Game
 
         private PointLight PointLight;
         private SpotLight SpotLight;
+        private int pointLightCount = 5;
 
         private float pointLightAngle = 0;
         private bool IsLoadedAudioClockTick;
@@ -442,8 +444,8 @@ namespace OpenTK_NRCGL.Game
             //if (Keyboard[Key.S]) Shapes3D["sphere"].
             //        VertexBuffer.SerializeBufer(@"Models\sphere.xml");
 
-            //if (GameWindow.Keyboard[Key.T]) Tools.
-            //       GenerateModelFrom3DS(@"Models\sphere3D64x64x1.x3d");
+            if (GameWindow.Keyboard[Key.T]) Tools.
+                   GenerateModelFrom3DS(@"Models\sphere3D.x3d");
 
 
         }
@@ -636,12 +638,31 @@ namespace OpenTK_NRCGL.Game
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
 
-                pointLightAngle += 0.0004f;
+                if (pointLightCount == 40) pointLightCount = 1;
+                else pointLightCount++;
 
-                PointLight.Position = 
-                    new Vector3(40f * (float)Math.Cos(pointLightAngle),
+                float pointLightAngleTween = 
+                    Tween.Solve(Tween.Function.Cubic, 
+                                Tween.Ease.Out, 
+                                0, 
+                                MathHelper.TwoPi, 
+                                40, 
+                                pointLightCount);
+
+                MyGame.Debug2 = ".".PadRight(pointLightCount, '.');
+
+                PointLight.Position =
+                    new Vector3(40f * (float)Math.Cos(pointLightAngleTween),
                                 PointLight.Position.Y,
-                                40f * (float)Math.Sin(pointLightAngle));
+                                40f * (float)Math.Sin(pointLightAngleTween));
+
+                File.AppendAllText("log.txt", pointLightCount.ToString() + " : " + pointLightAngleTween.ToString() + "\r\n");
+
+                pointLightAngle += 0.0004f;
+                //PointLight.Position =
+                //    new Vector3(40f * (float)Math.Cos(pointLightAngle),
+                //                PointLight.Position.Y,
+                //                40f * (float)Math.Sin(pointLightAngle));
 
                 PointLight.Color =
                     new Vector3(0.9f, 0.9f, 0.1f);

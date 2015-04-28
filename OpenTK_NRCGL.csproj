@@ -83,6 +83,7 @@
     <Compile Include="NRCGL\Shapes\Sphere3D.cs" />
     <Compile Include="NRCGL\Texture.cs" />
     <Compile Include="NRCGL\Tools.cs" />
+    <Compile Include="NRCGL\Tween.cs" />
     <Compile Include="NRCGL\Vertex.cs" />
     <Compile Include="NRCGL\VertexFloatBuffer.cs" />
     <Compile Include="NRCGL\VertexsIndicesData.cs" />
@@ -180,8 +181,8 @@
     <Content Include="Models\skyBox.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Models\Sphere3D.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Models\sphere3D.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Models\sphere3D1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -199,6 +200,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Models\sphere3Dico.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Models\sphere3D_smooth.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Models\TextFile1.txt">

@@ -60,7 +60,7 @@ namespace OpenTK_NRCGL.NRCGL
             IsSmoothShading = isSmoothShading;
             Bounding = new Bounding(this, r);
 
-            Model = @"Models\sphere3D64x64x1.xml";
+            Model = @"Models\sphere3D.xml";
 
             if (isSmoothShading)
             {
@@ -71,7 +71,7 @@ namespace OpenTK_NRCGL.NRCGL
                 }
                 else
                 {
-                    vid_smooth = Tools.DeserializeModel(@"Models\sphere3D64x64x1_smooth.xml");
+                    vid_smooth = Tools.DeserializeModel(@"Models\sphere3D_smooth.xml");
 
                     VertexsIndicesData = vid_smooth;
                 }
