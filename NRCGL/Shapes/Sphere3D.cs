@@ -90,12 +90,6 @@ namespace OpenTK_NRCGL.NRCGL
                     VertexsIndicesData = vid;
                 }
             }
-            
-
-            
-
-
-            
 
             Scale(r);
 

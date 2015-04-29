@@ -125,7 +125,7 @@ namespace OpenTK_NRCGL.Game
                 ConeDirection = new Vector3(0f, -1f, 0f)
             };
 
-            SunLightPosition = new Vector3(50, 200, 50);
+            SunLightPosition = new Vector3(68, 200, -18);
 
             CubesHaveNormalMap = false;
 
@@ -637,16 +637,17 @@ namespace OpenTK_NRCGL.Game
                     item.Key != "sphereEnvM")
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
+                float totalTicks = 15708 * 1.5f;
 
-                if (pointLightCount == 15708 * 2) pointLightCount = 1;
+                if (pointLightCount == totalTicks) pointLightCount = 1;
                 else pointLightCount++;
 
                 float pointLightAngleTween = 
-                    Tween.Solve(Tween.Function.Cubic, 
-                                Tween.Ease.InOut, 
+                    Tween.Solve(Tween.Function.Bounce, 
+                                Tween.Ease.Out, 
                                 0, 
                                 MathHelper.TwoPi, 
-                                15708 * 2, 
+                                totalTicks, 
                                 pointLightCount);
 
                 PointLight.Position =
@@ -809,9 +810,9 @@ namespace OpenTK_NRCGL.Game
                               + (float)Math.Acos(Convert.ToDouble(CameraUangle)) + " = " +
                               MathHelper.RadiansToDegrees((float)Math.Acos(Convert.ToDouble(CameraUangle))) + "\n" +
                               "Shapes : " + Shapes3D.Count + "\n" +
-                              "Light_X : " + ShadowMap.LightView.Position.X + "\n" +
-                              "Light_Y : " + ShadowMap.LightView.Position.Y + "\n" +
-                              "Light_Z : " + ShadowMap.LightView.Position.Z + "\n" +
+                              "SunLight_X : " + SunLightPosition.X + "\n" +
+                              "SunLight_Y : " + SunLightPosition.Y + "\n" +
+                              "SunLight_Z : " + SunLightPosition.Z + "\n" +
                               "Table_X_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableXAngle) + "\n" +
                               "Table_Z_Angle : " + MathHelper.RadiansToDegrees(MyGame.TableZAngle) + "\n" +
                               "DEBUG : " + MyGame.Debug + "\n" +

@@ -75,7 +75,7 @@ namespace OpenTK_NRCGL.NRCGL
             DepthTexture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, DepthTexture);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent24,
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent32,
                 textSize, textSize, 0, PixelFormat.DepthComponent, PixelType.Float, IntPtr.Zero);
             // default filtering
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
@@ -89,14 +89,14 @@ namespace OpenTK_NRCGL.NRCGL
 
             // create FBO to render depth into
             FBO = GL.GenFramebuffer();
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, FBO);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, FBO);
             // attach the depth texture
-            GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, DepthTexture, 0);
+            GL.FramebufferTexture(FramebufferTarget.FramebufferExt, FramebufferAttachment.DepthAttachmentExt, DepthTexture, 0);
             // disable color render
             GL.DrawBuffer(DrawBufferMode.None);
 
             // restore texture and framebuffer
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // initialize scale bias matrix
@@ -123,7 +123,7 @@ namespace OpenTK_NRCGL.NRCGL
 
         public void Update(Dictionary<string, Shape3D> shapes3D, Matrix4 ProjectionMatrix, GameWindow gameWindow)
         {
-            GL.BindFramebuffer(FramebufferTarget.Framebuffer, FBO);
+            GL.BindFramebuffer(FramebufferTarget.FramebufferExt, FBO);
             //GL.BindTexture(TextureTarget.Texture2D, DepthTexture);
             //GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthStencilAttachment, DepthTexture, 0);
 
