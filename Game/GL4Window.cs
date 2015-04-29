@@ -50,7 +50,7 @@ namespace OpenTK_NRCGL
 
         public GL4Window(int width = 1024, int height = 728)
             : base(width, height,
-            new GraphicsMode(new ColorFormat(8, 8, 8, 8), 32, 8),
+            new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8),
             "NRCGL",
             GameWindowFlags.Fullscreen,
             DisplayDevice.Default,
