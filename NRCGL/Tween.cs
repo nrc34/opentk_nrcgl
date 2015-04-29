@@ -47,7 +47,7 @@ namespace OpenTK_NRCGL.NRCGL
         /// <param name="totalTicks">Total ticks for the tween between a and b.</param>
         /// <param name="tick">Tick to be solved.</param>
         /// <returns></returns>
-        public static float Solve(Function function, Ease ease, float a, float b, int totalTicks, int tick)
+        public static float Solve(Function function, Ease ease, float a, float b, float totalTicks, float tick)
         {
 
             switch (function)
@@ -99,10 +99,10 @@ namespace OpenTK_NRCGL.NRCGL
                             return b * ((float)Math.
                                 Pow((tick / totalTicks) - 1, 3) + 1) + a;
                         case Ease.InOut:
-                            if (tick < totalTicks / 2)
-                                return (b / 2) * (float)Math.Pow(tick, 3) + a;
+                            if ( (tick /= totalTicks / 2) < 1)
+                                return (b / 2) * tick * tick * tick + a;
                             else
-                                return (b / 2) * ((float)Math.Pow(tick - 2, 3) + 2) + a;
+                                return (b / 2) *  (( tick -= 2) * tick * tick + 2) + a;;
                         default:
                             break;
 	                }

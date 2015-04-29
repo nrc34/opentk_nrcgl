@@ -66,7 +66,7 @@ namespace OpenTK_NRCGL.Game
 
         private PointLight PointLight;
         private SpotLight SpotLight;
-        private int pointLightCount = 5;
+        private int pointLightCount = 0;
 
         private float pointLightAngle = 0;
         private bool IsLoadedAudioClockTick;
@@ -638,25 +638,22 @@ namespace OpenTK_NRCGL.Game
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
 
-                if (pointLightCount == 40) pointLightCount = 1;
+                if (pointLightCount == 15708 * 2) pointLightCount = 1;
                 else pointLightCount++;
 
                 float pointLightAngleTween = 
                     Tween.Solve(Tween.Function.Cubic, 
-                                Tween.Ease.Out, 
+                                Tween.Ease.InOut, 
                                 0, 
                                 MathHelper.TwoPi, 
-                                40, 
+                                15708 * 2, 
                                 pointLightCount);
-
-                MyGame.Debug2 = ".".PadRight(pointLightCount, '.');
 
                 PointLight.Position =
                     new Vector3(40f * (float)Math.Cos(pointLightAngleTween),
                                 PointLight.Position.Y,
                                 40f * (float)Math.Sin(pointLightAngleTween));
 
-                File.AppendAllText("log.txt", pointLightCount.ToString() + " : " + pointLightAngleTween.ToString() + "\r\n");
 
                 pointLightAngle += 0.0004f;
                 //PointLight.Position =
