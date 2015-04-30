@@ -643,7 +643,7 @@ namespace OpenTK_NRCGL.Game
                 else pointLightCount++;
 
                 float pointLightAngleTween = 
-                    Tween.Solve(Tween.Function.Bounce, 
+                    Tween.Solve(Tween.Function.Circular, 
                                 Tween.Ease.Out, 
                                 0, 
                                 MathHelper.TwoPi, 

@@ -76,11 +76,19 @@ namespace OpenTK_NRCGL.NRCGL
                         case Ease.None:
                             break;
                         case Ease.In:
-                            break;
+                            return b * (tick /= totalTicks) * tick * 
+                                ((1.70158f + 1) * tick - 1.70158f) + a;
                         case Ease.Out:
-                            break;
+                            return b * ((tick = tick / totalTicks - 1) * 
+                                tick * ((1.70158f + 1) * tick + 1.70158f)
+                                + 1) + a;
                         case Ease.InOut:
-                            break;
+                            float s = 1.70158f;
+                            if ( ( tick /= totalTicks / 2 ) < 1 )
+                                return b / 2 * ( tick * tick * ( ( ( s *= 
+                                    ( 1.525f ) ) + 1 ) * tick - s ) ) + a;
+                            return b / 2 * ( ( tick -= 2 ) * tick * ( ( ( s *= 
+                                ( 1.525f ) ) + 1 ) * tick + s ) + 2 ) + a;
                         default:
                             break;
 	                }
@@ -115,11 +123,18 @@ namespace OpenTK_NRCGL.NRCGL
                         case Ease.None:
                             break;
                         case Ease.In:
-                            break;
+                            return -b * ((float)Math.Sqrt(1 - 
+                                (tick /= totalTicks) * tick) - 1) + a;
                         case Ease.Out:
-                            break;
+                            return b * (float)Math.Sqrt(1 - (tick = tick 
+                                / totalTicks - 1) * tick) + a;
                         case Ease.InOut:
-                            break;
+                            if ( ( tick /= totalTicks / 2 ) < 1 )
+                            return -b / 2 * ( (float)Math.Sqrt( 1 - tick * 
+                                tick ) - 1 ) + a;
+
+                            return b / 2 * ( (float)Math.Sqrt( 1 - ( tick -= 
+                                2 ) * tick ) + 1 ) + a;
                         default:
                             break;
 	                }
@@ -132,7 +147,6 @@ namespace OpenTK_NRCGL.NRCGL
                         case Ease.None:
                             break;
                         case Ease.In:
-
                             break;
                         case Ease.Out:
                             if ((tick /= totalTicks) < (1 / 2.75))
@@ -189,11 +203,42 @@ namespace OpenTK_NRCGL.NRCGL
                         case Ease.None:
                             break;
                         case Ease.In:
-                            break;
+                            if ( ( tick /= totalTicks ) == 1 )
+                            return a + b;
+
+                            float p = totalTicks * 0.3f;
+                            float s = p / 4;
+
+                            return -( b * (float)Math.Pow( 2, 10 * 
+                                ( tick -= 1 ) ) * (float)Math.Sin( 
+                                ( tick * totalTicks - s ) * ( 2 * 
+                                (float)Math.PI ) / p ) ) + a;
                         case Ease.Out:
-                            break;
+                            if ( ( tick /= totalTicks ) == 1 )
+                            return a + b;
+
+                            float p1 = totalTicks * 0.3f;
+                            float s1 = p1 / 4;
+
+                            return ( b * (float)Math.Pow( 2, -10 * tick ) * 
+                                (float)Math.Sin( ( tick * totalTicks - s1 ) * 
+                                ( 2 * (float)Math.PI ) / p1 ) + b + a );
                         case Ease.InOut:
-                            break;
+                            if ( ( tick /= totalTicks / 2 ) == 2 )
+                            return a + b;
+
+                            float p2 = totalTicks * ( 0.3f * 1.5f );
+                            float s2 = p2 / 4;
+
+                            if ( tick < 1 )
+                            return -0.5f * ( b * (float)Math.Pow( 2, 10 * 
+                                ( tick -= 1 ) ) * (float)Math.Sin( ( tick * 
+                                totalTicks - s2 ) * ( 2 * (float)Math.PI ) /
+                                p2 ) ) + a;
+                            return b * (float)Math.Pow( 2, -10 * 
+                                ( tick -= 1 ) ) * (float)Math.Sin( ( tick *
+                                totalTicks - s2 ) * ( 2 * (float)Math.PI ) /
+                                p2 ) * 0.5f + b + a;
                         default:
                             break;
 	                }
@@ -206,11 +251,17 @@ namespace OpenTK_NRCGL.NRCGL
                         case Ease.None:
                             break;
                         case Ease.In:
-                            break;
+                            return b * (tick /= totalTicks) * 
+                                tick + a;
                         case Ease.Out:
-                            break;
+                            return -b * (tick /= totalTicks) * 
+                                (tick - 2) + a;
                         case Ease.InOut:
-                            break;
+                            if ( ( tick /= totalTicks / 2 ) < 1 )
+                             return b / 2 * tick * tick + a;
+
+                             return -b / 2 * ( ( --tick ) * 
+                                 ( tick - 2 ) - 1 ) + a;
                         default:
                             break;
 	                }
