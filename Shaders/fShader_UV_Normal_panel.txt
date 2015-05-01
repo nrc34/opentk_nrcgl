@@ -100,7 +100,7 @@ void main()
 	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,of,of,0));
 	f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,0,0,0));
 	f /= 2;
-	//f += 0.1;
+	f += 0.1;
 
 	vec4 color = texture2DProj(TextureUnit0, att.texcoord);
     

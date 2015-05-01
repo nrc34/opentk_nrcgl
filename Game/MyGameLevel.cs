@@ -539,7 +539,7 @@ namespace OpenTK_NRCGL.Game
 
                 if (item.Key == "sphereEnvCubeMap")
                 {
-                    float speed = 5f;
+                    float speed = 5f * 20f / MyGame.UPS;
                     Shapes3D["sphereEnvCubeMap"].Physic.Vxyz
                         = new Vector3(Shapes3D["sphereEnvCubeMap"].
                                         Physic.Vxyz.X +
@@ -882,7 +882,7 @@ namespace OpenTK_NRCGL.Game
                     float deltaZ = Shapes3D["sphereEnvCubeMap"].Position.Z -
                                     ballUpdateOldPosition.Z;
 
-                    int rep = 10;
+                    int rep = 4;
 
                     for (int i = rep; i !=0; i--)
                     {

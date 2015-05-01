@@ -38,4 +38,4 @@ Main features:
 
 Demo video:
 
-https://youtu.be/20Uh-KhJhfI
+http://youtu.be/38e3GZYwwM8

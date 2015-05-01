@@ -26,6 +26,7 @@
 //
 #endregion
 
+using OpenTK_NRCGL.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace OpenTK_NRCGL
         {
             using (GL4Window gL4Window  = new GL4Window())
             {
-                gL4Window.Run(20, 60);
+                gL4Window.Run(MyGame.UPS, 60);
             }
             
         }
