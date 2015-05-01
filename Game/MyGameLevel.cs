@@ -125,11 +125,12 @@ namespace OpenTK_NRCGL.Game
                 ConeDirection = new Vector3(0f, -1f, 0f)
             };
 
-            SunLightPosition = new Vector3(68, 200, -18);
-
             CubesHaveNormalMap = false;
 
             Load();
+
+            SunLightPosition = new Vector3(68, 200, -18);
+            //SunLightPosition = -ShadowMap.LightView.Position;
         }
 
         public override void LoadShapes()
@@ -203,6 +204,14 @@ namespace OpenTK_NRCGL.Game
 
                 bitmapScreenShot.Save("ScreenShots\\screenshot.bmp");
 
+                coolDown = 20;
+            }
+
+            if (GameWindow.Keyboard[Key.C] && coolDown == 0)
+            {
+                File.WriteAllText("cmera.txt",
+                    "position: " + Camera.Position +
+                    "quaternion: " + Camera.Quaternion);
                 coolDown = 20;
             }
 
@@ -433,7 +442,7 @@ namespace OpenTK_NRCGL.Game
                                       0.5f,
                                       1000f);
 
-                ShadowMap.ProjectionMatrixLightView = MyGame.ProjectionMatrix;
+                //ShadowMap.ProjectionMatrixLightView = MyGame.ProjectionMatrix;
                 ShadowMap.UpdateView();
 
                 foreach (var item in Shapes3D)
@@ -799,7 +808,8 @@ namespace OpenTK_NRCGL.Game
                     // "COLLISIONS : " + collisions.Count + "\n" +
                               "Camera : " + "X= " + Camera.Position.X + "; "
                                           + "Y= " + Camera.Position.Y + "; "
-                                          + "Z= " + Camera.Position.Z + "\n" +
+                                          + "Z= " + Camera.Position.Z + "\n" 
+                                          + "Q= " + Camera.Quaternion + "\n" +
                               "SKYBOX : " + "X= " + Shapes3D["skyBox"].Position.X + "; "
                                           + "Y= " + Shapes3D["skyBox"].Position.Y + "; "
                                           + "Z= " + Shapes3D["skyBox"].Position.Z + "\n" +

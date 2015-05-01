@@ -89,17 +89,17 @@ void main()
     if(lambert > 0)
         phong = pow(max(dot(nE, nR), 0.0), material_shininess);
 
-	float of = 0.15;
+	float of = 0.0018;
 
 	float f = 0; //textureProj(TextureUnit1, att.shadowcoord + vec4(0,0,of,0));
 	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,of,0,0));
 	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,of,of,0));
-	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,0,0,0));
-	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,0,of,0));
-	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,of,0,0));
+	f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,0,0,0));
+	f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,of,0,0));
+	f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,of,0,0));
 	//f += textureProj(TextureUnit1, att.shadowcoord + vec4(of,of,of,0));
 	f += textureProj(TextureUnit1, att.shadowcoord + vec4(0,0,0,0));
-	//f /= 4;
+	f /= 4;
 	//f += 0.1;
 
 	vec4 color = texture2DProj(TextureUnit0, att.texcoord);

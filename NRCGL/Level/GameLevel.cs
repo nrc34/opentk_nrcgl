@@ -74,10 +74,13 @@ namespace OpenTK_NRCGL.NRCGL.Level
             Camera lightView = new Camera();
 
             // lighth view to initialize the shadow map. can be changed.
-            lightView.Position = new Vector3(-150, -150, 10);
-            lightView.Rotate(new Vector3(lightView.CameraUVW.Row0), MathHelper.PiOver2);
-            lightView.Rotate(new Vector3(Vector3.UnitZ), MathHelper.PiOver6);
-            lightView.LevelU2XZ(0.9998470f);
+            lightView.Position = new Vector3(-125.5173f, -112.2577f, -1.61722f);
+            //lightView.Rotate(new Vector3(lightView.CameraUVW.Row0), MathHelper.PiOver2);
+            //lightView.Rotate(new Vector3(Vector3.UnitZ), MathHelper.PiOver6);
+            //lightView.LevelU2XZ(0.9998470f);
+            //V: (0,2715916; -0,6443541; -0,2702386), W: 0,6618307
+            lightView.Quaternion = 
+                new Quaternion(0.2715916f, -0.6443541f, -0.2702386f, 0.6618307f);
             lightView.Update();
 
             ShadowMap = new ShadowMap(lightView);

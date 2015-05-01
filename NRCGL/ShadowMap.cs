@@ -42,7 +42,7 @@ namespace OpenTK_NRCGL.NRCGL
     {
         private Shader Shader;
         private Matrix4 ScaleBiasMatrix;
-        private int textSize = 1024 * 3;
+        private int textSize = 1024 * 6;
         private Matrix4 projectionMatrixLightView;
 
 
@@ -75,7 +75,7 @@ namespace OpenTK_NRCGL.NRCGL
             DepthTexture = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, DepthTexture);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent32,
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent24,
                 textSize, textSize, 0, PixelFormat.DepthComponent, PixelType.Float, IntPtr.Zero);
             // default filtering
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
@@ -108,10 +108,12 @@ namespace OpenTK_NRCGL.NRCGL
 
             //ScaleBiasMatrix.Transpose();
 
-            ProjectionMatrixLightView = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
-                MyGame.Width / (float)MyGame.Height, 0.5f, 1000.0f);
+            //ProjectionMatrixLightView = Matrix4.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
+            //    MyGame.Width / (float)MyGame.Height, 0.5f, 1000.0f);
 
-            //ProjectionMatrixLightView = Matrix4.CreateOrthographic(104, 104, -1, 1);
+            //ProjectionMatrixLightView = MyGame.ProjectionMatrix;
+
+            ProjectionMatrixLightView = Matrix4.CreateOrthographic(200, 300, 30, 300);
 
             // create shadow matrix
             //ShadowMatrix = ScaleBiasMatrix * ProjectionMatrixLightView * LightView.View;
