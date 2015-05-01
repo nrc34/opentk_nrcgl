@@ -225,5 +225,11 @@ namespace OpenTK_NRCGL.NRCGL
 
             return texture;
         }
+
+        public static void DeleteTexture(int textureID)
+        {
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.DeleteTexture(textureID);
+        }
     }
 }
