@@ -115,3 +115,5 @@ C:\Users\Nuno Costa\Documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NR
 C:\Users\Nuno Costa\Documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Models\sphere3D_smooth.xml
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\ball_track_NMap1.png
 C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Textures\ball_track_NMap.png
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\fShader_PointSprites.txt
+C:\Users\Nuno Costa\documents\visual studio 2013\Projects\OpenTK_NRCGL\OpenTK_NRCGL\bin\Debug\Shaders\vShader_PointSprites.txt

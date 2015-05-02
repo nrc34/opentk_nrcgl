@@ -27,6 +27,7 @@
 #endregion
 
 using OpenTK.Graphics.OpenGL4;
+using OpenTK_NRCGL.NRCGL.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,8 @@ namespace OpenTK_NRCGL.NRCGL
         public ShadowMap ShadowMap { get; set; }
 
         public TextRender TextRender { get; set; }
+
+        public PointSprites PointSprites { get; set; }
 
         
 
@@ -89,6 +92,7 @@ namespace OpenTK_NRCGL.NRCGL
             Build();
         }
 
+       
         private void Build()
         {
             int status_code;

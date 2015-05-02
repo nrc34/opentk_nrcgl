@@ -69,6 +69,7 @@
     <Compile Include="NRCGL\Shapes\Bullet3D.cs" />
     <Compile Include="NRCGL\Shapes\Cube3D.cs" />
     <Compile Include="NRCGL\Shapes\Material.cs" />
+    <Compile Include="NRCGL\Shapes\PointSprites.cs" />
     <Compile Include="NRCGL\Shapes\SkyBox.cs" />
     <Compile Include="NRCGL\Shapes\Sphere3DEnvCubeMap.cs" />
     <Compile Include="NRCGL\Shapes\Torus3D.cs" />
@@ -238,6 +239,9 @@
     <Content Include="Shaders\fShader_Color_Normal1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Shaders\fShader_PointSprites.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Shaders\fShader_UV_Normal.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -287,6 +291,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\vShader_UV_Normal.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shaders\vShader_PointSprites.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Shaders\vShader_UV_Normal_SkyBox.txt">

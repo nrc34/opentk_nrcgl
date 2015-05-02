@@ -144,6 +144,10 @@ namespace OpenTK_NRCGL.Game
             basePanel.Material.HasSpecular = false;
             basePanel.Load();
             shapes3D.Add("basePanel", basePanel);
+
+            
+
+
             /*
             Shape3D leftPanel = new Panel3D(Vector3.Zero, 0f, 0f, 0f, Color4.Chocolate, current_texture);
             leftPanel.Scale(2, 52, 0);
@@ -322,7 +326,28 @@ namespace OpenTK_NRCGL.Game
             //torus.Physic.Vxyz = Vector3.Zero;
             //torus.ShadowMatrix = shadowMap.ShadowMatrix;
             //torus.Load();
-            //shapes3D.Add("sphereEnvM", torus);
+            //torus.VertexBuffer.DrawMode = OpenTK.Graphics.OpenGL4.BeginMode.Lines;
+            //shapes3D.Add("pointSprites", torus);
+
+            //Shape3D torus = new Torus3D(new Vector3(0f, 40f, 0f), 10f, Color4.Green);
+            //torus.Collision = false;
+            //torus.IsShadowCaster = true;
+            //torus.Physic.Mass = 10f;
+            //torus.Physic.Vxyz = Vector3.Zero;
+            //torus.ShadowMatrix = shadowMap.ShadowMatrix;
+            //torus.Load();
+            //torus.VertexBuffer.DrawMode = OpenTK.Graphics.OpenGL4.BeginMode.Lines;
+            //shapes3D.Add("pointSprites", torus);
+
+            // point sprites
+            Shape3D pointSprites =
+                new PointSprites("pointSprites", new Vector3(0, 40, 0), 1,
+                    gameLevel.Textures["pointsprites_texture"]);
+            pointSprites.IsShadowCaster = true;
+            pointSprites.ShadowMatrix = shadowMap.ShadowMatrix;
+            pointSprites.Collision = false;
+            pointSprites.Load();
+            shapes3D.Add("pointSprites", pointSprites);
             
             return shapes3D;
         }

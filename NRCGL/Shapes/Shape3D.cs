@@ -97,9 +97,17 @@ namespace OpenTK_NRCGL.NRCGL
         private int isUsingNormalMap_location;
         private int material_HasSpecular_location;
         private bool isSmoothShading;
+        private string name;
 
 
 
+        
+
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
         
 
         public bool IsSmoothShading
@@ -832,7 +840,6 @@ namespace OpenTK_NRCGL.NRCGL
             ModelMatrix = SM * RM * TM;
 
             ModelViewMatrix = ModelMatrix * ViewMatrix;
-
 
             //send to shader
             GL.UseProgram(Shader.Program);

@@ -53,7 +53,9 @@ namespace OpenTK_NRCGL.NRCGL
         XYZ_NORMAL,
         XYZ_NORMAL_COLOR,
         XYZ_NORMAL_UV,
-        XYZ_NORMAL_UV_COLOR
+        XYZ_NORMAL_UV_COLOR,
+
+        XYZW
     }
 
     //Unlike the last vertex buffer, this one is an update
@@ -149,6 +151,9 @@ namespace OpenTK_NRCGL.NRCGL
                     break;
                 case VertexFormat.XYZ_NORMAL_UV_COLOR:
                     Stride = 48;
+                    break;
+                case VertexFormat.XYZW:
+                    Stride = 16;
                     break;
             }
 
@@ -308,6 +313,10 @@ namespace OpenTK_NRCGL.NRCGL
                     GL.VertexAttribPointer(shader.TexCoordLocation, 2, VertexAttribPointerType.Float, false, Stride, 24);
                     GL.VertexAttribPointer(shader.ColorLocation, 4, VertexAttribPointerType.Float, false, Stride, 32);
                     break;
+                case VertexFormat.XYZW:
+                    GL.EnableVertexAttribArray(shader.PositionLocation);
+                    GL.VertexAttribPointer(shader.PositionLocation, 4, VertexAttribPointerType.Float, false, Stride, 0);
+                    break;
             }
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, id_ebo);
@@ -367,7 +376,7 @@ namespace OpenTK_NRCGL.NRCGL
 
         public void AddVertex(float x, float y, float u, float v)
         {
-            if (Format != VertexFormat.XY_UV)
+            if (Format != VertexFormat.XY_UV && Format != VertexFormat.XYZW)
                 throw new FormatException("vertex must be of the same format type as buffer");
 
             vertex_data[vertex_position++] = x;

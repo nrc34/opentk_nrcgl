@@ -1,0 +1,12 @@
+﻿#version 430
+uniform sampler2D TextureUnit0;
+uniform vec3 light_position;
+
+out vec4 fragColor;
+
+in vec4 color;
+
+void main()
+{
+    fragColor = texture(TextureUnit0, gl_PointCoord).xyzw;
+}

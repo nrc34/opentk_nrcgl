@@ -129,7 +129,7 @@ namespace OpenTK_NRCGL.Game
                 ConeDirection = new Vector3(0f, -1f, 0f)
             };
 
-            CubesHaveNormalMap = false;
+            CubesHaveNormalMap = true;
 
             Load();
 
@@ -194,6 +194,10 @@ namespace OpenTK_NRCGL.Game
                          Texture.Load(basePanelNormalMap));
 
             Textures.Add("target_texture",
+                         Texture.LoadTexture(
+                         @"Textures\target.png", 0, false, false));
+
+            Textures.Add("pointsprites_texture",
                          Texture.LoadTexture(
                          @"Textures\target.png", 0, false, false));
         }
@@ -305,8 +309,8 @@ namespace OpenTK_NRCGL.Game
 
             }
 
-            if (GameWindow.Keyboard[Key.Q]) Camera.TranslateLC(0, 0, 5);
-            if (GameWindow.Keyboard[Key.A]) Camera.TranslateLC(0, 0, -5);
+            if (GameWindow.Keyboard[Key.Q]) Camera.TranslateLC(0, 0, 5f);
+            if (GameWindow.Keyboard[Key.A]) Camera.TranslateLC(0, 0, -5f);
 
 
             if (GameWindow.Keyboard[Key.X])
@@ -583,7 +587,8 @@ namespace OpenTK_NRCGL.Game
                 else if (item.Key != "skyBox" &&
                          item.Key != "sphereEnvCubeMap" &&
                          item.Key != "spotLight" &&
-                         item.Key != "sphereEnvM")
+                         item.Key != "sphereEnvM" &&
+                         item.Key != "pointSprites")
                 {
                     item.Value.Quaternion =
                         Quaternion.FromAxisAngle(
@@ -651,7 +656,8 @@ namespace OpenTK_NRCGL.Game
                 if (item.Key != "skyBox" && 
                     item.Key != "basePanel" && 
                     item.Key != "spotLight" &&
-                    item.Key != "sphereEnvM")
+                    item.Key != "sphereEnvM" &&
+                    item.Key != "pointSprites")
                         item.Value.Position =
                             new Vector3((float)x, -(float)y, (float)z);
                 float totalTicks = 15708 * 1.5f;
@@ -731,7 +737,19 @@ namespace OpenTK_NRCGL.Game
                     item.Value.Light.Ambient = Vector3.One * 1.1f;
                 }
 
+                if (item.Value.Name == "pointSprites")
+                {
+                    item.Value.Scale(
+                        Tween.Solve(Tween.Function.Back,
+                                Tween.Ease.In,
+                                0,
+                                10,
+                                totalTicks,
+                                pointLightCount));
+                }
 
+
+                // main update
                 item.Value.Update(Camera.View,
                                   MyGame.ProjectionMatrix,
                                   Shapes3D,
