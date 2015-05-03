@@ -46,7 +46,9 @@ namespace OpenTK_NRCGL.NRCGL.Level
             ID = id;
             Name = name;
 
-            IsFinished = false;
+            CurrentState = Level.State.Loading;
+
+            IsFinishedWithSuccess = false;
 
             GameWindow = gameWindow;
 
@@ -98,12 +100,62 @@ namespace OpenTK_NRCGL.NRCGL.Level
         {
         }
 
+        public override void Start()
+        {
+        }
+
+        public override void Run()
+        {
+        }
+
+        public override void Finish()
+        {
+        }
 
         public override void Unload()
         {
             throw new NotImplementedException();
         }
 
+        public override void CheckMouse()
+        {
+            switch (CurrentState)
+            {
+                case State.Loading:
+                    return;
+                case State.Starting:
+                    return;
+                case State.Running:
+                    break;
+                case State.Finishing:
+                    return;
+                case State.Unloading:
+                    return;
+                default:
+                    break;
+            }
+        }
+
+        public override void CheckKeyBoard()
+        {
+            if (GameWindow.Keyboard[Key.Escape]) GameWindow.Exit();
+
+            switch (CurrentState)
+            {
+                case State.Loading:
+                    return;
+                case State.Starting:
+                    return;
+                case State.Running:
+                    break;
+                case State.Finishing:
+                    return;
+                case State.Unloading:
+                    return;
+                default:
+                    break;
+            }
+        }
 
         public override void Update()
         {
@@ -115,28 +167,44 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
             Camera.Update();
 
-            if (IsFinished)
+            switch (CurrentState)
             {
-                Finish();
-                return;
+                case State.Loading:
+                    return;
+                case State.Starting:
+                    Start();
+                    return;
+                case State.Running:
+                    Run();
+                    return;
+                case State.Finishing:
+                    Finish();
+                    return;
+                case State.Unloading:
+                    Unload();
+                    return;
+                default:
+                    break;
             }
         }
 
-        public override void CheckMouse()
-        {
-        }
-
-        public override void CheckKeyBoard()
-        {
-        }
-
-
         public override void Render()
         {
-        }
-
-        public override void Finish()
-        {
+            switch (CurrentState)
+            {
+                case State.Loading:
+                    return;
+                case State.Starting:
+                    break;
+                case State.Running:
+                    break;
+                case State.Finishing:
+                    break;
+                case State.Unloading:
+                    return;
+                default:
+                    break;
+            }
         }
 
     }

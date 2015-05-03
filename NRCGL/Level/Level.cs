@@ -38,13 +38,25 @@ namespace OpenTK_NRCGL.NRCGL.Level
 {
     abstract class Level : ILevel
     {
+        public enum State
+        {
+            Loading,
+            Starting,
+            Running,
+            Finishing,
+            Unloading
+        }
+        
+        
         public int ID { get; set; }
 
         public string Name { get; set; }
 
-        public GameWindow GameWindow { get; set; }
+        public State CurrentState  { get; set; }
 
-        public bool IsFinished { get; set; }
+        public bool IsFinishedWithSuccess { get; set; }
+
+        public GameWindow GameWindow { get; set; }
 
         public Dictionary<string, Shape3D> Shapes3D { get; set; }
 
@@ -65,6 +77,10 @@ namespace OpenTK_NRCGL.NRCGL.Level
         public abstract void Load();
 
         public abstract void Unload();
+
+        public abstract void Start();
+
+        public abstract void Run();
 
         public abstract void Finish();
 

@@ -37,9 +37,11 @@ namespace OpenTK_NRCGL.NRCGL.Level
     interface ILevel : IWGameable
     {
         void Load();
+        void Start();
+        void Run();
+        void Finish();
         void Unload();
         void CheckMouse();
         void CheckKeyBoard();
-        void Finish();
     }
 }

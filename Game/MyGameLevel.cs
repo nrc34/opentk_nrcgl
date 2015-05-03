@@ -41,6 +41,7 @@ using System.Drawing;
 using OpenTK.Graphics;
 using System.Diagnostics;
 using System.IO;
+using OpenTK_NRCGL.NRCGL.Shapes;
 
 namespace OpenTK_NRCGL.Game
 {
@@ -80,6 +81,10 @@ namespace OpenTK_NRCGL.Game
         private Bitmap ballTrackNormalMap;
         private Vector3 ballUpdateOldPosition;
 
+        private int endLevelCameraMovCount = 0;
+
+        Camera FinishCamera;
+
 
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
                                                 Vector2 targetPosition)
@@ -116,7 +121,7 @@ namespace OpenTK_NRCGL.Game
             PointLight = new PointLight
             {
                 Position = new Vector3(-30f, 5f, -30f),
-                Color = new Vector3(0.9f, 0.9f, 0.8f),
+                Color = new Vector3(0.9f, 0.9f, 0.1f),
                 Intensity = 0.2f
             };
 
@@ -137,6 +142,10 @@ namespace OpenTK_NRCGL.Game
 
             SunLightPosition = new Vector3(68, 200, -18);
             //SunLightPosition = -ShadowMap.LightView.Position;
+
+            CurrentState = State.Running;
+
+            FinishCamera = new Camera();
         }
 
         public override void LoadShapes()
@@ -199,16 +208,13 @@ namespace OpenTK_NRCGL.Game
 
             Textures.Add("pointsprites_texture",
                          Texture.LoadTexture(
-                         @"Textures\target.png", 0, false, false));
+                         @"Textures\star.png", 0, false, false));
         }
 
         public override void CheckKeyBoard()
         {
             base.CheckKeyBoard();
 
-            if (GameWindow.Keyboard[Key.Escape]) GameWindow.Exit();
-
-            if (IsFinished) return;
 
             if (GameWindow.Keyboard[Key.F10] && coolDown == 0)
             {
@@ -216,6 +222,22 @@ namespace OpenTK_NRCGL.Game
 
                 bitmapScreenShot.Save("ScreenShots\\screenshot.bmp");
 
+                coolDown = 20;
+            }
+
+            if (GameWindow.Keyboard[Key.Space] && coolDown == 0)
+            {
+                Shapes3D["pointSprites"].Position =
+                    new Vector3(0, 50, 0);
+                coolDown = 20;
+            }
+
+            if (GameWindow.Keyboard[Key.F] && coolDown == 0)
+            {
+                Shapes3D["sphereEnvCubeMap"].Position =
+                    new Vector3(TargetPosition.X,
+                                0.05f,
+                                TargetPosition.Y);
                 coolDown = 20;
             }
 
@@ -477,7 +499,6 @@ namespace OpenTK_NRCGL.Game
 
             //return; // disable mouse
 
-            if (IsFinished) return;
 
             OpenTK.Input.MouseState mouseState = OpenTK.Input.Mouse.GetCursorState();
 
@@ -518,8 +539,29 @@ namespace OpenTK_NRCGL.Game
         public override void Update()
         {
             base.Update();
+        }
 
-            if (IsFinished) return;
+        public override void Render()
+        {
+            
+            base.Render();
+
+            GL.Clear(ClearBufferMask.ColorBufferBit |
+                                ClearBufferMask.DepthBufferBit);
+
+
+            foreach (var item in Shapes3D) item.Value.Render();
+
+            TextRender.Render();
+            TextRenderClock.Render();
+
+            GameWindow.SwapBuffers();
+            
+        }
+
+        public override void Run()
+        {
+            base.Run();
 
             if (updateCount == 20)
                 updateCount = 1;
@@ -528,9 +570,6 @@ namespace OpenTK_NRCGL.Game
 
             if (coolDown > 0) coolDown--;
             if (audioCoolDown > 0) audioCoolDown--;
-
-
-
 
 
             foreach (var item in Shapes3D)
@@ -653,30 +692,34 @@ namespace OpenTK_NRCGL.Game
                 }
 
 
-                if (item.Key != "skyBox" && 
-                    item.Key != "basePanel" && 
+                if (item.Key != "skyBox" &&
+                    item.Key != "basePanel" &&
                     item.Key != "spotLight" &&
                     item.Key != "sphereEnvM" &&
                     item.Key != "pointSprites")
-                        item.Value.Position =
-                            new Vector3((float)x, -(float)y, (float)z);
+                    item.Value.Position =
+                        new Vector3((float)x, -(float)y, (float)z);
+
+
+                // point light demo
+
                 float totalTicks = 15708 * 1.5f;
 
                 if (pointLightCount == totalTicks) pointLightCount = 1;
                 else pointLightCount++;
 
-                float pointLightAngleTween = 
-                    Tween.Solve(Tween.Function.Circular, 
-                                Tween.Ease.Out, 
-                                0, 
-                                MathHelper.TwoPi, 
-                                totalTicks, 
-                                pointLightCount);
+                //float pointLightAngleTween =
+                //    Tween.Solve(Tween.Function.Circular,
+                //                Tween.Ease.Out,
+                //                0,
+                //                MathHelper.TwoPi,
+                //                totalTicks,
+                //                pointLightCount);
 
-                PointLight.Position =
-                    new Vector3(40f * (float)Math.Cos(pointLightAngleTween),
-                                PointLight.Position.Y,
-                                40f * (float)Math.Sin(pointLightAngleTween));
+                //PointLight.Position =
+                //    new Vector3(40f * (float)Math.Cos(pointLightAngleTween),
+                //                PointLight.Position.Y,
+                //                40f * (float)Math.Sin(pointLightAngleTween));
 
 
                 pointLightAngle += 0.0004f;
@@ -685,31 +728,13 @@ namespace OpenTK_NRCGL.Game
                 //                PointLight.Position.Y,
                 //                40f * (float)Math.Sin(pointLightAngle));
 
-                PointLight.Color =
-                    new Vector3(0.9f, 0.9f, 0.1f);
+                
 
-                item.Value.PointLight.Position = PointLight.Position;
-                item.Value.PointLight.Color = PointLight.Color;
+                
 
-                float intensity = (float)Math.Cos(pointLightAngle * 0.3f);
-
-                if (Math.Abs(intensity) < 0.4f){
-
-                    if (audioCoolDown == 0 && Math.Abs(intensity) < 0.1f)
-                    {
-                        Audio.Play(5, Vector3.Zero);
-                        audioCoolDown = 30;
-                    }
-
-                    item.Value.PointLight.Intensity = intensity;
-                    
-                }
-                else
-                    item.Value.PointLight.Intensity = 0.2f;
-                    
 
                 if (item.Key == "pointLight")
-                        item.Value.Position = PointLight.Position;
+                    item.Value.Position = PointLight.Position;
 
                 SpotLight.ConeDirection =
                     new Vector3((float)Math.Sin(pointLightAngle * 0.3f), -1,
@@ -731,22 +756,30 @@ namespace OpenTK_NRCGL.Game
                     item.Value.IsUsingNormalMap = CubesHaveNormalMap;
                     item.Value.Light.Ambient = Vector3.One * 1.5f;
                 }
-                else if(item.Key == "basePanel")
+                else if (item.Key == "basePanel")
                 {
                     item.Value.IsUsingNormalMap = CubesHaveNormalMap;
                     item.Value.Light.Ambient = Vector3.One * 1.1f;
                 }
 
-                if (item.Value.Name == "pointSprites")
-                {
-                    item.Value.Scale(
-                        Tween.Solve(Tween.Function.Back,
-                                Tween.Ease.In,
-                                0,
-                                10,
-                                totalTicks,
-                                pointLightCount));
-                }
+                
+
+                //float intensity = (float)Math.Cos(pointLightAngle * 0.3f);
+
+                //if (Math.Abs(intensity) < 0.4f)
+                //{
+
+                //    if (audioCoolDown == 0 && Math.Abs(intensity) < 0.1f)
+                //    {
+                //        Audio.Play(5, Vector3.Zero);
+                //        audioCoolDown = 30;
+                //    }
+
+                //    item.Value.PointLight.Intensity = intensity;
+
+                //}
+                //else
+                //    item.Value.PointLight.Intensity = 0.2f;
 
 
                 // main update
@@ -758,7 +791,7 @@ namespace OpenTK_NRCGL.Game
 
             }
 
-            List<Collision> collisions = 
+            List<Collision> collisions =
                 PhysicHelp.CheckCollisionsOneShape(
                                 Shapes3D, "sphereEnvCubeMap");
 
@@ -767,6 +800,7 @@ namespace OpenTK_NRCGL.Game
 
                 foreach (var item in collisions)
                 {
+                    // end level condition
                     if (item.Shape3Da == "target")
                     {
                         MyGame.Debug2 = "TARGET";
@@ -775,7 +809,19 @@ namespace OpenTK_NRCGL.Game
                         Audio.Stop(6);
                         Audio.Play(3, Vector3.Zero);
 
-                        IsFinished = true;
+                        IsFinishedWithSuccess = true;
+                        CurrentState = State.Finishing;
+
+                        Shape3D pointSprites =
+                        new PointSprites("pointSprites", new Vector3(0, 50, 0), 0,
+                        Textures["pointsprites_texture"]);
+                        pointSprites.IsShadowCaster = false;
+                        pointSprites.ShadowMatrix = ShadowMap.ShadowMatrix;
+                        pointSprites.Collision = false;
+                        pointSprites.Load();
+                        Shapes3D.Add("pointSprites", pointSprites);
+
+                        pointLightCount = 0;
                     }
                     else
                     {
@@ -788,18 +834,18 @@ namespace OpenTK_NRCGL.Game
                 float velIni = Shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
 
 
-                PhysicHelp.SolveCollisionsOneShape(collisions, 
-                                                   Shapes3D, 
-                                                   "sphereEnvCubeMap", 
+                PhysicHelp.SolveCollisionsOneShape(collisions,
+                                                   Shapes3D,
+                                                   "sphereEnvCubeMap",
                                                    "target");
 
                 float velFin = Shapes3D["sphereEnvCubeMap"].Physic.Vxyz.Length;
                 float deltaV = velIni - velFin;
                 if (deltaV > 0.05f && audioCoolDown == 0)
                 {
-                    Audio.Play(1, 
+                    Audio.Play(1,
                                Shapes3D["sphereEnvCubeMap"].Position,
-                               false, 
+                               false,
                                0.3f * (deltaV * 5));
 
                     audioCoolDown = 4;
@@ -814,7 +860,7 @@ namespace OpenTK_NRCGL.Game
             {
                 Vector3 v1 = new Vector3(Camera.CameraUVW.Row0);
                 Vector3 v2 = new Vector3(Camera.CameraUVW.Row0.X,
-                                         0f, 
+                                         0f,
                                          Camera.CameraUVW.Row0.Z);
 
                 v2.Normalize();
@@ -834,7 +880,7 @@ namespace OpenTK_NRCGL.Game
                     // "COLLISIONS : " + collisions.Count + "\n" +
                               "Camera : " + "X= " + Camera.Position.X + "; "
                                           + "Y= " + Camera.Position.Y + "; "
-                                          + "Z= " + Camera.Position.Z + "\n" 
+                                          + "Z= " + Camera.Position.Z + "\n"
                                           + "Q= " + Camera.Quaternion + "\n" +
                               "SKYBOX : " + "X= " + Shapes3D["skyBox"].Position.X + "; "
                                           + "Y= " + Shapes3D["skyBox"].Position.Y + "; "
@@ -859,11 +905,14 @@ namespace OpenTK_NRCGL.Game
             #endregion
 
 
-            Clock =  80 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks)/10000000);
+            Clock = 80 + ((int)(DateTimeClock.Ticks - DateTime.Now.Ticks) / 10000000);
 
+
+            // level fail condition
             if (Clock <= 0)
             {
-                IsFinished = true;
+                CurrentState = State.Finishing;
+                IsFinishedWithSuccess = false;
                 Audio.Stop(0);
                 Audio.Stop(6);
                 Audio.Play(4, Vector3.Zero);
@@ -881,7 +930,7 @@ namespace OpenTK_NRCGL.Game
                                           -Camera.Position.Y,
                                           -Camera.Position.Z);
 
-            
+
 
 
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
@@ -902,7 +951,7 @@ namespace OpenTK_NRCGL.Game
 
                     int rep = 4;
 
-                    for (int i = rep; i !=0; i--)
+                    for (int i = rep; i != 0; i--)
                     {
                         grfx.DrawImage(ballTrackNormalMap,
                         (Shapes3D["sphereEnvCubeMap"].Position.X - (i * deltaX / rep) - 1.5f) * (1024f / 55f) + 1024f,
@@ -916,25 +965,6 @@ namespace OpenTK_NRCGL.Game
             }
         }
 
-        public override void Render()
-        {
-            
-            base.Render();
-
-            GL.Clear(ClearBufferMask.ColorBufferBit |
-                                ClearBufferMask.DepthBufferBit);
-
-
-            foreach (var item in Shapes3D) item.Value.Render();
-
-            TextRender.Render();
-            TextRenderClock.Render();
-
-            GameWindow.SwapBuffers();
-            
-        }
-
-
         public override void Finish()
         {
             base.Finish();
@@ -946,11 +976,27 @@ namespace OpenTK_NRCGL.Game
 
             Shapes3D["sphereEnvCubeMap"].Physic.Vxyz = Vector3.Zero;
 
-            Camera FinishCamera = new Camera();
+            
 
-            FinishCamera.Position = new Vector3(0, -150, 0);
-            FinishCamera.Rotate(new Vector3(FinishCamera.CameraUVW.Row0),
-                                                      MathHelper.PiOver2);
+
+            int totalCameraTicks = 60;
+
+            if (totalCameraTicks != endLevelCameraMovCount)
+            {
+
+                float xTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.X, -5.7634795f, totalCameraTicks, endLevelCameraMovCount);
+                float yTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.Y, -80.04f, totalCameraTicks, endLevelCameraMovCount);
+                float zTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.Z, -155.20699f, totalCameraTicks, endLevelCameraMovCount);
+
+                FinishCamera.Position =
+                        new Vector3(xTween, yTween, zTween);
+                FinishCamera.Quaternion = new Quaternion(0.4275973f,
+                                                        -0.005507617f,
+                                                         0.0008897413f,
+                                                         0.9039534f);
+
+                endLevelCameraMovCount++;
+            }
 
             FinishCamera.Update();
             /*
@@ -994,6 +1040,50 @@ namespace OpenTK_NRCGL.Game
 
             foreach (Shape3D item in Shapes3D.Values)
             {
+                // level end with success
+                if (IsFinishedWithSuccess)
+                {
+
+                    float totalTicks = 100f;
+
+                    if (item.Name == "pointSprites" 
+                                && pointLightCount != totalTicks
+                                        && totalCameraTicks == endLevelCameraMovCount)
+                    {
+                        if(pointLightCount == 1) Audio.Play(5, Vector3.Zero);
+                        
+
+                        pointLightCount++;
+
+                        item.Scale(
+                                    Tween.Solve(Tween.Function.Quintic,
+                                    Tween.Ease.In,
+                                    0,
+                                    20f,
+                                    totalTicks,
+                                    pointLightCount));
+
+                        item.TranslateWC(0,
+                                               Tween.Solve(Tween.Function.Cubic,
+                                                   Tween.Ease.In,
+                                                   0,
+                                                   -2f,
+                                                   totalTicks,
+                                                   pointLightCount),
+                                               0);
+
+                        PointLight.Position = item.Position;
+                    }
+
+                    item.PointLight.Position = PointLight.Position;
+                    item.PointLight.Color = PointLight.Color;
+
+                    item.PointLight.Intensity = 0.05f;
+                }
+
+
+
+            
                 item.Update(FinishCamera.View,
                             MyGame.ProjectionMatrix,
                             Shapes3D,

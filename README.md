@@ -35,7 +35,8 @@ Main features:
   - SpotLight
   - NormalMap
   - SmoothShading
+  - Point Sprite
 
 Demo video:
 
-http://youtu.be/38e3GZYwwM8
+https://youtu.be/1fuYtEuwxNE
