@@ -348,6 +348,16 @@ namespace OpenTK_NRCGL.Game
             //pointSprites.Collision = false;
             //pointSprites.Load();
             //shapes3D.Add("pointSprites", pointSprites);
+
+            Shape3D pointSprites =
+                        new PointSprites("pointSprites", new Vector3(0, 50, 0), 0,
+                        gameLevel.Textures["pointsprites_texture"]);
+            pointSprites.IsShadowCaster = false;
+            pointSprites.ShadowMatrix = shadowMap.ShadowMatrix;
+            pointSprites.Collision = false;
+            pointSprites.IsVisible = false;
+            pointSprites.Load();
+            shapes3D.Add("pointSprites", pointSprites);
             
             return shapes3D;
         }

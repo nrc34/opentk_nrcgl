@@ -11,6 +11,6 @@ out vec4 color;
 void main()
 {
 	vec4 pos = projection_matrix * (modelview_matrix * vertex_position);
-	gl_PointSize = (1.0 - (pos.z / pos.w)) * 512.0; 
+	gl_PointSize = (1.0 - (pos.z / pos.w)) * 2048.0; 
 	gl_Position = pos;
 }

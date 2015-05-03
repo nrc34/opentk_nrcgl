@@ -121,15 +121,17 @@ namespace OpenTK_NRCGL.Game
             PointLight = new PointLight
             {
                 Position = new Vector3(-30f, 5f, -30f),
-                Color = new Vector3(0.9f, 0.9f, 0.1f),
-                Intensity = 0.2f
+                Color = new Vector3(0.9f, 0.9f, 0.9f),
+                //Intensity = 0.2f
+                Intensity = 1
             };
 
             SpotLight = new SpotLight
             {
                 Position = new Vector3(30f, 6f, -30f),
                 Color = new Vector3(0.9f, 0.9f, 0.8f),
-                Intensity = 0.2f,
+                //Intensity = 0.2f,
+                Intensity = 1,
                 ConeAngle = 0.5f,
                 ConeDirection = new Vector3(0f, -1f, 0f)
             };
@@ -159,14 +161,15 @@ namespace OpenTK_NRCGL.Game
         {
             base.LoadAudio();
 
-            string[] wavFilesNames = new string[7]{
+            string[] wavFilesNames = new string[8]{
                 "Audio\\ocean-drift.wav",
                 "Audio\\ball.wav",
                 "Audio\\timer-with-ding.wav",
                 "Audio\\yelling-yeah.wav",
                 "Audio\\levelFail.wav",
                 "Audio\\lazer.wav",
-                "Audio\\peters-clock.wav"
+                "Audio\\peters-clock.wav",
+                "Audio\\fireworks.wav"
             };
 
             Audio = new Audio(wavFilesNames);
@@ -208,7 +211,7 @@ namespace OpenTK_NRCGL.Game
 
             Textures.Add("pointsprites_texture",
                          Texture.LoadTexture(
-                         @"Textures\star.png", 0, false, false));
+                         @"Textures\star1.png", 0, false, false));
         }
 
         public override void CheckKeyBoard()
@@ -497,7 +500,7 @@ namespace OpenTK_NRCGL.Game
         {
             base.CheckMouse();
 
-            //return; // disable mouse
+            return; // disable mouse
 
 
             OpenTK.Input.MouseState mouseState = OpenTK.Input.Mouse.GetCursorState();
@@ -733,17 +736,17 @@ namespace OpenTK_NRCGL.Game
                 
 
 
-                if (item.Key == "pointLight")
-                    item.Value.Position = PointLight.Position;
+                //if (item.Key == "pointLight")
+                //    item.Value.Position = PointLight.Position;
 
-                SpotLight.ConeDirection =
-                    new Vector3((float)Math.Sin(pointLightAngle * 0.3f), -1,
-                                (float)Math.Cos(pointLightAngle * 0.3f));
+                //SpotLight.ConeDirection =
+                //    new Vector3((float)Math.Sin(pointLightAngle * 0.3f), -1,
+                //                (float)Math.Cos(pointLightAngle * 0.3f));
 
-                SpotLight.Position =
-                    new Vector3(-40f * (float)Math.Cos(pointLightAngle * 0.3),
-                                7f,
-                                -40f * (float)Math.Sin(pointLightAngle * 0.3));
+                //SpotLight.Position =
+                //    new Vector3(-40f * (float)Math.Cos(pointLightAngle * 0.3),
+                //                7f,
+                //                -40f * (float)Math.Sin(pointLightAngle * 0.3));
 
 
                 item.Value.SpotLight = SpotLight;
@@ -811,17 +814,11 @@ namespace OpenTK_NRCGL.Game
 
                         IsFinishedWithSuccess = true;
                         CurrentState = State.Finishing;
-
-                        Shape3D pointSprites =
-                        new PointSprites("pointSprites", new Vector3(0, 50, 0), 0,
-                        Textures["pointsprites_texture"]);
-                        pointSprites.IsShadowCaster = false;
-                        pointSprites.ShadowMatrix = ShadowMap.ShadowMatrix;
-                        pointSprites.Collision = false;
-                        pointSprites.Load();
-                        Shapes3D.Add("pointSprites", pointSprites);
-
+                        FinishCamera.Position = Camera.Position;
+                        FinishCamera.Quaternion = Camera.Quaternion;
                         pointLightCount = 0;
+
+                        return;
                     }
                     else
                     {
@@ -979,21 +976,27 @@ namespace OpenTK_NRCGL.Game
             
 
 
-            int totalCameraTicks = 60;
+            int totalCameraTicks = 30;
 
             if (totalCameraTicks != endLevelCameraMovCount)
             {
 
-                float xTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.X, -5.7634795f, totalCameraTicks, endLevelCameraMovCount);
-                float yTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.Y, -80.04f, totalCameraTicks, endLevelCameraMovCount);
-                float zTween = Tween.Solve(Tween.Function.Cubic, Tween.Ease.In, Camera.Position.Z, -155.20699f, totalCameraTicks, endLevelCameraMovCount);
+                float zTween = 
+                    Tween.Solve(Tween.Function.Cubic, 
+                                Tween.Ease.InOut, 
+                                Camera.Position.Z, 
+                                -80.20699f, 
+                                totalCameraTicks, 
+                                endLevelCameraMovCount);
 
                 FinishCamera.Position =
-                        new Vector3(xTween, yTween, zTween);
-                FinishCamera.Quaternion = new Quaternion(0.4275973f,
-                                                        -0.005507617f,
-                                                         0.0008897413f,
-                                                         0.9039534f);
+                        new Vector3(Camera.Position.X, 
+                                    Camera.Position.Y, 
+                                    zTween);
+
+
+                FinishCamera.Rotate(Vector3.UnitX, -0.015f);
+
 
                 endLevelCameraMovCount++;
             }
@@ -1044,41 +1047,56 @@ namespace OpenTK_NRCGL.Game
                 if (IsFinishedWithSuccess)
                 {
 
-                    float totalTicks = 100f;
+                    float totalTicks = 80f;
+
+                    if (pointLightCount >= totalTicks) PointLight.Intensity = 1;
 
                     if (item.Name == "pointSprites" 
                                 && pointLightCount != totalTicks
                                         && totalCameraTicks == endLevelCameraMovCount)
                     {
-                        if(pointLightCount == 1) Audio.Play(5, Vector3.Zero);
-                        
+                        item.IsVisible = true;
 
-                        pointLightCount++;
+                        if(pointLightCount == 1) Audio.Play(7, Vector3.Zero);
 
-                        item.Scale(
-                                    Tween.Solve(Tween.Function.Quintic,
+                        PointLight.Intensity = 1 / Tween.Solve(
+                            Tween.Function.Linear,
+                            Tween.Ease.In,
+                            5,
+                            35f,
+                            totalTicks,
+                            pointLightCount);
+
+                        item.Scale(Tween.Solve(Tween.Function.Quintic,
                                     Tween.Ease.In,
                                     0,
-                                    20f,
+                                    40f,
                                     totalTicks,
                                     pointLightCount));
 
-                        item.TranslateWC(0,
-                                               Tween.Solve(Tween.Function.Cubic,
-                                                   Tween.Ease.In,
-                                                   0,
-                                                   -2f,
-                                                   totalTicks,
-                                                   pointLightCount),
-                                               0);
+                        //item.TranslateWC(0,
+                        //                 Tween.Solve(Tween.Function.Cubic,
+                        //                    Tween.Ease.In,
+                        //                    0,
+                        //                    -2f,
+                        //                    totalTicks,
+                        //                    pointLightCount),
+                        //                 0);
 
                         PointLight.Position = item.Position;
-                    }
 
+                        pointLightCount++;
+                    }
+                    else
+                        Shapes3D["pointSprites"].IsVisible = false;
+                        
+
+
+                    item.PointLight.Intensity = PointLight.Intensity;
                     item.PointLight.Position = PointLight.Position;
                     item.PointLight.Color = PointLight.Color;
 
-                    item.PointLight.Intensity = 0.05f;
+                    
                 }
 
 
@@ -1089,11 +1107,13 @@ namespace OpenTK_NRCGL.Game
                             Shapes3D,
                             FinishCamera,
                             GameWindow);
+
+                
             }
 
-            
-
             ShadowMap.Update(Shapes3D, MyGame.ProjectionMatrix, GameWindow);
+
+            
         }
 
         public override void Unload()
