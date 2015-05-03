@@ -1047,7 +1047,7 @@ namespace OpenTK_NRCGL.Game
                 if (IsFinishedWithSuccess)
                 {
 
-                    float totalTicks = 80f;
+                    float totalTicks = 80f * (MyGame.UPS / 20);
 
                     if (pointLightCount >= totalTicks) PointLight.Intensity = 1;
 
