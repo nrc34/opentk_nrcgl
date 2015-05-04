@@ -976,7 +976,7 @@ namespace OpenTK_NRCGL.Game
             
 
 
-            int totalCameraTicks = 30;
+            int totalCameraTicks = 20;
 
             if (totalCameraTicks != endLevelCameraMovCount)
             {
@@ -995,7 +995,7 @@ namespace OpenTK_NRCGL.Game
                                     zTween);
 
 
-                FinishCamera.Rotate(Vector3.UnitX, -0.015f);
+                FinishCamera.Rotate(Vector3.UnitX, -0.025f);
 
 
                 endLevelCameraMovCount++;

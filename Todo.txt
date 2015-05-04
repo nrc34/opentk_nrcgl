@@ -1,7 +1,5 @@
 ﻿Todo:
 
-- improve collisions
-	avoid false collision
-	handle multiple collisions
-
-- implement audio
+Shape Action
+Shape manager
+Shape Action List
