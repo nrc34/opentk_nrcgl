@@ -63,6 +63,7 @@
     <Compile Include="NRCGL\Level\ILevel.cs" />
     <Compile Include="NRCGL\Level\IWGameable.cs" />
     <Compile Include="NRCGL\Level\Level.cs" />
+    <Compile Include="NRCGL\LifeTime.cs" />
     <Compile Include="NRCGL\Light.cs" />
     <Compile Include="NRCGL\PointLight.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />

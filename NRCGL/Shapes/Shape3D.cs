@@ -98,15 +98,27 @@ namespace OpenTK_NRCGL.NRCGL
         private int material_HasSpecular_location;
         private bool isSmoothShading;
         private string name;
-
+        private LifeTime lifeTime;
 
 
         
-
+        /// <summary>
+        /// Shape name. The same name as it is, in the level shapes dicionary.
+        /// </summary>
         public string Name
         {
             get { return name; }
             set { name = value; }
+        }
+
+
+        /// <summary>
+        /// Shape Lifetime, that counts life updates.
+        /// </summary>
+        public LifeTime LifeTime
+        {
+            get { return lifeTime; }
+            set { lifeTime = value; }
         }
         
 
@@ -497,6 +509,9 @@ namespace OpenTK_NRCGL.NRCGL
             isShadowCaster = true;
             isSmoothShading = true;
             isUsingNormalMap = false;
+
+            // lifetime with max = 0 (shape is imortal) 
+            lifeTime = new LifeTime(0);
 
             // default values for Light
             light = new Light();
