@@ -101,6 +101,16 @@ namespace OpenTK_NRCGL.NRCGL
         private LifeTime lifeTime;
 
 
+
+
+        /// <summary>
+        /// ShapeActions Queue to be solve in the ShapeManager.
+        /// </summary>
+        public Queue<ShapeAction> ShapeActions 
+        {
+            get; set; 
+        }
+        
         
         /// <summary>
         /// Shape name. The same name as it is, in the level shapes dicionary.
@@ -401,7 +411,10 @@ namespace OpenTK_NRCGL.NRCGL
         /// <summary>
         /// Manages the List of animations to apply to the shape
         /// </summary>
-        public AnimationsManager AnimationsManager { get; set; }
+        public AnimationsManager AnimationsManager 
+        { 
+            get; set; 
+        }
 
 
         public bool Collision

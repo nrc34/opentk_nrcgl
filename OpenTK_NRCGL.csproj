@@ -67,10 +67,12 @@
     <Compile Include="NRCGL\Light.cs" />
     <Compile Include="NRCGL\PointLight.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />
+    <Compile Include="NRCGL\Shapes\Action.cs" />
     <Compile Include="NRCGL\Shapes\Bullet3D.cs" />
     <Compile Include="NRCGL\Shapes\Cube3D.cs" />
     <Compile Include="NRCGL\Shapes\Material.cs" />
     <Compile Include="NRCGL\Shapes\PointSprites.cs" />
+    <Compile Include="NRCGL\Shapes\ShapeManager.cs" />
     <Compile Include="NRCGL\Shapes\SkyBox.cs" />
     <Compile Include="NRCGL\Shapes\Sphere3DEnvCubeMap.cs" />
     <Compile Include="NRCGL\Shapes\Torus3D.cs" />
