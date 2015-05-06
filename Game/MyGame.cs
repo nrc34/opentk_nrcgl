@@ -349,6 +349,59 @@ namespace OpenTK_NRCGL.Game
             //pointSprites.Load();
             //shapes3D.Add("pointSprites", pointSprites);
 
+            Shape3D torus = new Torus3D(new Vector3(0f, 40f, 0f), 10f, Color4.Green);
+            torus.Collision = false;
+            torus.IsShadowCaster = true;
+            torus.Physic.Mass = 10f;
+            torus.Physic.Vxyz = Vector3.Zero;
+            torus.ShadowMatrix = shadowMap.ShadowMatrix;
+            torus.Load();
+            torus.VertexBuffer.DrawMode = OpenTK.Graphics.OpenGL4.BeginMode.Lines;
+            torus.LifeTime = new LifeTime(400);
+            // actions
+            torus.ShapeActions = new Queue<ShapeAction>();
+            torus.ShapeActions.Enqueue(new ShapeAction(
+                new Action<Shape3D, LifeTime>(
+                    (shape, lifeTime) => {
+                        shape.RotateY(0.1f);
+
+                        shape.Scale(5 + Tween.Solve(
+                            Tween.Function.Cubic,
+                            Tween.Ease.InOut,
+                            0f,
+                            5f,
+                            lifeTime.Max,
+                            lifeTime.Counter));
+                    
+                    }),
+                new LifeTime(200)));
+
+            torus.ShapeActions.Enqueue(new ShapeAction(
+                new Action<Shape3D, LifeTime>(
+                    (shape, lifeTime) => { 
+                        shape.RotateX(Tween.Solve(
+                            Tween.Function.Elastic,
+                            Tween.Ease.Out,
+                            0f,
+                            0.08f,
+                            lifeTime.Max,
+                            lifeTime.Counter));
+
+                        shape.Scale(10 - Tween.Solve(
+                            Tween.Function.Quadratic,
+                            Tween.Ease.Out,
+                            0f,
+                            5f,
+                            lifeTime.Max,
+                            lifeTime.Counter));
+
+                    }),
+                new LifeTime(200)));
+            torus.Name = "notTableTorus";
+            shapes3D.Add(torus.Name, torus);
+
+
+
             Shape3D pointSprites =
                         new PointSprites("pointSprites", new Vector3(0, 50, 0), 0,
                         gameLevel.Textures["pointsprites_texture"]);

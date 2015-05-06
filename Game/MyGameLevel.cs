@@ -630,7 +630,8 @@ namespace OpenTK_NRCGL.Game
                          item.Key != "sphereEnvCubeMap" &&
                          item.Key != "spotLight" &&
                          item.Key != "sphereEnvM" &&
-                         item.Key != "pointSprites")
+                         item.Key != "pointSprites" &&
+                         !item.Key.Contains("notTable"))
                 {
                     item.Value.Quaternion =
                         Quaternion.FromAxisAngle(
@@ -699,12 +700,13 @@ namespace OpenTK_NRCGL.Game
                     item.Key != "basePanel" &&
                     item.Key != "spotLight" &&
                     item.Key != "sphereEnvM" &&
-                    item.Key != "pointSprites")
+                    item.Key != "pointSprites" &&
+                    !item.Key.Contains("notTable"))
                     item.Value.Position =
                         new Vector3((float)x, -(float)y, (float)z);
 
 
-                // point light demo
+                // point light and spot light demo
 
                 float totalTicks = 15708 * 1.5f;
 
@@ -733,7 +735,6 @@ namespace OpenTK_NRCGL.Game
 
                 
 
-                
 
 
                 //if (item.Key == "pointLight")
@@ -784,6 +785,10 @@ namespace OpenTK_NRCGL.Game
                 //else
                 //    item.Value.PointLight.Intensity = 0.2f;
 
+
+
+                // shape manager
+                ShapeManager.Manage(item.Value, Shapes3D);
 
                 // main update
                 item.Value.Update(Camera.View,

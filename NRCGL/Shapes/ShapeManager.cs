@@ -18,13 +18,17 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
             shape3D.LifeTime.Count();
 
             if (shape3D.LifeTime.IsFinish()) {
-                        shapes3D.Remove(shape3D.Name);
+                        shape3D.IsVisible = false;
                         return;
             }
 
             // manage shape actions queue
+            if (shape3D.ShapeActions == null) return;
+            if (shape3D.ShapeActions.Count == 0) return;
+
+
             if (shape3D.ShapeActions.Peek().LifeTime.IsFinish())
-                shape3D.ShapeActions.Dequeue();
+                shape3D.ShapeActions.Dequeue().Execute(shape3D);
             else
                 shape3D.ShapeActions.Peek().Execute(shape3D);
 
