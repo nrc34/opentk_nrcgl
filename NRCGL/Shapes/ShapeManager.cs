@@ -12,13 +12,14 @@ namespace OpenTK_NRCGL.NRCGL.Shapes
     class ShapeManager
     {
         public static void Manage(Shape3D shape3D, 
-                                  Dictionary<string, Shape3D> shapes3D)
+                                  Dictionary<string, Shape3D> shapes3D,
+                                  Stack<Shape3D> shapes2Remove)
         {
             // manage lifetime
             shape3D.LifeTime.Count();
 
             if (shape3D.LifeTime.IsFinish()) {
-                        shape3D.IsVisible = false;
+                        shapes2Remove.Push(shape3D);
                         return;
             }
 

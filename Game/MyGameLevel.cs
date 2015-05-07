@@ -788,7 +788,9 @@ namespace OpenTK_NRCGL.Game
 
 
                 // shape manager
-                ShapeManager.Manage(item.Value, Shapes3D);
+                ShapeManager.Manage(item.Value, 
+                                    Shapes3D, 
+                                    Shapes2Remove);
 
                 // main update
                 item.Value.Update(Camera.View,

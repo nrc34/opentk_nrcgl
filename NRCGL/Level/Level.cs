@@ -60,6 +60,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
         public Dictionary<string, Shape3D> Shapes3D { get; set; }
 
+        public Stack<Shape3D> Shapes2Remove { get; set; }
+
         public Dictionary<string, int> Textures { get; set; }
 
         public ShadowMap ShadowMap { get; set; }

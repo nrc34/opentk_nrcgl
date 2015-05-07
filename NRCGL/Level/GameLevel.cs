@@ -46,6 +46,8 @@ namespace OpenTK_NRCGL.NRCGL.Level
             ID = id;
             Name = name;
 
+            Shapes2Remove = new Stack<Shape3D>();
+
             CurrentState = Level.State.Loading;
 
             IsFinishedWithSuccess = false;
@@ -159,6 +161,10 @@ namespace OpenTK_NRCGL.NRCGL.Level
 
         public override void Update()
         {
+            while (Shapes2Remove.Count > 0)
+                Shapes3D.Remove(Shapes2Remove.Pop().Name);
+
+
             CheckKeyBoard();
 
             CheckMouse();
