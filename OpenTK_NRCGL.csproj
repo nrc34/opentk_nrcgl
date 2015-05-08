@@ -49,6 +49,7 @@
     <Compile Include="Game\GL4Window.cs" />
     <Compile Include="Game\MyGame.cs" />
     <Compile Include="Game\MyGameLevel.cs" />
+    <Compile Include="Game\MyPlayer.cs" />
     <Compile Include="Models\x3D.cs" />
     <Compile Include="NRCGL\Animation.cs" />
     <Compile Include="NRCGL\AnimationRotate.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="NRCGL\Level\Level.cs" />
     <Compile Include="NRCGL\LifeTime.cs" />
     <Compile Include="NRCGL\Light.cs" />
+    <Compile Include="NRCGL\Player.cs" />
     <Compile Include="NRCGL\PointLight.cs" />
     <Compile Include="NRCGL\ShadowMap.cs" />
     <Compile Include="NRCGL\Shapes\Action.cs" />

@@ -87,7 +87,8 @@ namespace OpenTK_NRCGL.Game
 
 
         public MyGameLevel(int id, string name, GameWindow gameWindow, 
-                                                Vector2 targetPosition)
+                                                Vector2 targetPosition,
+                                                MyPlayer player)
             : base(id, name, gameWindow)
         {
 
@@ -198,7 +199,6 @@ namespace OpenTK_NRCGL.Game
             Textures.Add("sky_texture",
                          Texture.LoadTexture(
                          @"Textures\Day_Skybox.png", 0, false, false));
-
             basePanelNormalMap = new Bitmap(@"Textures\sand_texture1037_normal1.jpg");
             ballTrackNormalMap = new Bitmap(@"Textures\ball_track_NMap.png");
 
@@ -944,6 +944,10 @@ namespace OpenTK_NRCGL.Game
 
             if (Shapes3D["sphereEnvCubeMap"].Position != ballUpdateOldPosition)
             {
+                var sw = new Stopwatch();
+
+                sw.Start();
+
                 Texture.DeleteTexture(Textures["bump_texture"]);
 
                 using (Graphics grfx = Graphics.FromImage(basePanelNormalMap))
@@ -957,15 +961,21 @@ namespace OpenTK_NRCGL.Game
 
                     for (int i = rep; i != 0; i--)
                     {
-                        grfx.DrawImage(ballTrackNormalMap,
-                        (Shapes3D["sphereEnvCubeMap"].Position.X - (i * deltaX / rep) - 1.5f) * (1024f / 55f) + 1024f,
-                        2048 - ((Shapes3D["sphereEnvCubeMap"].Position.Z - (i * deltaZ / rep) + 1.5f) * (1024f / 55f) + 1024f));
+                        grfx.DrawImageUnscaled(ballTrackNormalMap,
+                        (int)((Shapes3D["sphereEnvCubeMap"].Position.X - (i * deltaX / rep) - 1.5f) * (1024f / 55f) + 1024f),
+                        (int)(2048 - ((Shapes3D["sphereEnvCubeMap"].Position.Z - (i * deltaZ / rep) + 1.5f) * (1024f / 55f) + 1024f)),
+                        ballTrackNormalMap.Width * 2,
+                        ballTrackNormalMap.Height * 2);
                     }
 
                     ballUpdateOldPosition = Shapes3D["sphereEnvCubeMap"].Position;
                 }
 
                 Textures["bump_texture"] = Texture.Load(basePanelNormalMap);
+
+                sw.Stop();
+
+                MyGame.Debug2 = (((float)sw.ElapsedTicks / Stopwatch.Frequency) * 1000000).ToString();
             }
         }
 
