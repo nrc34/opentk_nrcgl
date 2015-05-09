@@ -49,6 +49,7 @@
     <Compile Include="Game\GL4Window.cs" />
     <Compile Include="Game\MyGame.cs" />
     <Compile Include="Game\MyGameLevel.cs" />
+    <Compile Include="Game\MyGameMenu.cs" />
     <Compile Include="Game\MyPlayer.cs" />
     <Compile Include="Models\x3D.cs" />
     <Compile Include="NRCGL\Animation.cs" />
