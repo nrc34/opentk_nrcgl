@@ -1,5 +1,7 @@
 ﻿Todo:
 
-Shape Action
-Shape manager
-Shape Action List
+Shape Action done
+Shape manager done
+Shape Action List done
+
+GameMenu
